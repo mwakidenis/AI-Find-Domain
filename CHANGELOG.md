@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.5] - 2025-11-15
+
+### Added
+
+#### Comprehensive Input Validation
+- **Count validation** - Ensures count is greater than 0
+  - Error message for count <= 0
+  - Warning for count > 100 (API cost consideration)
+- **TLD validation** - Ensures at least one TLD is provided
+  - Error message with example if TLDs are missing
+  - Automatic TLD normalization (removes leading dots: `.com` → `com`)
+- **Empty results validation** - Checks if AI returns any domain names
+  - Clear error message if no names generated
+  - Helpful troubleshooting hints (rate limits, model name, network)
+- **Input warning** - Warns if both domains and keywords are empty
+  - Helps users understand they'll get generic results
+
+#### Package.json Improvements
+- **Added `funding` field** - Links to GitHub Sponsors
+- **Added `preferGlobal: true`** - Better CLI tool experience with global install
+- **Better metadata** - Improved discoverability
+
+### Improved
+- **Error messages** - More user-friendly with actionable guidance
+- **TLD handling** - Automatically normalizes TLDs (removes dots, lowercases)
+- **User experience** - Better feedback for configuration issues
+- **Validation logic** - Comprehensive checks before processing
+
+### Technical
+- New `validateConfig()` function with thorough input validation
+- TLD normalization using regex (`/^\.+/`)
+- Better process.exit codes with clear error messages
+- Package size: 14.79 kB (was 13.45 kB) - slight increase due to validation logic
+
 ## [1.2.4] - 2025-11-15
 
 ### Changed

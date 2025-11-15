@@ -252,6 +252,49 @@ async function checkDomains(
   return results;
 }
 
+/**
+ * Validates and normalizes configuration
+ */
+function validateConfig(config: InputConfig): void {
+  // Validate API key
+  if (!config.apiKey) {
+    console.error("❌ Error: OPENAI_API_KEY is required");
+    console.error("   Provide it via:");
+    console.error("   • --api-key flag");
+    console.error("   • OPENAI_API_KEY environment variable");
+    console.error("   • .env file\n");
+    process.exit(1);
+  }
+
+  // Validate count
+  if (!config.count || config.count <= 0) {
+    console.error("❌ Error: Count must be greater than 0");
+    console.error(`   Current value: ${config.count}\n`);
+    process.exit(1);
+  }
+
+  if (config.count > 100) {
+    console.warn("⚠️  Warning: Generating more than 100 domains may take a while and use significant API credits\n");
+  }
+
+  // Validate TLDs
+  if (!config.tlds || config.tlds.length === 0) {
+    console.error("❌ Error: At least one TLD is required");
+    console.error("   Example: --tlds com io dev\n");
+    process.exit(1);
+  }
+
+  // Normalize TLDs (remove leading dots)
+  config.tlds = config.tlds.map(tld => tld.replace(/^\.+/, "").toLowerCase());
+
+  // Warn if both domains and keywords are empty
+  if ((!config.domains || config.domains.length === 0) && 
+      (!config.keywords || config.keywords.length === 0)) {
+    console.warn("⚠️  Warning: No domains or keywords provided");
+    console.warn("   AI will generate generic domain names\n");
+  }
+}
+
 async function main() {
   // Parse CLI arguments
   const cliArgs = parseCliArgs();
@@ -260,14 +303,8 @@ async function main() {
   console.log("📋 Loading configuration...\n");
   const config = loadConfig(cliArgs);
 
-  // Check for API key (from config or environment)
-  if (!config.apiKey) {
-    console.error("❌ OPENAI_API_KEY is required");
-    console.error(
-      "   Provide it via --api-key flag or OPENAI_API_KEY environment variable",
-    );
-    process.exit(1);
-  }
+  // Validate configuration
+  validateConfig(config);
 
   console.log("Configuration:");
   console.log(`  Directory: ${config.directory}`);
@@ -290,6 +327,16 @@ async function main() {
     model: config.model,
     customPrompt: config.prompt,
   });
+
+  // Validate we got names back
+  if (!names || names.length === 0) {
+    console.error("❌ Error: AI failed to generate any domain names");
+    console.error("   This could be due to:");
+    console.error("   • API rate limits");
+    console.error("   • Invalid model name");
+    console.error("   • Network issues\n");
+    process.exit(1);
+  }
 
   console.log(`✨ Generated ${names.length} names:\n`);
   names.forEach((name, i) => console.log(`  ${i + 1}. ${name}`));

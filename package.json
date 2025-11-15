@@ -1,6 +1,6 @@
 {
   "name": "find-my-domain",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "AI-powered domain name generator with real-time WHOIS availability checking",
   "author": {
     "name": "Dmitrii Selikhov",
@@ -43,6 +43,11 @@
     "email": "selikhov.dmitrey@gmail.com"
   },
   "homepage": "https://github.com/idimetrix/find-my-domain#readme",
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/sponsors/idimetrix"
+  },
+  "preferGlobal": true,
   "scripts": {
     "start": "tsx src/index.ts",
     "dev": "tsx src/index.ts",
