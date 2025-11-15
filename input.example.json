@@ -1,0 +1,8 @@
+{
+  "directory": "output",
+  "tlds": ["com", "ai", "dev"],
+  "domains": ["example1", "example2", "example3"],
+  "keywords": ["keyword1", "keyword2", "keyword3"],
+  "count": 25,
+  "model": "gpt-4o-mini"
+}

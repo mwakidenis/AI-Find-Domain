@@ -1,0 +1,33 @@
+Generate {COUNT} creative, memorable, SHORT and NICE domain names.
+
+Focus on creating names that are:
+- Short (ideally under 10 characters)
+- Pleasant sounding and catchy
+- Easy to remember and type
+
+Create variations SIMILAR to these domain names: {DOMAINS}
+
+IMPORTANT: Generate domains that:
+- Follow similar naming patterns and word structures
+- Use similar word combinations (e.g., if "facebook" is given, try "facespace", "facehub", etc.)
+- Maintain the same style and tone
+- Feel like they belong to the same family of names
+- Are creative variations, not exact copies
+
+Based on these keywords: {KEYWORDS}
+- Incorporate keywords directly or creatively
+- Combine multiple keywords
+- Use synonyms and related terms
+
+IMPORTANT: Return ONLY the name part WITHOUT any TLD extensions (.com, .io, .dev, etc).
+
+Requirements:
+- SHORT and NICE: Prioritize brevity and pleasantness (6-15 characters preferred)
+- Easy to remember, spell, and pronounce
+- Professional and brandable
+- Mix styles: compound words, creative combinations, action words
+- Aim for catchy, punchy names that roll off the tongue
+- NO TLDs or extensions - just the name itself
+
+Examples of good names: "google", "stripe", "twitter", "netflix", "spotify" (NOT with .com or .io)
+
