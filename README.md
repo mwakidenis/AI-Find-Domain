@@ -26,24 +26,47 @@ Finding the perfect domain name is **hard**. You need something that's:
 
 ## ✨ Features
 
-- 🤖 **AI-Powered Generation** - Uses OpenAI GPT models to generate creative, brandable domain names
+### Core Features
+
+- 🤖 **AI-Powered Generation** - Uses OpenAI GPT models (40+ models supported!) to generate creative, brandable domain names
 - 🔍 **Real-Time Availability Check** - Instantly verifies domain availability via WHOIS lookup
 - 💰 **Sale Detection** - Identifies domains that are available for purchase (often at premium prices)
 - 🌐 **Multiple TLD Support** - Check .com, .io, .dev, .ai, and more simultaneously
 - 📝 **Smart Input Options** - Generate domains from example names, keywords, or both
-- ⚙️ **Flexible Configuration** - Use JSON config files or command-line arguments
+
+### Flexibility Features ⭐
+
+- 🎯 **Three Usage Modes**:
+  - 📁 **File-Based** - Traditional config files (`input.json`, `prompt.txt`, `.env`)
+  - 💻 **Pure CLI** - Everything via command-line (no files required!)
+  - 🔀 **Hybrid** - Mix both approaches for maximum flexibility
+
+- ⚙️ **Configuration Options**:
+  - Use JSON config files OR CLI arguments OR both
+  - API key from environment, `.env`, or `--api-key` flag
+  - Custom prompts inline, from file, or built-in default
+  - Optional output saving (`--no-save` for console-only)
+
+- 🚀 **Perfect For**:
+  - Quick searches and exploration
+  - CI/CD pipelines and automation
+  - Docker containers
+  - Serverless functions
+  - Scripting and batch processing
+
+### Additional Features
+
 - 📊 **Structured Output** - Export results to JSON with detailed statistics
-- 🎯 **Custom Prompts** - Fully customizable AI prompt templates
-- 🚀 **Fast & Efficient** - Optimized for bulk domain searches with rate limiting
-- 💻 **CLI & Programmatic API** - Use as a command-line tool or integrate into your Node.js projects
+- 🎯 **Custom Prompts** - Inline, file-based, or built-in templates
+- ⚡ **Fast & Efficient** - Optimized for bulk domain searches with rate limiting
+- 💻 **Programmatic API** - Integrate into your Node.js projects
+- 📖 **Comprehensive Documentation** - Detailed guides for all usage patterns
 
 ---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-
-Before you begin, make sure you have:
 
 - **Node.js** 22 or higher ([Download here](https://nodejs.org/))
 - **OpenAI API Key** - Get one at [platform.openai.com](https://platform.openai.com/)
@@ -57,13 +80,40 @@ Before you begin, make sure you have:
 git clone https://github.com/idimetrix/find-my-domain.git
 cd find-my-domain
 
-# Install dependencies (using npm, pnpm, or yarn)
+# Install dependencies
 npm install
-# or
-pnpm install
-# or
-yarn install
 ```
+
+---
+
+### Choose Your Setup Method
+
+Pick the approach that works best for you:
+
+#### 🚀 Option A: Quick Start (Pure CLI - No Files!)
+
+**Best for**: Quick searches, trying out the tool, CI/CD
+
+```bash
+# Just run with CLI arguments - no setup needed!
+npm start -- \
+  --api-key sk-your-key-here \
+  --keywords tech startup saas \
+  --count 10 \
+  --tlds com io \
+  --model gpt-4o-mini \
+  --no-save
+```
+
+**That's it!** No configuration files needed. Perfect for exploration.
+
+**Tip**: Set `export OPENAI_API_KEY=sk-xxx` to skip the `--api-key` flag.
+
+---
+
+#### 📁 Option B: Traditional Setup (File-Based)
+
+**Best for**: Repeated searches, consistent settings, team collaboration
 
 ### Setup (5 Minutes)
 
@@ -153,9 +203,29 @@ You'll see output like:
 
 ## 📖 Usage Guide
 
-### Basic Usage
+**find-my-domain** is super flexible! Choose the method that works best for you:
 
-The simplest way to use the tool is with the default configuration:
+- 🗂️ **File-Based** - Use configuration files (traditional approach)
+- 💻 **Pure CLI** - Everything via command-line arguments (no files needed!)
+- 🔀 **Hybrid** - Mix both for maximum flexibility
+
+---
+
+### Usage Mode 1: File-Based (Traditional)
+
+Perfect for repeated searches with consistent settings.
+
+**Setup once:**
+
+```bash
+# Create configuration
+cp input.example.json input.json
+cp prompt.example.txt prompt.txt
+
+# Edit input.json with your preferences
+```
+
+**Run:**
 
 ```bash
 npm start
@@ -164,13 +234,58 @@ npm start
 This will:
 
 1. Load settings from `input.json`
-2. Generate domain names using AI
-3. Check availability across your specified TLDs
-4. Save results to `output/output.json`
+2. Load prompt from `prompt.txt`
+3. Use API key from `.env` or `OPENAI_API_KEY` environment variable
+4. Generate domain names using AI
+5. Check availability across your specified TLDs
+6. Save results to `output/output.json`
+
+---
+
+### Usage Mode 2: Pure CLI (No Files Required!)
+
+Perfect for quick searches, CI/CD, Docker, or one-off tasks.
+
+**No setup needed** - everything via command line:
+
+```bash
+npm start -- \
+  --api-key sk-your-key-here \
+  --keywords tech startup saas \
+  --count 10 \
+  --model gpt-4o-mini \
+  --tlds com io \
+  --no-save
+```
+
+**Key Benefits:**
+
+- ✅ No configuration files needed
+- ✅ No `.env` file needed
+- ✅ No `prompt.txt` file needed
+- ✅ Works in containers and CI/CD
+- ✅ Perfect for scripting
+
+See [CLI-USAGE.md](./CLI-USAGE.md) for comprehensive CLI documentation.
+
+---
+
+### Usage Mode 3: Hybrid (Best of Both)
+
+Use files for base configuration, override with CLI arguments:
+
+```bash
+# input.json has your base settings
+npm start -- --count 50 --model gpt-4o --no-save
+```
+
+This combines the convenience of files with CLI flexibility!
+
+---
 
 ### Command Line Arguments
 
-You can override any `input.json` setting using CLI arguments:
+You can override any setting or work purely from CLI:
 
 #### Example 1: Quick Test (5 domains)
 
@@ -236,26 +351,106 @@ npm start -- --input startup-search.json
 
 Use a different configuration file for different projects.
 
+#### Example 9: Pure CLI with API Key
+
+```bash
+npm start -- \
+  --api-key sk-your-key \
+  --keywords tech startup \
+  --count 10 \
+  --tlds com io \
+  --no-save
+```
+
+Complete standalone usage - no configuration files needed!
+
+#### Example 10: Custom Inline Prompt
+
+```bash
+npm start -- \
+  --prompt "Generate {COUNT} short domain names for {KEYWORDS}" \
+  --keywords ai robotics \
+  --count 15 \
+  --tlds com
+```
+
+Use custom prompt without creating a file.
+
+#### Example 11: Custom Prompt File
+
+```bash
+npm start -- \
+  --prompt-file my-custom-prompt.txt \
+  --keywords fintech blockchain \
+  --count 20 \
+  --tlds com io
+```
+
+Load custom prompt from a file.
+
+#### Example 12: CI/CD Mode
+
+```bash
+npm start -- \
+  --api-key $OPENAI_API_KEY \
+  --keywords "$CI_PROJECT_KEYWORDS" \
+  --count 10 \
+  --tlds com \
+  --directory "results-$CI_PIPELINE_ID" \
+  --model gpt-4o-mini
+```
+
+Perfect for automated pipelines!
+
 ### Full CLI Options Reference
 
-| Option        | Alias | Type   | Description                     | Example                   |
-| ------------- | ----- | ------ | ------------------------------- | ------------------------- |
-| `--count`     | `-c`  | number | Number of domains to generate   | `--count 25`              |
-| `--model`     | `-m`  | string | OpenAI model to use             | `--model gpt-4o`          |
-| `--tlds`      | `-t`  | array  | TLDs to check (space-separated) | `--tlds com io dev`       |
-| `--domains`   |       | array  | Example domains for inspiration | `--domains stripe vercel` |
-| `--keywords`  | `-k`  | array  | Keywords to incorporate         | `--keywords fast modern`  |
-| `--directory` | `-d`  | string | Output directory                | `--directory results`     |
-| `--input`     | `-i`  | string | Input JSON config file          | `--input config.json`     |
-| `--help`      | `-h`  |        | Show help message               | `--help`                  |
+#### Core Options
+
+| Option       | Alias | Type   | Description                     | Example                   |
+| ------------ | ----- | ------ | ------------------------------- | ------------------------- |
+| `--api-key`  | `-a`  | string | OpenAI API key (or use env var) | `--api-key sk-xxx`        |
+| `--count`    | `-c`  | number | Number of domains to generate   | `--count 25`              |
+| `--model`    | `-m`  | string | OpenAI model to use             | `--model gpt-4o`          |
+| `--keywords` | `-k`  | array  | Keywords to incorporate         | `--keywords fast modern`  |
+| `--domains`  |       | array  | Example domains for inspiration | `--domains stripe vercel` |
+| `--tlds`     | `-t`  | array  | TLDs to check (space-separated) | `--tlds com io dev`       |
+
+#### Advanced Options
+
+| Option          | Type    | Description                         | Example                             |
+| --------------- | ------- | ----------------------------------- | ----------------------------------- |
+| `--prompt`      | string  | Inline custom prompt template       | `--prompt "Generate {COUNT} names"` |
+| `--prompt-file` | string  | Path to custom prompt template file | `--prompt-file custom-prompt.txt`   |
+| `--directory`   | string  | Output directory for results        | `--directory results`               |
+| `--no-save`     | boolean | Don't save to file (console only)   | `--no-save`                         |
+| `--input`       | string  | Input JSON config file (optional)   | `--input config.json`               |
+| `--help`        | `-h`    | Show help message                   | `--help`                            |
 
 ---
 
 ## ⚙️ Configuration
 
-### Input Configuration File
+**find-my-domain** offers maximum flexibility with multiple configuration methods!
 
-The `input.json` file is your main configuration. Here's a detailed explanation:
+### Configuration Priority
+
+The tool uses this priority hierarchy (highest to lowest):
+
+1. **CLI Arguments** (highest) - Override everything
+2. **Input File** (specified with `--input`) - Custom config file
+3. **Default input.json** (if exists) - Project config
+4. **Environment Variables** (`OPENAI_API_KEY`) - Credentials
+5. **Built-in Defaults** (lowest) - Sensible fallbacks
+
+This means you can:
+
+- ✅ Use **only CLI** (no files required)
+- ✅ Use **only files** (traditional approach)
+- ✅ Mix **both** for maximum flexibility
+
+### Input Configuration File (Optional)
+
+The `input.json` file is an optional configuration. Here's a detailed explanation:
 
 ```json
 {

@@ -32,6 +32,12 @@ export interface GenerateDomainNamesOptions {
    * Common models: 'gpt-4o-mini', 'gpt-4o', 'gpt-4-turbo', 'chatgpt-4o-latest'
    */
   model: string;
+  /**
+   * Custom prompt template (optional)
+   * Use {COUNT}, {DOMAINS}, {KEYWORDS} as placeholders
+   * If not provided, will try to load from prompt.txt file
+   */
+  customPrompt?: string;
 }
 
 // ============================================================================
@@ -84,17 +90,35 @@ export async function generateDomainNames({
   count,
   apiKey,
   model,
+  customPrompt,
 }: GenerateDomainNamesOptions): Promise<string[]> {
   // Normalize inputs
   const normalizedDomains = normalizeStrings(domains);
   const normalizedKeywords = normalizeStrings(keywords);
 
-  // Build prompt from template
-  const template = existsSync(PROMPT_FILE)
-    ? readFileSync(PROMPT_FILE, "utf-8")
-    : existsSync(PROMPT_EXAMPLE_FILE)
-      ? readFileSync(PROMPT_EXAMPLE_FILE, "utf-8")
-      : "";
+  // Build prompt from custom prompt, file, or default
+  let template = "";
+  if (customPrompt) {
+    template = customPrompt;
+  } else if (existsSync(PROMPT_FILE)) {
+    template = readFileSync(PROMPT_FILE, "utf-8");
+  } else if (existsSync(PROMPT_EXAMPLE_FILE)) {
+    template = readFileSync(PROMPT_EXAMPLE_FILE, "utf-8");
+  } else {
+    // Fallback to a built-in default prompt
+    template = `Generate {COUNT} creative, memorable domain names.
+    
+Focus on:
+- Short and catchy
+- Easy to remember
+- Professional
+
+${normalizedDomains.length > 0 ? "Similar to: {DOMAINS}" : ""}
+${normalizedKeywords.length > 0 ? "Keywords: {KEYWORDS}" : ""}
+
+Return ONLY the domain name without TLD extensions (.com, .io, etc).`;
+  }
+
   const domainsText =
     normalizedDomains.length > 0
       ? normalizedDomains.join(", ")

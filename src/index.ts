@@ -19,6 +19,9 @@ interface InputConfig {
   keywords?: string[];
   count?: number;
   model?: string;
+  apiKey?: string;
+  prompt?: string;
+  saveOutput?: boolean;
 }
 
 interface OutputResult {
@@ -45,13 +48,16 @@ interface OutputResult {
 const INPUT_FILE = "input.json";
 
 // Default configuration
-const DEFAULT_CONFIG: Required<InputConfig> = {
+const DEFAULT_CONFIG = {
   directory: "output",
   tlds: ["com"],
-  domains: [],
-  keywords: [],
+  domains: [] as string[],
+  keywords: [] as string[],
   count: 10,
   model: "gpt-4o-mini",
+  apiKey: undefined as string | undefined,
+  prompt: undefined as string | undefined,
+  saveOutput: true,
 };
 
 // ============================================================================
@@ -92,21 +98,48 @@ function parseCliArgs() {
       type: "string",
       description: "AI model to use",
     })
+    .option("api-key", {
+      alias: "a",
+      type: "string",
+      description: "OpenAI API key (or use OPENAI_API_KEY env var)",
+    })
+    .option("prompt", {
+      alias: "p",
+      type: "string",
+      description:
+        "Custom prompt template (use {COUNT}, {DOMAINS}, {KEYWORDS})",
+    })
+    .option("prompt-file", {
+      type: "string",
+      description: "Path to custom prompt template file",
+    })
+    .option("no-save", {
+      type: "boolean",
+      description: "Don't save results to file (console output only)",
+      default: false,
+    })
     .option("input", {
       alias: "i",
       type: "string",
-      description: "Path to input JSON file",
-      default: INPUT_FILE,
+      description: "Path to input JSON file (optional)",
     })
     .help()
     .alias("help", "h")
     .example(
-      "$0 --count 20 --tlds com io --keywords booking sports",
-      "Generate 20 domains for .com and .io",
+      "$0 --count 20 --tlds com io --keywords booking sports --api-key sk-xxx",
+      "Fully CLI-based: generate 20 domains",
+    )
+    .example(
+      "$0 --keywords tech startup --count 10 --no-save",
+      "Generate without saving to file",
     )
     .example(
       "$0 --input myconfig.json --count 50",
-      "Use custom config file and override count",
+      "Use config file and override count",
+    )
+    .example(
+      '$0 --prompt "Generate {COUNT} tech domains" --keywords ai ml --count 5',
+      "Use inline custom prompt",
     )
     .parseSync();
 }
@@ -114,15 +147,14 @@ function parseCliArgs() {
 /**
  * Loads configuration from input.json file and CLI arguments
  * CLI arguments override input.json settings
+ * Input file is optional - can work purely from CLI
  */
-function loadConfig(
-  cliArgs: ReturnType<typeof parseCliArgs>,
-): Required<InputConfig> {
+function loadConfig(cliArgs: ReturnType<typeof parseCliArgs>) {
   let fileConfig: InputConfig = {};
 
-  // Try to load from input file if it exists
-  const inputFile = cliArgs.input || INPUT_FILE;
-  if (existsSync(inputFile)) {
+  // Try to load from input file if specified or if default exists
+  const inputFile = cliArgs.input;
+  if (inputFile && existsSync(inputFile)) {
     try {
       const fileContent = readFileSync(inputFile, "utf-8");
       fileConfig = JSON.parse(fileContent);
@@ -130,12 +162,32 @@ function loadConfig(
     } catch (error) {
       console.error(`❌ Error reading ${inputFile}:`, error);
     }
-  } else if (inputFile !== INPUT_FILE) {
-    console.error(`❌ Input file not found: ${inputFile}\n`);
+  } else if (!inputFile && existsSync(INPUT_FILE)) {
+    // Load default input.json if it exists and no input file specified
+    try {
+      const fileContent = readFileSync(INPUT_FILE, "utf-8");
+      fileConfig = JSON.parse(fileContent);
+      console.log(`✅ Loaded configuration from: ${INPUT_FILE}\n`);
+    } catch {
+      // Silently fail - we can work without input.json
+    }
+  }
+
+  // Load prompt from file if prompt-file is specified
+  let promptFromFile: string | undefined;
+  if (cliArgs["promptFile"]) {
+    try {
+      promptFromFile = readFileSync(cliArgs["promptFile"] as string, "utf-8");
+    } catch (error) {
+      console.error(
+        `❌ Error reading prompt file ${cliArgs["promptFile"]}:`,
+        error,
+      );
+    }
   }
 
   // Merge configurations: defaults < file < CLI args
-  return {
+  const config = {
     directory:
       (cliArgs.directory as string) ??
       fileConfig.directory ??
@@ -153,7 +205,18 @@ function loadConfig(
       (cliArgs.count as number) ?? fileConfig.count ?? DEFAULT_CONFIG.count,
     model:
       (cliArgs.model as string) ?? fileConfig.model ?? DEFAULT_CONFIG.model,
+    apiKey:
+      (cliArgs["apiKey"] as string) ??
+      fileConfig.apiKey ??
+      process.env.OPENAI_API_KEY,
+    prompt: (cliArgs.prompt as string) ?? promptFromFile ?? fileConfig.prompt,
+    saveOutput:
+      cliArgs["noSave"] === true
+        ? false
+        : (fileConfig.saveOutput ?? DEFAULT_CONFIG.saveOutput),
   };
+
+  return config;
 }
 
 async function checkDomains(
@@ -190,13 +253,6 @@ async function checkDomains(
 }
 
 async function main() {
-  const apiKey = process.env.OPENAI_API_KEY;
-
-  if (!apiKey) {
-    console.error("❌ OPENAI_API_KEY is required");
-    process.exit(1);
-  }
-
   // Parse CLI arguments
   const cliArgs = parseCliArgs();
 
@@ -204,13 +260,24 @@ async function main() {
   console.log("📋 Loading configuration...\n");
   const config = loadConfig(cliArgs);
 
+  // Check for API key (from config or environment)
+  if (!config.apiKey) {
+    console.error("❌ OPENAI_API_KEY is required");
+    console.error(
+      "   Provide it via --api-key flag or OPENAI_API_KEY environment variable",
+    );
+    process.exit(1);
+  }
+
   console.log("Configuration:");
   console.log(`  Directory: ${config.directory}`);
   console.log(`  TLDs: ${config.tlds.join(", ")}`);
   console.log(`  Domains: ${config.domains.length}`);
   console.log(`  Keywords: ${config.keywords.length}`);
   console.log(`  Count: ${config.count}`);
-  console.log(`  Model: ${config.model}\n`);
+  console.log(`  Model: ${config.model}`);
+  console.log(`  Custom Prompt: ${config.prompt ? "Yes" : "No"}`);
+  console.log(`  Save Output: ${config.saveOutput}\n`);
 
   // Generate new domain names with AI
   console.log("🤖 Generating new domain names with AI...\n");
@@ -219,8 +286,9 @@ async function main() {
     domains: config.domains,
     keywords: config.keywords,
     count: config.count,
-    apiKey,
+    apiKey: config.apiKey,
     model: config.model,
+    customPrompt: config.prompt,
   });
 
   console.log(`✨ Generated ${names.length} names:\n`);
@@ -263,41 +331,51 @@ async function main() {
 
   console.log("\n" + "=".repeat(60));
 
-  // Save results to JSON file
-  console.log(`\n💾 Saving results to ${config.directory}/ folder...\n`);
+  // Save results to JSON file if enabled
+  if (config.saveOutput) {
+    console.log(`\n💾 Saving results to ${config.directory}/ folder...\n`);
 
-  try {
-    mkdirSync(config.directory, { recursive: true });
+    try {
+      mkdirSync(config.directory, { recursive: true });
 
-    // Save JSON output with all data
-    const outputData: OutputResult = {
-      timestamp: new Date().toISOString(),
-      config,
-      generated: names,
-      results: {
-        available: available.map((r) => r.domain),
-        sale: sale.map((r) => r.domain),
-        taken: taken.map((r) => r.domain),
-      },
-      summary: {
-        total: results.length,
-        available: available.length,
-        sale: sale.length,
-        taken: taken.length,
-      },
-    };
+      // Save JSON output with all data
+      const outputData: OutputResult = {
+        timestamp: new Date().toISOString(),
+        config,
+        generated: names,
+        results: {
+          available: available.map((r) => r.domain),
+          sale: sale.map((r) => r.domain),
+          taken: taken.map((r) => r.domain),
+        },
+        summary: {
+          total: results.length,
+          available: available.length,
+          sale: sale.length,
+          taken: taken.length,
+        },
+      };
 
-    const outputJsonFile = join(config.directory, "output.json");
-    writeFileSync(outputJsonFile, JSON.stringify(outputData, null, 2), "utf-8");
-    console.log(`📄 Saved complete results to: ${outputJsonFile}`);
-    console.log(`\n   ✅ Available: ${available.length}`);
-    console.log(`   💰 For Sale: ${sale.length}`);
-    console.log(`   ❌ Taken: ${taken.length}`);
-  } catch (error) {
-    console.error("\n❌ Error saving file:", error);
+      const outputJsonFile = join(config.directory, "output.json");
+      writeFileSync(
+        outputJsonFile,
+        JSON.stringify(outputData, null, 2),
+        "utf-8",
+      );
+      console.log(`📄 Saved complete results to: ${outputJsonFile}`);
+      console.log(`\n   ✅ Available: ${available.length}`);
+      console.log(`   💰 For Sale: ${sale.length}`);
+      console.log(`   ❌ Taken: ${taken.length}`);
+
+      console.log("\n" + "=".repeat(60));
+    } catch (error) {
+      console.error("\n❌ Error saving file:", error);
+      console.log("\n" + "=".repeat(60));
+    }
+  } else {
+    console.log("\n📋 Results displayed above (not saved to file)\n");
+    console.log("=".repeat(60));
   }
-
-  console.log("\n" + "=".repeat(60));
 }
 
 main().catch(console.error);
