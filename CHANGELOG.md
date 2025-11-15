@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2] - 2025-11-15
+
+### Fixed
+- Fixed bin path format in package.json (removed leading `./`)
+- npm requires bin paths in format `bin/cli.js` not `./bin/cli.js`
+- **npx find-my-domain now works correctly!** ✅
+
+## [1.2.1] - 2025-11-15
+
+### Added
+- Added `bin/cli.js` executable entry point for npx support
+- Added `bin` field to package.json
+- Included `bin/` directory in published package files
+
+### Fixed
+- Fixed "could not determine executable to run" error when using npx
+- Updated ESLint config to ignore bin/ directory
+
+### Note
+- This version had incorrect bin path format and was superseded by v1.2.2
+
 ## [1.2.0] - 2025-11-15
 
 ### Added - Super Flexible CLI Support 🎉
