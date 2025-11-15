@@ -26,7 +26,11 @@ export interface GenerateDomainNamesOptions {
   count: number;
   /** OpenAI API key for authentication */
   apiKey: string;
-  /** OpenAI model to use */
+  /**
+   * OpenAI model to use
+   * @see OpenAIResponsesModelId from @ai-sdk/openai for all available models
+   * Common models: 'gpt-4o-mini', 'gpt-4o', 'gpt-4-turbo', 'chatgpt-4o-latest'
+   */
   model: string;
 }
 
