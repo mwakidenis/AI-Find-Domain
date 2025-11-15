@@ -12,6 +12,22 @@ export default defineConfig(({ mode }) => {
         formats: ["es"],
         fileName: "index",
       },
+      rollupOptions: {
+        // Externalize all dependencies for Node.js
+        external: [
+          "ai",
+          "@ai-sdk/openai",
+          "zod",
+          "dotenv",
+          "dotenv/config",
+          "whoiser",
+          "yargs",
+          "yargs/helpers",
+          /^node:/,
+        ],
+      },
+      target: "node22",
+      minify: false,
     },
     resolve: { alias: { src: resolve("src/") } },
     test: {

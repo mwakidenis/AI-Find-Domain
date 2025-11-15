@@ -51,18 +51,20 @@ export interface DomainStatusResult {
 }
 
 // Helper function to search for a key in the WHOIS data
-const findValue = (obj: any, keys: string[]): string | undefined => {
+const findValue = (obj: unknown, keys: string[]): string | undefined => {
   if (!obj || typeof obj !== "object") return undefined;
 
-  for (const key of Object.keys(obj)) {
+  const record = obj as Record<string, unknown>;
+  for (const key of Object.keys(record)) {
     // Direct match
-    if (keys.includes(key) && obj[key]) {
-      return Array.isArray(obj[key]) ? obj[key][0] : obj[key];
+    if (keys.includes(key) && record[key]) {
+      const value = record[key];
+      return Array.isArray(value) ? String(value[0]) : String(value);
     }
 
     // Recursive search
-    if (typeof obj[key] === "object") {
-      const result = findValue(obj[key], keys);
+    if (typeof record[key] === "object") {
+      const result = findValue(record[key], keys);
       if (result) return result;
     }
   }
@@ -70,32 +72,34 @@ const findValue = (obj: any, keys: string[]): string | undefined => {
   return undefined;
 };
 
-const hasError = (obj: any): boolean => !!findValue(obj, ERRORS_KEYS);
+const hasError = (obj: unknown): boolean => !!findValue(obj, ERRORS_KEYS);
 
-const hasDatesKey = (obj: any): boolean => !!findValue(obj, DATES_KEYS);
+const hasDatesKey = (obj: unknown): boolean => !!findValue(obj, DATES_KEYS);
 
-const isDomainNotFound = (obj: any): boolean => {
+const isDomainNotFound = (obj: unknown): boolean => {
   if (!obj || typeof obj !== "object") return false;
-  if (Array.isArray(obj.text)) {
-    return obj.text.some((text: string) =>
+  const record = obj as Record<string, unknown>;
+  if (Array.isArray(record.text)) {
+    return record.text.some((text: unknown) =>
       DOMAIN_NOT_FOUND_PHRASES.some((phrase) =>
-        text.toLowerCase().includes(phrase.toLowerCase()),
+        String(text).toLowerCase().includes(phrase.toLowerCase()),
       ),
     );
   }
-  return Object.values(obj).some((value) => isDomainNotFound(value));
+  return Object.values(record).some((value) => isDomainNotFound(value));
 };
 
-const isForSale = (obj: any): boolean => {
+const isForSale = (obj: unknown): boolean => {
   if (!obj || typeof obj !== "object") return false;
-  if (Array.isArray(obj["Name Server"])) {
-    return obj["Name Server"].some((ns) =>
+  const record = obj as Record<string, unknown>;
+  if (Array.isArray(record["Name Server"])) {
+    return record["Name Server"].some((ns: unknown) =>
       FOR_SALE_INDICATORS.some((indicator) =>
-        ns.toLowerCase().includes(indicator.toLowerCase()),
+        String(ns).toLowerCase().includes(indicator.toLowerCase()),
       ),
     );
   }
-  return Object.values(obj).some((value) => isForSale(value));
+  return Object.values(record).some((value) => isForSale(value));
 };
 
 export const checkDomainStatus = async (

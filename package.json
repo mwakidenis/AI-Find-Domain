@@ -1,6 +1,6 @@
 {
   "name": "find-my-domain",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AI-powered domain name generator with real-time WHOIS availability checking",
   "author": {
     "name": "Dmitrii Selikhov",
@@ -79,9 +79,9 @@
     "vitest": "^4.0.9"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@idimetrix"
+    "access": "public"
   }
 }

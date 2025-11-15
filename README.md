@@ -5,7 +5,7 @@
 Find My Domain is an intelligent command-line tool that generates creative domain name suggestions using OpenAI's GPT models and checks their real-time availability across multiple TLDs. Perfect for startups, developers, and entrepreneurs looking for the perfect domain name.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D22-brightgreen.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 
 ---
@@ -45,7 +45,7 @@ Finding the perfect domain name is **hard**. You need something that's:
 
 Before you begin, make sure you have:
 
-- **Node.js** 18 or higher ([Download here](https://nodejs.org/))
+- **Node.js** 22 or higher ([Download here](https://nodejs.org/))
 - **OpenAI API Key** - Get one at [platform.openai.com](https://platform.openai.com/)
   - Note: You'll need to add credits to your OpenAI account (starts at $5)
   - GPT-4o-mini costs ~$0.15 per million tokens (very affordable!)
@@ -2058,7 +2058,7 @@ gh repo star idimetrix/find-my-domain
 
 ## 📊 Stats
 
-- **Node.js**: 18+
+- **Node.js**: 22+
 - **TypeScript**: 5.9
 - **Dependencies**: 6 runtime, 11 dev
 - **License**: MIT
