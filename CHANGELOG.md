@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.6] - 2025-11-15
+
+### Fixed
+- **Help text now shows correct command name** (`find-my-domain` instead of `index.ts`)
+  - Added `.scriptName("find-my-domain")` to yargs configuration
+  - All example commands in help output now show: `find-my-domain --count 20 ...`
+  - Better user experience when reading help documentation
+  - Consistent with published package name
+
+### Verified
+- ✅ All npm scripts working correctly (`test`, `typecheck`, `lint`, `build`, `dev`, etc.)
+- ✅ All commands in README.md verified and accurate
+- ✅ All commands in CLI-USAGE.md verified and accurate
+- ✅ All markdown files checked for consistency
+- ✅ All links verified in documentation
+- ✅ Package metadata correct (GitHub URLs, npm links)
+- ✅ Quality checks passing (TypeScript, ESLint, Tests)
+
 ## [1.2.5] - 2025-11-15
 
 ### Added

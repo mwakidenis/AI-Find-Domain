@@ -69,6 +69,7 @@ const DEFAULT_CONFIG = {
  */
 function parseCliArgs() {
   return yargs(hideBin(process.argv))
+    .scriptName("find-my-domain")
     .option("directory", {
       alias: "d",
       type: "string",
