@@ -274,7 +274,9 @@ function validateConfig(config: InputConfig): void {
   }
 
   if (config.count > 100) {
-    console.warn("⚠️  Warning: Generating more than 100 domains may take a while and use significant API credits\n");
+    console.warn(
+      "⚠️  Warning: Generating more than 100 domains may take a while and use significant API credits\n",
+    );
   }
 
   // Validate TLDs
@@ -285,11 +287,13 @@ function validateConfig(config: InputConfig): void {
   }
 
   // Normalize TLDs (remove leading dots)
-  config.tlds = config.tlds.map(tld => tld.replace(/^\.+/, "").toLowerCase());
+  config.tlds = config.tlds.map((tld) => tld.replace(/^\.+/, "").toLowerCase());
 
   // Warn if both domains and keywords are empty
-  if ((!config.domains || config.domains.length === 0) && 
-      (!config.keywords || config.keywords.length === 0)) {
+  if (
+    (!config.domains || config.domains.length === 0) &&
+    (!config.keywords || config.keywords.length === 0)
+  ) {
     console.warn("⚠️  Warning: No domains or keywords provided");
     console.warn("   AI will generate generic domain names\n");
   }
