@@ -113,10 +113,10 @@ function parseCliArgs() {
       type: "string",
       description: "Path to custom prompt template file",
     })
-    .option("no-save", {
+    .option("save", {
       type: "boolean",
-      description: "Don't save results to file (console output only)",
-      default: false,
+      description: "Save results to file (use --no-save to disable)",
+      default: true,
     })
     .option("input", {
       alias: "i",
@@ -211,7 +211,7 @@ function loadConfig(cliArgs: ReturnType<typeof parseCliArgs>) {
       process.env.OPENAI_API_KEY,
     prompt: (cliArgs.prompt as string) ?? promptFromFile ?? fileConfig.prompt,
     saveOutput:
-      cliArgs["noSave"] === true
+      cliArgs.save === false
         ? false
         : (fileConfig.saveOutput ?? DEFAULT_CONFIG.saveOutput),
   };

@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3] - 2025-11-15
+
+### Fixed
+- **Fixed `--no-save` flag not working** - Changed option from `"no-save"` to `"save"` with default `true`
+  - Yargs treats options starting with "no-" as negation flags, causing the original implementation to fail
+  - `--no-save` now correctly prevents saving results to file
+  - `--save` is now the default behavior (can be explicitly set if needed)
+  - Updated configuration logic to check `cliArgs.save === false`
+
+### Changed
+- Help text now shows `--save` option with description "use --no-save to disable"
+- More intuitive option naming that aligns with yargs conventions
+
 ## [1.2.2] - 2025-11-15
 
 ### Fixed
