@@ -1,6 +1,6 @@
 {
   "name": "find-my-domain",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "AI-powered domain name generator with real-time WHOIS availability checking",
   "author": {
     "name": "Dmitrii Selikhov",
@@ -21,13 +21,17 @@
     "typescript",
     "cli"
   ],
+  "bin": {
+    "find-my-domain": "./bin/cli.js"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "sideEffects": false,
   "files": [
     "dist/",
-    "src/"
+    "src/",
+    "bin/"
   ],
   "repository": {
     "type": "git",
