@@ -73,31 +73,24 @@ Finding the perfect domain name is **hard**. You need something that's:
   - Note: You'll need to add credits to your OpenAI account (starts at $5)
   - GPT-4o-mini costs ~$0.15 per million tokens (very affordable!)
 
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/idimetrix/find-my-domain.git
-cd find-my-domain
-
-# Install dependencies
-npm install
-```
-
 ---
 
 ### Choose Your Setup Method
 
 Pick the approach that works best for you:
 
-#### 🚀 Option A: Quick Start (Pure CLI - No Files!)
+#### 🚀 Option A: Instant Use (No Installation!)
 
 **Best for**: Quick searches, trying out the tool, CI/CD
 
+Use `npx` to run without installing anything:
+
 ```bash
-# Just run with CLI arguments - no setup needed!
-npm start -- \
-  --api-key sk-your-key-here \
+# Set your API key
+export OPENAI_API_KEY=sk-your-key-here
+
+# Run immediately - no installation needed!
+npx find-my-domain \
   --keywords tech startup saas \
   --count 10 \
   --tlds com io \
@@ -105,47 +98,59 @@ npm start -- \
   --no-save
 ```
 
-**That's it!** No configuration files needed. Perfect for exploration.
+**That's it!** No installation, no setup files. Just run and go! ✨
 
-**Tip**: Set `export OPENAI_API_KEY=sk-xxx` to skip the `--api-key` flag.
+**Alternative** - Pass API key directly:
+
+```bash
+npx find-my-domain \
+  --api-key sk-your-key-here \
+  --keywords tech startup \
+  --count 10 \
+  --no-save
+```
 
 ---
 
-#### 📁 Option B: Traditional Setup (File-Based)
+#### 📦 Option B: Install Locally
+
+**Best for**: Regular use, integrating into projects
+
+```bash
+# Install globally
+npm install -g find-my-domain
+
+# Or install in your project
+npm install find-my-domain
+```
+
+Then use it:
+
+```bash
+# Set API key
+export OPENAI_API_KEY=sk-your-key-here
+
+# Run
+find-my-domain --keywords tech --count 10 --no-save
+```
+
+---
+
+#### 📁 Option C: File-Based Configuration
 
 **Best for**: Repeated searches, consistent settings, team collaboration
 
-### Setup (5 Minutes)
-
-**Step 1: Create your environment file**
+**1. Install the package:**
 
 ```bash
-# Copy the example env file
-cp .env.example .env
+npm install -g find-my-domain
 ```
 
-**Step 2: Add your OpenAI API key**
-
-Open `.env` in your favorite editor and add your API key:
+**2. Create configuration files:**
 
 ```bash
-OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-```
-
-> 💡 **Tip**: Keep your API key secret! Never commit `.env` to git.
-
-**Step 3: Create your configuration file**
-
-```bash
-# Copy the example config
-cp input.example.json input.json
-```
-
-**Step 4: Customize `input.json`**
-
-Open `input.json` and configure your search:
-
-```json
+# Create input.json
+cat > input.json << 'EOF'
 {
   "directory": "output",
   "tlds": ["com", "io", "dev"],
@@ -154,21 +159,29 @@ Open `input.json` and configure your search:
   "count": 20,
   "model": "gpt-4o-mini"
 }
-```
+EOF
 
-**Step 5: Create your prompt template**
+# Create .env with your API key
+echo "OPENAI_API_KEY=sk-your-key-here" > .env
 
-```bash
-# Copy the example prompt
-cp prompt.example.txt prompt.txt
+# Optional: Create custom prompt.txt
+cat > prompt.txt << 'EOF'
+Generate {COUNT} creative domain names based on these keywords: {KEYWORDS}
+EOF
 ```
 
 > 💡 **Tip**: You can customize `prompt.txt` to match your brand style!
 
-**Step 6: Run the tool!**
+**3. Run the tool:**
 
 ```bash
-npm start
+find-my-domain
+```
+
+Or with `npx` if not installed globally:
+
+```bash
+npx find-my-domain
 ```
 
 **That's it! 🎉**

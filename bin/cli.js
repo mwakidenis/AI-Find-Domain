@@ -8,8 +8,7 @@
 /* eslint-env node */
 
 // Import the main application
-import('../dist/index.js').catch((error) => {
-  console.error('Failed to load find-my-domain:', error.message);
+import("../dist/index.js").catch((error) => {
+  console.error("Failed to load find-my-domain:", error.message);
   process.exit(1);
 });
-
