@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed - Complete GitHub Workflows Overhaul 🚀
 
 #### Critical Issues Fixed
+
 1. **❌ Wrong workflow purpose** - Was set up for GitHub Packages, needed npm
 2. **❌ Wrong Node version** - Used Node 18, package requires Node 22+
 3. **❌ Wrong package manager** - Used pnpm, project uses npm
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added - New GitHub Workflows
 
 #### 1. CI Workflow (`.github/workflows/ci.yml`)
+
 - ✅ Runs on push to main/develop branches and PRs
 - ✅ Uses Node.js 22 (correct version)
 - ✅ Uses npm (correct package manager)
@@ -35,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ Proper caching for faster builds
 
 #### 2. Publish Workflow (`.github/workflows/publish.yml`)
+
 - ✅ Only runs on GitHub releases (correct trigger)
 - ✅ Uses Node.js 22
 - ✅ Publishes to npm registry (not GitHub Packages)
@@ -44,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ Public access for npm package
 
 #### 3. CodeQL Security Analysis (`.github/workflows/codeql.yml`)
+
 - ✅ Automatic security scanning
 - ✅ Runs on push to main and PRs
 - ✅ Weekly scheduled scans
@@ -53,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added - GitHub Configuration Files
 
 #### Dependabot Configuration (`.github/dependabot.yml`)
+
 - ✅ Automatic dependency updates
 - ✅ Weekly npm dependency checks
 - ✅ Weekly GitHub Actions updates
@@ -60,6 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ Proper labels and reviewers
 
 #### Pull Request Template (`.github/pull_request_template.md`)
+
 - ✅ Structured PR description format
 - ✅ Type of change checkboxes
 - ✅ Testing verification
@@ -67,12 +73,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ Better PR documentation
 
 #### Issue Templates
+
 - ✅ **Bug Report** (`bug_report.md`)
   - Detailed bug reproduction steps
   - Environment information
   - Expected vs actual behavior
   - Configuration examples
-  
 - ✅ **Feature Request** (`feature_request.md`)
   - Problem description
   - Proposed solution
@@ -85,6 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Links to npm package
 
 ### Improved
+
 - **CI/CD Pipeline**: Now production-ready with proper checks
 - **Security**: CodeQL scanning for vulnerabilities
 - **Maintenance**: Automated dependency updates
@@ -93,6 +100,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Build Performance**: npm caching for faster workflows
 
 ### Technical Details
+
 - All workflows use actions/checkout@v4 (latest)
 - All workflows use actions/setup-node@v4 (latest)
 - Proper use of `npm ci` for reproducible builds
@@ -103,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.6] - 2025-11-15
 
 ### Fixed
+
 - **Help text now shows correct command name** (`find-my-domain` instead of `index.ts`)
   - Added `.scriptName("find-my-domain")` to yargs configuration
   - All example commands in help output now show: `find-my-domain --count 20 ...`
@@ -110,6 +119,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Consistent with published package name
 
 ### Verified
+
 - ✅ All npm scripts working correctly (`test`, `typecheck`, `lint`, `build`, `dev`, etc.)
 - ✅ All commands in README.md verified and accurate
 - ✅ All commands in CLI-USAGE.md verified and accurate
