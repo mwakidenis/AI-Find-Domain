@@ -1,0 +1,12 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/idimetrix/find-my-domain#readme
+    about: Check out the comprehensive documentation and examples
+  - name: 💬 Discussions
+    url: https://github.com/idimetrix/find-my-domain/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 📦 npm Package
+    url: https://www.npmjs.com/package/find-my-domain
+    about: View the package on npm registry
+

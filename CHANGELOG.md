@@ -5,6 +5,101 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.7] - 2025-11-15
+
+### Fixed - Complete GitHub Workflows Overhaul 🚀
+
+#### Critical Issues Fixed
+1. **❌ Wrong workflow purpose** - Was set up for GitHub Packages, needed npm
+2. **❌ Wrong Node version** - Used Node 18, package requires Node 22+
+3. **❌ Wrong package manager** - Used pnpm, project uses npm
+4. **❌ Wrong trigger** - Ran on every push, even feature branches
+5. **❌ Wrong registry** - Configured for GitHub Packages instead of npm
+6. **❌ Wrong scope** - Had incorrect @dalenguyen scope
+7. **❌ Missing quality checks** - No typecheck or lint before publish
+8. **❌ Publishing on every push** - Should only publish on releases
+
+### Added - New GitHub Workflows
+
+#### 1. CI Workflow (`.github/workflows/ci.yml`)
+- ✅ Runs on push to main/develop branches and PRs
+- ✅ Uses Node.js 22 (correct version)
+- ✅ Uses npm (correct package manager)
+- ✅ Runs comprehensive quality checks:
+  - TypeScript type checking
+  - ESLint linting
+  - Prettier format checking
+  - Unit tests
+  - Build verification
+- ✅ Uploads build artifacts
+- ✅ Proper caching for faster builds
+
+#### 2. Publish Workflow (`.github/workflows/publish.yml`)
+- ✅ Only runs on GitHub releases (correct trigger)
+- ✅ Uses Node.js 22
+- ✅ Publishes to npm registry (not GitHub Packages)
+- ✅ Includes npm provenance for security
+- ✅ Runs all quality checks before publishing
+- ✅ Uses correct npm token authentication
+- ✅ Public access for npm package
+
+#### 3. CodeQL Security Analysis (`.github/workflows/codeql.yml`)
+- ✅ Automatic security scanning
+- ✅ Runs on push to main and PRs
+- ✅ Weekly scheduled scans
+- ✅ JavaScript/TypeScript analysis
+- ✅ Security alerts for vulnerabilities
+
+### Added - GitHub Configuration Files
+
+#### Dependabot Configuration (`.github/dependabot.yml`)
+- ✅ Automatic dependency updates
+- ✅ Weekly npm dependency checks
+- ✅ Weekly GitHub Actions updates
+- ✅ Automatic PR creation
+- ✅ Proper labels and reviewers
+
+#### Pull Request Template (`.github/pull_request_template.md`)
+- ✅ Structured PR description format
+- ✅ Type of change checkboxes
+- ✅ Testing verification
+- ✅ Quality checklist
+- ✅ Better PR documentation
+
+#### Issue Templates
+- ✅ **Bug Report** (`bug_report.md`)
+  - Detailed bug reproduction steps
+  - Environment information
+  - Expected vs actual behavior
+  - Configuration examples
+  
+- ✅ **Feature Request** (`feature_request.md`)
+  - Problem description
+  - Proposed solution
+  - Use cases
+  - Priority levels
+
+- ✅ **Template Config** (`config.yml`)
+  - Links to documentation
+  - Links to discussions
+  - Links to npm package
+
+### Improved
+- **CI/CD Pipeline**: Now production-ready with proper checks
+- **Security**: CodeQL scanning for vulnerabilities
+- **Maintenance**: Automated dependency updates
+- **Contribution**: Clear templates for PRs and issues
+- **Release Process**: Proper release-triggered publishing
+- **Build Performance**: npm caching for faster workflows
+
+### Technical Details
+- All workflows use actions/checkout@v4 (latest)
+- All workflows use actions/setup-node@v4 (latest)
+- Proper use of `npm ci` for reproducible builds
+- Artifact retention policy (7 days)
+- Proper permissions for npm provenance
+- Weekly security and dependency scans
+
 ## [1.2.6] - 2025-11-15
 
 ### Fixed
