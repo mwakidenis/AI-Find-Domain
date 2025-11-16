@@ -8,6 +8,8 @@ jobs:
   publish-npm:
     name: Publish to npm Registry
     runs-on: ubuntu-latest
+    # Only run on releases from the main branch
+    if: github.event.release.target_commitish == 'main'
     permissions:
       contents: read
       id-token: write # Required for npm provenance
