@@ -38,11 +38,11 @@ Update the package version in `package.json` according to semantic versioning pr
 
 **Semantic Versioning Guidelines:**
 
-| Type | Increment | Use Case |
-|------|-----------|----------|
-| MAJOR | x.0.0 | Breaking changes, incompatible API modifications |
-| MINOR | 0.x.0 | New features, backward-compatible functionality |
-| PATCH | 0.0.x | Bug fixes, backward-compatible corrections |
+| Type  | Increment | Use Case                                         |
+| ----- | --------- | ------------------------------------------------ |
+| MAJOR | x.0.0     | Breaking changes, incompatible API modifications |
+| MINOR | 0.x.0     | New features, backward-compatible functionality  |
+| PATCH | 0.0.x     | Bug fixes, backward-compatible corrections       |
 
 ### Step 2: Quality Assurance
 
