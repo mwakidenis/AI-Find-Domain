@@ -5,7 +5,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { checkDomainStatus } from "./utils/whois.js";
 import type { DomainStatusResult } from "./utils/whois.js";
-import { generateDomainNames } from "./utils/ai.js";
+import { generateDomainNamesStream } from "./utils/ai.js";
 import { wait } from "./utils/wait.js";
 import * as logger from "./utils/logger.js";
 
@@ -221,59 +221,58 @@ function loadConfig(cliArgs: ReturnType<typeof parseCliArgs>) {
   return config;
 }
 
-async function checkDomains(
-  names: string[],
+async function checkDomainsStreaming(
+  domainGenerator: AsyncGenerator<string>,
   tlds: string[],
-): Promise<DomainStatusResult[]> {
-  const totalChecks = names.length * tlds.length;
+): Promise<{ results: DomainStatusResult[]; names: string[] }> {
+  const results: DomainStatusResult[] = [];
+  const names: string[] = [];
+
+  logger.spacer();
+  logger.log("🔍", "Starting streaming domain checks...");
   logger.startTimer("checking");
   logger.spacer();
-  logger.log(
-    "🔍",
-    `Checking ${totalChecks} domain(s) across ${tlds.map((t) => `.${t}`).join(", ")}`,
-  );
-  logger.spacer();
 
-  const results: DomainStatusResult[] = [];
-  let checksCompleted = 0;
+  // Process each domain as it's generated
+  for await (const name of domainGenerator) {
+    names.push(name);
 
-  for (const tld of tlds) {
-    logger.spacer();
-    logger.log("📍", `Checking .${tld} domains (${names.length} names)`);
+    // Show generation immediately
+    logger.log("✨", `Generated: ${name}`);
     logger.spacer();
 
-    for (const name of names) {
-      const domain = `${name.toLowerCase()}.${tld}`;
+    // Check each TLD sequentially
+    for (const tld of tlds) {
+      const domain = `${name}.${tld}`;
       const result = await checkDomainStatus(domain);
+      results.push(result);
 
+      // Display result immediately
       const emoji = result.available ? "✅" : result.sale ? "💰" : "❌";
       const status = result.available
         ? "AVAILABLE"
         : result.sale
           ? "FOR SALE "
           : "TAKEN    ";
-
-      checksCompleted++;
       const responseTime = logger.formatTime(result.duration / 1000);
-      console.log(
-        `  ${emoji} ${status} - ${domain} (${responseTime}) [${checksCompleted}/${totalChecks}]`,
-      );
 
-      results.push(result);
+      console.log(`  ${emoji} ${status} - ${domain} (${responseTime})`);
 
+      // Small delay to avoid rate limiting
       await wait(500);
     }
+
+    logger.spacer();
   }
 
   const totalElapsed = logger.getElapsed("checking");
-  const avgTime = totalElapsed / results.length;
-  logger.spacer();
+  const avgTime = results.length > 0 ? totalElapsed / results.length : 0;
   logger.log(
     "🏁",
     `Completed ${results.length} checks in ${logger.formatTime(totalElapsed)} (avg: ${logger.formatTime(avgTime)}/domain)`,
   );
 
-  return results;
+  return { results, names };
 }
 
 /**
@@ -349,152 +348,160 @@ async function main() {
   console.log(`  📄 Custom Prompt: ${config.prompt ? "Yes" : "No"}`);
   console.log(`  💾 Save Output: ${config.saveOutput}`);
 
-  // Generate new domain names with AI
+  // Generate and check domains with streaming
   logger.spacer();
-  logger.startTimer("ai");
-  logger.log("🤖", `Generating ${config.count} domain names with AI...`);
+  logger.startTimer("total");
+  logger.log("🤖", "Starting AI domain generation stream...");
 
-  const names = await generateDomainNames({
-    domains: config.domains,
-    keywords: config.keywords,
-    count: config.count,
-    apiKey: config.apiKey,
-    model: config.model,
-    customPrompt: config.prompt,
-  });
+  try {
+    // Create streaming generator
+    const domainGenerator = generateDomainNamesStream({
+      domains: config.domains,
+      keywords: config.keywords,
+      count: config.count,
+      apiKey: config.apiKey,
+      model: config.model,
+      customPrompt: config.prompt,
+    });
 
-  // Validate we got names back
-  if (!names || names.length === 0) {
+    // Check domains as they're generated
+    const { results, names } = await checkDomainsStreaming(
+      domainGenerator,
+      config.tlds,
+    );
+
+    // Validate we got results
+    if (!results || results.length === 0) {
+      logger.spacer();
+      logger.error("No domains were generated or checked");
+      console.error("   This could be due to:");
+      console.error("   • API rate limits");
+      console.error("   • Invalid model name");
+      console.error("   • Network issues\n");
+      process.exit(1);
+    }
+
+    // Group results
+    const available = results.filter((r) => r.available);
+    const sale = results.filter((r) => !r.available && r.sale);
+    const taken = results.filter((r) => !r.available && !r.sale);
+
+    // Display grouped results
+    logger.banner("📊 RESULTS SUMMARY");
+
+    console.log(`✅ AVAILABLE (${available.length}):\n`);
+    if (available.length > 0) {
+      available.forEach((r, i) => console.log(`  ${i + 1}. ${r.domain}`));
+    } else {
+      console.log("  None found");
+    }
+
     logger.spacer();
-    logger.error("AI failed to generate any domain names");
-    console.error("   This could be due to:");
-    console.error("   • API rate limits");
-    console.error("   • Invalid model name");
-    console.error("   • Network issues\n");
+    console.log(`💰 FOR SALE (${sale.length}):\n`);
+    if (sale.length > 0) {
+      sale.forEach((r, i) => console.log(`  ${i + 1}. ${r.domain}`));
+    } else {
+      console.log("  None found");
+    }
+
+    logger.spacer();
+    console.log(`❌ TAKEN (${taken.length}):\n`);
+    if (taken.length > 0) {
+      taken.forEach((r, i) => console.log(`  ${i + 1}. ${r.domain}`));
+    } else {
+      console.log("  None found");
+    }
+
+    logger.separator();
+
+    // Save results to JSON file if enabled
+    if (config.saveOutput) {
+      logger.spacer();
+      logger.startTimer("saving");
+      logger.log("💾", `Saving results to ${config.directory}/`);
+
+      try {
+        mkdirSync(config.directory, { recursive: true });
+
+        // Save JSON output with all data
+        const outputData: OutputResult = {
+          timestamp: new Date().toISOString(),
+          config,
+          generated: names,
+          results: {
+            available: available.map((r) => r.domain),
+            sale: sale.map((r) => r.domain),
+            taken: taken.map((r) => r.domain),
+          },
+          summary: {
+            total: results.length,
+            available: available.length,
+            sale: sale.length,
+            taken: taken.length,
+          },
+        };
+
+        const outputJsonFile = join(config.directory, "output.json");
+        writeFileSync(
+          outputJsonFile,
+          JSON.stringify(outputData, null, 2),
+          "utf-8",
+        );
+
+        logger.spacer();
+        logger.success(`Saved results to ${outputJsonFile}`, "saving");
+        logger.spacer();
+        console.log(`  ✅ Available: ${available.length}`);
+        console.log(`  💰 For Sale: ${sale.length}`);
+        console.log(`  ❌ Taken: ${taken.length}`);
+      } catch (error) {
+        logger.spacer();
+        logger.error(`Failed to save file: ${error}`);
+      }
+    } else {
+      logger.spacer();
+      logger.info("Results displayed above (not saved to file)");
+    }
+
+    // Final summary with timing
+    const totalTime = logger.getTotalElapsed();
+    const availablePercent = (
+      (available.length / results.length) *
+      100
+    ).toFixed(1);
+
+    logger.banner("🎉 EXECUTION COMPLETED");
+
+    console.log(`  📊 Total Domains: ${results.length}`);
+    console.log(`  ✅ Available: ${available.length} (${availablePercent}%)`);
+    console.log(
+      `  💰 For Sale: ${sale.length} (${((sale.length / results.length) * 100).toFixed(1)}%)`,
+    );
+    console.log(
+      `  ❌ Taken: ${taken.length} (${((taken.length / results.length) * 100).toFixed(1)}%)`,
+    );
+    console.log(`  ⏱️  Total Time: ${logger.formatTime(totalTime)}`);
+    logger.spacer();
+
+    if (available.length > 0) {
+      logger.success(`Found ${available.length} available domain(s)! 🎯`);
+    } else if (sale.length > 0) {
+      logger.info(
+        `Found ${sale.length} domain(s) for sale - might be worth checking! 💡`,
+      );
+    } else {
+      logger.warn("All domains are taken. Try different keywords or TLDs. 💭");
+    }
+
+    logger.spacer();
+    logger.separator();
+  } catch (error) {
+    logger.spacer();
+    logger.error(
+      `An error occurred: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
     process.exit(1);
   }
-
-  logger.spacer();
-  logger.success(`Generated ${names.length} domain names`, "ai");
-  logger.spacer();
-  names.forEach((name, i) => console.log(`  ${i + 1}. ${name}`));
-
-  // Check AI-generated domains
-  const results = await checkDomains(names, config.tlds);
-
-  // Group results
-  const available = results.filter((r) => r.available);
-  const sale = results.filter((r) => !r.available && r.sale);
-  const taken = results.filter((r) => !r.available && !r.sale);
-
-  // Display grouped results
-  logger.banner("📊 RESULTS SUMMARY");
-
-  console.log(`✅ AVAILABLE (${available.length}):\n`);
-  if (available.length > 0) {
-    available.forEach((r, i) => console.log(`  ${i + 1}. ${r.domain}`));
-  } else {
-    console.log("  None found");
-  }
-
-  logger.spacer();
-  console.log(`💰 FOR SALE (${sale.length}):\n`);
-  if (sale.length > 0) {
-    sale.forEach((r, i) => console.log(`  ${i + 1}. ${r.domain}`));
-  } else {
-    console.log("  None found");
-  }
-
-  logger.spacer();
-  console.log(`❌ TAKEN (${taken.length}):\n`);
-  if (taken.length > 0) {
-    taken.forEach((r, i) => console.log(`  ${i + 1}. ${r.domain}`));
-  } else {
-    console.log("  None found");
-  }
-
-  logger.separator();
-
-  // Save results to JSON file if enabled
-  if (config.saveOutput) {
-    logger.spacer();
-    logger.startTimer("saving");
-    logger.log("💾", `Saving results to ${config.directory}/`);
-
-    try {
-      mkdirSync(config.directory, { recursive: true });
-
-      // Save JSON output with all data
-      const outputData: OutputResult = {
-        timestamp: new Date().toISOString(),
-        config,
-        generated: names,
-        results: {
-          available: available.map((r) => r.domain),
-          sale: sale.map((r) => r.domain),
-          taken: taken.map((r) => r.domain),
-        },
-        summary: {
-          total: results.length,
-          available: available.length,
-          sale: sale.length,
-          taken: taken.length,
-        },
-      };
-
-      const outputJsonFile = join(config.directory, "output.json");
-      writeFileSync(
-        outputJsonFile,
-        JSON.stringify(outputData, null, 2),
-        "utf-8",
-      );
-
-      logger.spacer();
-      logger.success(`Saved results to ${outputJsonFile}`, "saving");
-      logger.spacer();
-      console.log(`  ✅ Available: ${available.length}`);
-      console.log(`  💰 For Sale: ${sale.length}`);
-      console.log(`  ❌ Taken: ${taken.length}`);
-    } catch (error) {
-      logger.spacer();
-      logger.error(`Failed to save file: ${error}`);
-    }
-  } else {
-    logger.spacer();
-    logger.info("Results displayed above (not saved to file)");
-  }
-
-  // Final summary with timing
-  const totalTime = logger.getTotalElapsed();
-  const availablePercent = ((available.length / results.length) * 100).toFixed(
-    1,
-  );
-
-  logger.banner("🎉 EXECUTION COMPLETED");
-
-  console.log(`  📊 Total Domains: ${results.length}`);
-  console.log(`  ✅ Available: ${available.length} (${availablePercent}%)`);
-  console.log(
-    `  💰 For Sale: ${sale.length} (${((sale.length / results.length) * 100).toFixed(1)}%)`,
-  );
-  console.log(
-    `  ❌ Taken: ${taken.length} (${((taken.length / results.length) * 100).toFixed(1)}%)`,
-  );
-  console.log(`  ⏱️  Total Time: ${logger.formatTime(totalTime)}`);
-  logger.spacer();
-
-  if (available.length > 0) {
-    logger.success(`Found ${available.length} available domain(s)! 🎯`);
-  } else if (sale.length > 0) {
-    logger.info(
-      `Found ${sale.length} domain(s) for sale - might be worth checking! 💡`,
-    );
-  } else {
-    logger.warn("All domains are taken. Try different keywords or TLDs. 💭");
-  }
-
-  logger.spacer();
-  logger.separator();
 }
 
 main().catch(console.error);

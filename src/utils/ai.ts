@@ -1,4 +1,4 @@
-import { generateObject } from "ai";
+import { generateObject, streamObject } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { z } from "zod";
 import { existsSync, readFileSync } from "node:fs";
@@ -63,6 +63,53 @@ function normalizeStrings(items: string[]): string[] {
   ).filter(Boolean);
 }
 
+/**
+ * Builds the prompt for AI domain generation
+ */
+function buildPrompt(
+  customPrompt: string | undefined,
+  normalizedDomains: string[],
+  normalizedKeywords: string[],
+  count: number,
+): string {
+  // Build prompt from custom prompt, file, or default
+  let template = "";
+  if (customPrompt) {
+    template = customPrompt;
+  } else if (existsSync(PROMPT_FILE)) {
+    template = readFileSync(PROMPT_FILE, "utf-8");
+  } else if (existsSync(PROMPT_EXAMPLE_FILE)) {
+    template = readFileSync(PROMPT_EXAMPLE_FILE, "utf-8");
+  } else {
+    // Fallback to a built-in default prompt
+    template = `Generate {COUNT} creative, memorable domain names.
+    
+Focus on:
+- Short and catchy
+- Easy to remember
+- Professional
+
+${normalizedDomains.length > 0 ? "Similar to: {DOMAINS}" : ""}
+${normalizedKeywords.length > 0 ? "Keywords: {KEYWORDS}" : ""}
+
+Return ONLY the domain name without TLD extensions (.com, .io, etc).`;
+  }
+
+  const domainsText =
+    normalizedDomains.length > 0
+      ? normalizedDomains.join(", ")
+      : "none provided";
+  const keywordsText =
+    normalizedKeywords.length > 0
+      ? normalizedKeywords.join(", ")
+      : "none provided";
+
+  return template
+    .replace("{COUNT}", count.toString())
+    .replace("{DOMAINS}", domainsText)
+    .replace("{KEYWORDS}", keywordsText);
+}
+
 // ============================================================================
 // Main Function
 // ============================================================================
@@ -96,42 +143,13 @@ export async function generateDomainNames({
   const normalizedDomains = normalizeStrings(domains);
   const normalizedKeywords = normalizeStrings(keywords);
 
-  // Build prompt from custom prompt, file, or default
-  let template = "";
-  if (customPrompt) {
-    template = customPrompt;
-  } else if (existsSync(PROMPT_FILE)) {
-    template = readFileSync(PROMPT_FILE, "utf-8");
-  } else if (existsSync(PROMPT_EXAMPLE_FILE)) {
-    template = readFileSync(PROMPT_EXAMPLE_FILE, "utf-8");
-  } else {
-    // Fallback to a built-in default prompt
-    template = `Generate {COUNT} creative, memorable domain names.
-    
-Focus on:
-- Short and catchy
-- Easy to remember
-- Professional
-
-${normalizedDomains.length > 0 ? "Similar to: {DOMAINS}" : ""}
-${normalizedKeywords.length > 0 ? "Keywords: {KEYWORDS}" : ""}
-
-Return ONLY the domain name without TLD extensions (.com, .io, etc).`;
-  }
-
-  const domainsText =
-    normalizedDomains.length > 0
-      ? normalizedDomains.join(", ")
-      : "none provided";
-  const keywordsText =
-    normalizedKeywords.length > 0
-      ? normalizedKeywords.join(", ")
-      : "none provided";
-
-  const prompt = template
-    .replace("{COUNT}", count.toString())
-    .replace("{DOMAINS}", domainsText)
-    .replace("{KEYWORDS}", keywordsText);
+  // Build prompt
+  const prompt = buildPrompt(
+    customPrompt,
+    normalizedDomains,
+    normalizedKeywords,
+    count,
+  );
 
   // Initialize OpenAI client
   const openai = createOpenAI({ apiKey });
@@ -152,6 +170,94 @@ Return ONLY the domain name without TLD extensions (.com, .io, etc).`;
       })
       .filter(Boolean)
       .slice(0, count);
+  } catch (error) {
+    throw new Error(
+      `Failed to generate domain names: ${error instanceof Error ? error.message : "Unknown error occurred"}`,
+    );
+  }
+}
+
+/**
+ * Generates creative domain names using AI with streaming support
+ *
+ * @param options - Configuration options
+ * @returns AsyncGenerator yielding domain names as they are generated
+ * @throws Error if API key is invalid or AI generation fails
+ *
+ * @example
+ * ```typescript
+ * const generator = generateDomainNamesStream({
+ *   domains: ["stripe", "vercel"],
+ *   keywords: ["fast", "modern"],
+ *   count: 10,
+ *   apiKey: process.env.OPENAI_API_KEY!,
+ *   model: "gpt-4o-mini"
+ * });
+ *
+ * for await (const domain of generator) {
+ *   console.log(`Generated: ${domain}`);
+ *   // Check domain availability here
+ * }
+ * ```
+ */
+export async function* generateDomainNamesStream({
+  domains = [],
+  keywords = [],
+  count,
+  apiKey,
+  model,
+  customPrompt,
+}: GenerateDomainNamesOptions): AsyncGenerator<string, void, unknown> {
+  // Normalize inputs
+  const normalizedDomains = normalizeStrings(domains);
+  const normalizedKeywords = normalizeStrings(keywords);
+
+  // Build prompt
+  const prompt = buildPrompt(
+    customPrompt,
+    normalizedDomains,
+    normalizedKeywords,
+    count,
+  );
+
+  // Initialize OpenAI client
+  const openai = createOpenAI({ apiKey });
+
+  try {
+    // Stream domains from AI
+    const { partialObjectStream } = await streamObject({
+      model: openai(model),
+      schema: domainNamesSchema,
+      prompt,
+    });
+
+    const seenDomains = new Set<string>();
+
+    for await (const partial of partialObjectStream) {
+      if (partial.domains && Array.isArray(partial.domains)) {
+        for (const domain of partial.domains) {
+          // Skip undefined or empty domains
+          if (!domain) continue;
+
+          // Clean and normalize
+          const name = domain.split(".")[0];
+          const normalized = name
+            ? name.toLowerCase().trim()
+            : domain.toLowerCase().trim();
+
+          // Yield only new, valid domains
+          if (normalized && !seenDomains.has(normalized)) {
+            seenDomains.add(normalized);
+            yield normalized;
+
+            // Stop if we've generated enough
+            if (seenDomains.size >= count) {
+              return;
+            }
+          }
+        }
+      }
+    }
   } catch (error) {
     throw new Error(
       `Failed to generate domain names: ${error instanceof Error ? error.message : "Unknown error occurred"}`,
