@@ -40,6 +40,16 @@ export interface GenerateDomainNamesOptions {
   customPrompt?: string;
 }
 
+/**
+ * Options for building the AI prompt
+ */
+interface BuildPromptOptions {
+  customPrompt?: string;
+  domains: string[];
+  keywords: string[];
+  count: number;
+}
+
 // ============================================================================
 // Schemas
 // ============================================================================
@@ -64,15 +74,27 @@ function normalizeStrings(items: string[]): string[] {
 }
 
 /**
+ * Cleans and normalizes a domain name by removing TLD and trimming
+ */
+function cleanDomainName(domain: string): string {
+  const name = domain.split(".")[0];
+  return name ? name.toLowerCase().trim() : domain.toLowerCase().trim();
+}
+
+/**
+ * Formats an error message for domain generation failures
+ */
+function formatGenerationError(error: unknown): string {
+  return `Failed to generate domain names: ${error instanceof Error ? error.message : "Unknown error occurred"}`;
+}
+
+/**
  * Builds the prompt for AI domain generation
  * Normalizes domains and keywords internally
  */
-function buildPrompt(
-  customPrompt: string | undefined,
-  domains: string[],
-  keywords: string[],
-  count: number,
-): string {
+function buildPrompt(options: BuildPromptOptions): string {
+  const { customPrompt, domains, keywords, count } = options;
+
   // Normalize inputs
   const normalizedDomains = normalizeStrings(domains);
   const normalizedKeywords = normalizeStrings(keywords);
@@ -145,7 +167,7 @@ export async function generateDomainNames({
   customPrompt,
 }: GenerateDomainNamesOptions): Promise<string[]> {
   // Build prompt (normalization happens inside)
-  const prompt = buildPrompt(customPrompt, domains, keywords, count);
+  const prompt = buildPrompt({ customPrompt, domains, keywords, count });
 
   // Initialize OpenAI client
   const openai = createOpenAI({ apiKey });
@@ -158,18 +180,13 @@ export async function generateDomainNames({
       prompt,
     });
 
-    // Strip TLD extensions and clean results
+    // Clean and filter domain names
     return object.domains
-      .map((domain) => {
-        const name = domain.split(".")[0];
-        return name ? name.toLowerCase().trim() : domain.toLowerCase().trim();
-      })
+      .map(cleanDomainName)
       .filter(Boolean)
       .slice(0, count);
   } catch (error) {
-    throw new Error(
-      `Failed to generate domain names: ${error instanceof Error ? error.message : "Unknown error occurred"}`,
-    );
+    throw new Error(formatGenerationError(error));
   }
 }
 
@@ -205,7 +222,7 @@ export async function* generateDomainNamesStream({
   customPrompt,
 }: GenerateDomainNamesOptions): AsyncGenerator<string, void, unknown> {
   // Build prompt (normalization happens inside)
-  const prompt = buildPrompt(customPrompt, domains, keywords, count);
+  const prompt = buildPrompt({ customPrompt, domains, keywords, count });
 
   // Initialize OpenAI client
   const openai = createOpenAI({ apiKey });
@@ -226,11 +243,8 @@ export async function* generateDomainNamesStream({
           // Skip undefined or empty domains
           if (!domain) continue;
 
-          // Clean and normalize
-          const name = domain.split(".")[0];
-          const normalized = name
-            ? name.toLowerCase().trim()
-            : domain.toLowerCase().trim();
+          // Clean and normalize domain name
+          const normalized = cleanDomainName(domain);
 
           // Yield only new, valid domains
           if (normalized && !seenDomains.has(normalized)) {
@@ -246,8 +260,6 @@ export async function* generateDomainNamesStream({
       }
     }
   } catch (error) {
-    throw new Error(
-      `Failed to generate domain names: ${error instanceof Error ? error.message : "Unknown error occurred"}`,
-    );
+    throw new Error(formatGenerationError(error));
   }
 }
