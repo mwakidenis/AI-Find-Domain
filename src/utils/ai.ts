@@ -65,13 +65,18 @@ function normalizeStrings(items: string[]): string[] {
 
 /**
  * Builds the prompt for AI domain generation
+ * Normalizes domains and keywords internally
  */
 function buildPrompt(
   customPrompt: string | undefined,
-  normalizedDomains: string[],
-  normalizedKeywords: string[],
+  domains: string[],
+  keywords: string[],
   count: number,
 ): string {
+  // Normalize inputs
+  const normalizedDomains = normalizeStrings(domains);
+  const normalizedKeywords = normalizeStrings(keywords);
+
   // Build prompt from custom prompt, file, or default
   let template = "";
   if (customPrompt) {
@@ -139,17 +144,8 @@ export async function generateDomainNames({
   model,
   customPrompt,
 }: GenerateDomainNamesOptions): Promise<string[]> {
-  // Normalize inputs
-  const normalizedDomains = normalizeStrings(domains);
-  const normalizedKeywords = normalizeStrings(keywords);
-
-  // Build prompt
-  const prompt = buildPrompt(
-    customPrompt,
-    normalizedDomains,
-    normalizedKeywords,
-    count,
-  );
+  // Build prompt (normalization happens inside)
+  const prompt = buildPrompt(customPrompt, domains, keywords, count);
 
   // Initialize OpenAI client
   const openai = createOpenAI({ apiKey });
@@ -208,17 +204,8 @@ export async function* generateDomainNamesStream({
   model,
   customPrompt,
 }: GenerateDomainNamesOptions): AsyncGenerator<string, void, unknown> {
-  // Normalize inputs
-  const normalizedDomains = normalizeStrings(domains);
-  const normalizedKeywords = normalizeStrings(keywords);
-
-  // Build prompt
-  const prompt = buildPrompt(
-    customPrompt,
-    normalizedDomains,
-    normalizedKeywords,
-    count,
-  );
+  // Build prompt (normalization happens inside)
+  const prompt = buildPrompt(customPrompt, domains, keywords, count);
 
   // Initialize OpenAI client
   const openai = createOpenAI({ apiKey });
