@@ -16,10 +16,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
+      - name: Verify release tag matches package.json version
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          RELEASE_TAG=${GITHUB_REF#refs/tags/}
+          echo "Package version: $PACKAGE_VERSION"
+          echo "Release tag: $RELEASE_TAG"
+          if [ "v$PACKAGE_VERSION" != "$RELEASE_TAG" ] && [ "$PACKAGE_VERSION" != "$RELEASE_TAG" ]; then
+            echo "❌ Error: Package version ($PACKAGE_VERSION) does not match release tag ($RELEASE_TAG)"
+            exit 1
+          fi
+          echo "✅ Version check passed"
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
 
       - name: Setup Node.js 22
         uses: actions/setup-node@v6
@@ -40,8 +52,29 @@ jobs:
       - name: Build project
         run: pnpm run build
 
+      - name: Verify build artifacts
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "❌ Error: dist directory not found"
+            exit 1
+          fi
+          if [ ! -f "dist/index.js" ]; then
+            echo "❌ Error: dist/index.js not found"
+            exit 1
+          fi
+          echo "✅ Build artifacts verified"
+
       - name: Publish to npm
-        run: pnpm publish --provenance --access public
+        run: pnpm publish --provenance --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create release summary
+        if: success()
+        run: |
+          echo "## 🎉 Successfully Published to npm" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Package**: find-my-domain" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: $(node -p "require('./package.json').version")" >> $GITHUB_STEP_SUMMARY
+          echo "- **Registry**: https://www.npmjs.com/package/find-my-domain" >> $GITHUB_STEP_SUMMARY
 

@@ -10,6 +10,11 @@ on:
       - main
       - develop
 
+# Cancel previous runs when a new one is triggered
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality-checks:
     name: Quality Checks
@@ -22,7 +27,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
 
       - name: Setup Node.js 22
         uses: actions/setup-node@v6
@@ -32,6 +37,10 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Verify lockfile is up to date
+        run: |
+          git diff --exit-code pnpm-lock.yaml || (echo "❌ pnpm-lock.yaml is out of date. Please run 'pnpm install' and commit the changes." && exit 1)
 
       - name: Run TypeScript type checking
         run: pnpm run typecheck
@@ -49,8 +58,10 @@ jobs:
         run: pnpm run build
 
       - name: Upload build artifacts
+        if: always()
         uses: actions/upload-artifact@v5
         with:
           name: dist
           path: dist/
           retention-days: 7
+          if-no-files-found: warn
