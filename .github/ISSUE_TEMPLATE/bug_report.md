@@ -37,7 +37,7 @@ Paste any error messages or output here
 - **OS**: [e.g., macOS 14.0, Ubuntu 22.04, Windows 11]
 - **Node.js version**: [e.g., 22.0.0] (run `node --version`)
 - **Package version**: [e.g., 1.2.6] (run `npx find-my-domain --version`)
-- **Installation method**: [npm install / npx]
+- **Installation method**: [pnpm install / npx]
 
 ## Configuration
 
