@@ -74,21 +74,6 @@ function normalizeStrings(items: string[]): string[] {
 }
 
 /**
- * Cleans and normalizes a domain name by removing TLD and trimming
- */
-function cleanDomainName(domain: string): string {
-  const name = domain.split(".")[0];
-  return name ? name.toLowerCase().trim() : domain.toLowerCase().trim();
-}
-
-/**
- * Formats an error message for domain generation failures
- */
-function formatGenerationError(error: unknown): string {
-  return `Failed to generate domain names: ${error instanceof Error ? error.message : "Unknown error occurred"}`;
-}
-
-/**
  * Builds the prompt for AI domain generation
  * Normalizes domains and keywords internally
  */
@@ -180,13 +165,18 @@ export async function generateDomainNames({
       prompt,
     });
 
-    // Clean and filter domain names
+    // Strip TLD extensions and clean results
     return object.domains
-      .map(cleanDomainName)
+      .map((domain) => {
+        const name = domain.split(".")[0];
+        return name ? name.toLowerCase().trim() : domain.toLowerCase().trim();
+      })
       .filter(Boolean)
       .slice(0, count);
   } catch (error) {
-    throw new Error(formatGenerationError(error));
+    throw new Error(
+      `Failed to generate domain names: ${error instanceof Error ? error.message : "Unknown error occurred"}`,
+    );
   }
 }
 
@@ -243,8 +233,11 @@ export async function* generateDomainNamesStream({
           // Skip undefined or empty domains
           if (!domain) continue;
 
-          // Clean and normalize domain name
-          const normalized = cleanDomainName(domain);
+          // Clean and normalize
+          const name = domain.split(".")[0];
+          const normalized = name
+            ? name.toLowerCase().trim()
+            : domain.toLowerCase().trim();
 
           // Yield only new, valid domains
           if (normalized && !seenDomains.has(normalized)) {
@@ -260,6 +253,8 @@ export async function* generateDomainNamesStream({
       }
     }
   } catch (error) {
-    throw new Error(formatGenerationError(error));
+    throw new Error(
+      `Failed to generate domain names: ${error instanceof Error ? error.message : "Unknown error occurred"}`,
+    );
   }
 }
