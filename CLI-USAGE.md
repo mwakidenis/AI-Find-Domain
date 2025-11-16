@@ -43,13 +43,14 @@ This will:
 
 ### Advanced Options
 
-| Option          | Type    | Description         | Example                       |
-| --------------- | ------- | ------------------- | ----------------------------- | ----------------------------------- |
-| `--prompt`      | `-p`    | string              | Inline custom prompt          | `--prompt "Generate {COUNT} names"` |
-| `--prompt-file` | string  | Path to prompt file | `--prompt-file my-prompt.txt` |
-| `--no-save`     | boolean | Don't save to file  | `--no-save`                   |
-| `--directory`   | `-d`    | string              | Output directory              | `--directory results`               |
-| `--input`       | `-i`    | string              | Input JSON file (optional)    | `--input config.json`               |
+| Option          | Alias | Type    | Description                           | Example                             |
+| --------------- | ----- | ------- | ------------------------------------- | ----------------------------------- |
+| `--prompt`      | `-p`  | string  | Inline custom prompt                  | `--prompt "Generate {COUNT} names"` |
+| `--prompt-file` |       | string  | Path to prompt file                   | `--prompt-file my-prompt.txt`       |
+| `--save`        |       | boolean | Save results to file (default: true)  | `--no-save` for console only        |
+| `--stream`      | `-s`  | boolean | Streaming mode (default: true)        | `--no-stream` for batch mode        |
+| `--directory`   | `-d`  | string  | Output directory                      | `--directory results`               |
+| `--input`       | `-i`  | string  | Input JSON file (optional)            | `--input config.json`               |
 
 ---
 
@@ -165,6 +166,45 @@ Use input.json for base config, override with CLI:
 # input.json has your base settings
 pnpm start -- --count 50 --model gpt-4o
 ```
+
+---
+
+### Example 8: Streaming Mode (Default)
+
+Real-time domain checking as AI generates names:
+
+```bash
+# Streaming mode (default) - see results in 2-3 seconds!
+pnpm start -- \
+  --keywords tech startup \
+  --count 10 \
+  --tlds com io
+```
+
+**Benefits:**
+- ⚡ Instant feedback as each domain is generated
+- 🔍 Check availability immediately
+- ✨ Better user experience for interactive use
+
+---
+
+### Example 9: Batch Mode
+
+Generate all names first, then check them:
+
+```bash
+# Batch mode - generate all, then check
+pnpm start -- \
+  --keywords tech startup \
+  --count 10 \
+  --tlds com io \
+  --no-stream
+```
+
+**Benefits:**
+- 📋 See all generated names before checking
+- 📊 Progress counter shows completion [X/Y]
+- 🤖 Good for automation and batch processing
 
 ---
 
@@ -446,11 +486,13 @@ docker run --rm -e OPENAI_API_KEY=sk-xxx node:22-alpine \
 
 ## 💡 Tips
 
-1. **Use `--no-save` for exploration** - Faster, no cleanup needed
-2. **Set `OPENAI_API_KEY` env var** - Avoid repeating `--api-key`
-3. **Use short aliases** - `-k` for keywords, `-c` for count, `-t` for TLDs
-4. **Combine with shell scripts** - Loop through different configurations
-5. **Pipe output** - Use with `grep`, `awk`, etc. for filtering
+1. **Use streaming mode for interactive searches** - Get real-time results (default behavior)
+2. **Use batch mode for automation** - Add `--no-stream` for predictable output
+3. **Use `--no-save` for exploration** - Faster, no cleanup needed
+4. **Set `OPENAI_API_KEY` env var** - Avoid repeating `--api-key`
+5. **Use short aliases** - `-k` for keywords, `-c` for count, `-t` for TLDs, `-s` for stream
+6. **Combine with shell scripts** - Loop through different configurations
+7. **Pipe output** - Use with `grep`, `awk`, etc. for filtering
 
 ---
 

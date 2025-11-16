@@ -25,7 +25,7 @@ interface InputConfig {
   model?: string;
   apiKey?: string;
   prompt?: string;
-  saveOutput?: boolean;
+  save?: boolean;
   stream?: boolean;
 }
 
@@ -62,7 +62,7 @@ const DEFAULT_CONFIG = {
   model: "gpt-4o-mini",
   apiKey: undefined as string | undefined,
   prompt: undefined as string | undefined,
-  saveOutput: true,
+  save: true,
   stream: true,
 };
 
@@ -227,10 +227,10 @@ function loadConfig(cliArgs: ReturnType<typeof parseCliArgs>) {
       fileConfig.apiKey ??
       process.env.OPENAI_API_KEY,
     prompt: (cliArgs.prompt as string) ?? promptFromFile ?? fileConfig.prompt,
-    saveOutput:
+    save:
       cliArgs.save === false
         ? false
-        : (fileConfig.saveOutput ?? DEFAULT_CONFIG.saveOutput),
+        : (fileConfig.save ?? DEFAULT_CONFIG.save),
     stream:
       cliArgs.stream === false
         ? false
@@ -420,8 +420,8 @@ async function main() {
   console.log(`  🎯 Count: ${config.count}`);
   console.log(`  🤖 AI Model: ${config.model}`);
   console.log(`  📄 Custom Prompt: ${config.prompt ? "Yes" : "No"}`);
-  console.log(`  💾 Save Output: ${config.saveOutput}`);
-  console.log(`  ⚡ Stream Mode: ${config.stream ? "Enabled" : "Disabled (Batch)"}`);
+  console.log(`  💾 Save: ${config.save}`);
+  console.log(`  ⚡ Stream: ${config.stream ? "Enabled" : "Disabled (Batch)"}`);
 
   // Generate and check domains
   logger.spacer();
@@ -517,7 +517,7 @@ async function main() {
     logger.separator();
 
     // Save results to JSON file if enabled
-    if (config.saveOutput) {
+    if (config.save) {
       logger.spacer();
       logger.startTimer("saving");
       logger.log("💾", `Saving results to ${config.directory}/`);

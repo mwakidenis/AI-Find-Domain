@@ -5,6 +5,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+#### Dual Mode Support: Streaming + Batch 🌊
+
+- ✨ **Streaming Mode (Default)** - Real-time domain generation and checking
+  - Domains are checked immediately as AI generates them
+  - See results within 2-3 seconds
+  - Better user experience with instant feedback
+  - Live progress updates
+- ✨ **Batch Mode** - Traditional generate-all-then-check approach
+  - Generate all domain names first
+  - Then check all domains sequentially
+  - Good for automation and when you want to see all names first
+  - Progress counter shows completion status
+- ✨ `--stream` (`-s`) flag to toggle between modes
+  - `--stream` - Streaming mode (default)
+  - `--no-stream` - Batch mode
+  - Can also set `"stream": true/false` in `input.json`
+- ✨ Real-time logging for both modes with emoji indicators
+- ✨ Stream mode display in configuration output
+
+### Changed
+
+- **`saveOutput` renamed to `save`** for consistency
+  - Updated all configuration files
+  - Updated all code references
+  - Updated all documentation
+  - Still uses `--save` / `--no-save` CLI flags
+- **Batch mode** shows progress counter `[X/Y]` for each check
+- **Default mode** is now streaming for better UX
+
+### Improved
+
+- Better separation of concerns with dedicated `checkDomainsBatch()` function
+- Enhanced logging with mode-specific messages
+- More granular progress tracking
+- Cleaner code organization
+
+### Technical
+
+- Added `stream` field to `InputConfig` interface
+- Added `checkDomainsBatch()` function for batch processing
+- Updated `main()` to support conditional mode selection
+- Renamed `saveOutput` to `save` throughout codebase
+- Both `generateDomainNames` and `generateDomainNamesStream` maintained
+
 ## [1.2.7] - 2025-11-15
 
 ### Fixed - Complete GitHub Workflows Overhaul 🚀

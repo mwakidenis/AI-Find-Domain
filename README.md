@@ -41,11 +41,17 @@ Finding the perfect domain name is **hard**. You need something that's:
   - 💻 **Pure CLI** - Everything via command-line (no files required!)
   - 🔀 **Hybrid** - Mix both approaches for maximum flexibility
 
+- 🌊 **Dual Processing Modes**:
+  - **Streaming (Default)** - Check domains as AI generates them (2-3 second feedback!)
+  - **Batch** - Generate all first, then check (use `--no-stream` flag)
+  - Choose based on your workflow: real-time feedback vs. batch processing
+
 - ⚙️ **Configuration Options**:
   - Use JSON config files OR CLI arguments OR both
   - API key from environment, `.env`, or `--api-key` flag
   - Custom prompts inline, from file, or built-in default
   - Optional output saving (`--no-save` for console-only)
+  - Toggle between streaming and batch modes
 
 - 🚀 **Perfect For**:
   - Quick searches and exploration
@@ -415,6 +421,31 @@ pnpm start -- \
 
 Perfect for automated pipelines!
 
+#### Example 13: Streaming Mode (Default)
+
+```bash
+# Streaming mode - get results as AI generates (2-3 second feedback)
+pnpm start -- \
+  --keywords tech startup \
+  --count 10 \
+  --tlds com io
+```
+
+See domain availability instantly as each name is generated!
+
+#### Example 14: Batch Mode
+
+```bash
+# Batch mode - generate all first, then check
+pnpm start -- \
+  --keywords tech startup \
+  --count 10 \
+  --tlds com io \
+  --no-stream
+```
+
+Wait for all names to be generated, then check them all sequentially.
+
 ### Full CLI Options Reference
 
 #### Core Options
@@ -430,14 +461,15 @@ Perfect for automated pipelines!
 
 #### Advanced Options
 
-| Option          | Type    | Description                         | Example                             |
-| --------------- | ------- | ----------------------------------- | ----------------------------------- |
-| `--prompt`      | string  | Inline custom prompt template       | `--prompt "Generate {COUNT} names"` |
-| `--prompt-file` | string  | Path to custom prompt template file | `--prompt-file custom-prompt.txt`   |
-| `--directory`   | string  | Output directory for results        | `--directory results`               |
-| `--no-save`     | boolean | Don't save to file (console only)   | `--no-save`                         |
-| `--input`       | string  | Input JSON config file (optional)   | `--input config.json`               |
-| `--help`        | `-h`    | Show help message                   | `--help`                            |
+| Option          | Alias | Type    | Description                                | Example                             |
+| --------------- | ----- | ------- | ------------------------------------------ | ----------------------------------- |
+| `--prompt`      |       | string  | Inline custom prompt template              | `--prompt "Generate {COUNT} names"` |
+| `--prompt-file` |       | string  | Path to custom prompt template file        | `--prompt-file custom-prompt.txt`   |
+| `--directory`   | `-d`  | string  | Output directory for results               | `--directory results`               |
+| `--stream`      | `-s`  | boolean | Enable streaming mode (default: true)      | `--no-stream` for batch mode        |
+| `--save`        |       | boolean | Save results to file (default: true)       | `--no-save` for console only        |
+| `--input`       | `-i`  | string  | Input JSON config file (optional)          | `--input config.json`               |
+| `--help`        | `-h`  |         | Show help message                          | `--help`                            |
 
 ---
 
@@ -478,14 +510,16 @@ The `input.json` file is an optional configuration. Here's a detailed explanatio
 
 #### Configuration Options Explained
 
-| Field       | Type     | Required | Default    | Description                                                                        |
-| ----------- | -------- | -------- | ---------- | ---------------------------------------------------------------------------------- |
-| `directory` | string   | No       | `"output"` | Where to save results                                                              |
-| `tlds`      | string[] | No       | `["com"]`  | Top-level domains to check (without the dot)                                       |
-| `domains`   | string[] | No       | `[]`       | Example domains to inspire AI (can be without TLD: "stripe" or with: "stripe.com") |
-| `keywords`  | string[] | No       | `[]`       | Keywords to incorporate into names (e.g., "fast", "cloud")                         |
-| `count`     | number   | Yes      | -          | Number of domain names to generate (1-100 recommended)                             |
-| `model`     | string   | Yes      | -          | OpenAI model: `gpt-4o-mini` (fast, cheap) or `gpt-4o` (better quality)             |
+| Field       | Type     | Required | Default         | Description                                                                        |
+| ----------- | -------- | -------- | --------------- | ---------------------------------------------------------------------------------- |
+| `directory` | string   | No       | `"output"`      | Where to save results                                                              |
+| `tlds`      | string[] | No       | `["com"]`       | Top-level domains to check (without the dot)                                       |
+| `domains`   | string[] | No       | `[]`            | Example domains to inspire AI (can be without TLD: "stripe" or with: "stripe.com") |
+| `keywords`  | string[] | No       | `[]`            | Keywords to incorporate into names (e.g., "fast", "cloud")                         |
+| `count`     | number   | Yes      | -               | Number of domain names to generate (1-100 recommended)                             |
+| `model`     | string   | Yes      | -               | OpenAI model: `gpt-4o-mini` (fast, cheap) or `gpt-4o` (better quality)             |
+| `stream`    | boolean  | No       | `true`          | Stream mode: check domains as generated (true) or batch mode (false)               |
+| `save`      | boolean  | No       | `true`          | Save results to file (false for console-only output)                               |
 
 #### Real-World Configuration Examples
 
