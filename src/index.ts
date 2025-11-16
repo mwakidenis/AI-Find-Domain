@@ -5,10 +5,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { checkDomainStatus } from "./utils/whois.js";
 import type { DomainStatusResult } from "./utils/whois.js";
-import {
-  generateDomainNames,
-  generateDomainNamesStream,
-} from "./utils/ai.js";
+import { generateDomainNames, generateDomainNamesStream } from "./utils/ai.js";
 import { wait } from "./utils/wait.js";
 import * as logger from "./utils/logger.js";
 
@@ -228,9 +225,7 @@ function loadConfig(cliArgs: ReturnType<typeof parseCliArgs>) {
       process.env.OPENAI_API_KEY,
     prompt: (cliArgs.prompt as string) ?? promptFromFile ?? fileConfig.prompt,
     save:
-      cliArgs.save === false
-        ? false
-        : (fileConfig.save ?? DEFAULT_CONFIG.save),
+      cliArgs.save === false ? false : (fileConfig.save ?? DEFAULT_CONFIG.save),
     stream:
       cliArgs.stream === false
         ? false

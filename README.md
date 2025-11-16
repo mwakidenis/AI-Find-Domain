@@ -461,15 +461,15 @@ Wait for all names to be generated, then check them all sequentially.
 
 #### Advanced Options
 
-| Option          | Alias | Type    | Description                                | Example                             |
-| --------------- | ----- | ------- | ------------------------------------------ | ----------------------------------- |
-| `--prompt`      |       | string  | Inline custom prompt template              | `--prompt "Generate {COUNT} names"` |
-| `--prompt-file` |       | string  | Path to custom prompt template file        | `--prompt-file custom-prompt.txt`   |
-| `--directory`   | `-d`  | string  | Output directory for results               | `--directory results`               |
-| `--stream`      | `-s`  | boolean | Enable streaming mode (default: true)      | `--no-stream` for batch mode        |
-| `--save`        |       | boolean | Save results to file (default: true)       | `--no-save` for console only        |
-| `--input`       | `-i`  | string  | Input JSON config file (optional)          | `--input config.json`               |
-| `--help`        | `-h`  |         | Show help message                          | `--help`                            |
+| Option          | Alias | Type    | Description                           | Example                             |
+| --------------- | ----- | ------- | ------------------------------------- | ----------------------------------- |
+| `--prompt`      |       | string  | Inline custom prompt template         | `--prompt "Generate {COUNT} names"` |
+| `--prompt-file` |       | string  | Path to custom prompt template file   | `--prompt-file custom-prompt.txt`   |
+| `--directory`   | `-d`  | string  | Output directory for results          | `--directory results`               |
+| `--stream`      | `-s`  | boolean | Enable streaming mode (default: true) | `--no-stream` for batch mode        |
+| `--save`        |       | boolean | Save results to file (default: true)  | `--no-save` for console only        |
+| `--input`       | `-i`  | string  | Input JSON config file (optional)     | `--input config.json`               |
+| `--help`        | `-h`  |         | Show help message                     | `--help`                            |
 
 ---
 
@@ -510,16 +510,16 @@ The `input.json` file is an optional configuration. Here's a detailed explanatio
 
 #### Configuration Options Explained
 
-| Field       | Type     | Required | Default         | Description                                                                        |
-| ----------- | -------- | -------- | --------------- | ---------------------------------------------------------------------------------- |
-| `directory` | string   | No       | `"output"`      | Where to save results                                                              |
-| `tlds`      | string[] | No       | `["com"]`       | Top-level domains to check (without the dot)                                       |
-| `domains`   | string[] | No       | `[]`            | Example domains to inspire AI (can be without TLD: "stripe" or with: "stripe.com") |
-| `keywords`  | string[] | No       | `[]`            | Keywords to incorporate into names (e.g., "fast", "cloud")                         |
-| `count`     | number   | Yes      | -               | Number of domain names to generate (1-100 recommended)                             |
-| `model`     | string   | Yes      | -               | OpenAI model: `gpt-4o-mini` (fast, cheap) or `gpt-4o` (better quality)             |
-| `stream`    | boolean  | No       | `true`          | Stream mode: check domains as generated (true) or batch mode (false)               |
-| `save`      | boolean  | No       | `true`          | Save results to file (false for console-only output)                               |
+| Field       | Type     | Required | Default    | Description                                                                        |
+| ----------- | -------- | -------- | ---------- | ---------------------------------------------------------------------------------- |
+| `directory` | string   | No       | `"output"` | Where to save results                                                              |
+| `tlds`      | string[] | No       | `["com"]`  | Top-level domains to check (without the dot)                                       |
+| `domains`   | string[] | No       | `[]`       | Example domains to inspire AI (can be without TLD: "stripe" or with: "stripe.com") |
+| `keywords`  | string[] | No       | `[]`       | Keywords to incorporate into names (e.g., "fast", "cloud")                         |
+| `count`     | number   | Yes      | -          | Number of domain names to generate (1-100 recommended)                             |
+| `model`     | string   | Yes      | -          | OpenAI model: `gpt-4o-mini` (fast, cheap) or `gpt-4o` (better quality)             |
+| `stream`    | boolean  | No       | `true`     | Stream mode: check domains as generated (true) or batch mode (false)               |
+| `save`      | boolean  | No       | `true`     | Save results to file (false for console-only output)                               |
 
 #### Real-World Configuration Examples
 

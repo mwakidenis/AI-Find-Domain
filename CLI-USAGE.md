@@ -43,14 +43,14 @@ This will:
 
 ### Advanced Options
 
-| Option          | Alias | Type    | Description                           | Example                             |
-| --------------- | ----- | ------- | ------------------------------------- | ----------------------------------- |
-| `--prompt`      | `-p`  | string  | Inline custom prompt                  | `--prompt "Generate {COUNT} names"` |
-| `--prompt-file` |       | string  | Path to prompt file                   | `--prompt-file my-prompt.txt`       |
-| `--save`        |       | boolean | Save results to file (default: true)  | `--no-save` for console only        |
-| `--stream`      | `-s`  | boolean | Streaming mode (default: true)        | `--no-stream` for batch mode        |
-| `--directory`   | `-d`  | string  | Output directory                      | `--directory results`               |
-| `--input`       | `-i`  | string  | Input JSON file (optional)            | `--input config.json`               |
+| Option          | Alias | Type    | Description                          | Example                             |
+| --------------- | ----- | ------- | ------------------------------------ | ----------------------------------- |
+| `--prompt`      | `-p`  | string  | Inline custom prompt                 | `--prompt "Generate {COUNT} names"` |
+| `--prompt-file` |       | string  | Path to prompt file                  | `--prompt-file my-prompt.txt`       |
+| `--save`        |       | boolean | Save results to file (default: true) | `--no-save` for console only        |
+| `--stream`      | `-s`  | boolean | Streaming mode (default: true)       | `--no-stream` for batch mode        |
+| `--directory`   | `-d`  | string  | Output directory                     | `--directory results`               |
+| `--input`       | `-i`  | string  | Input JSON file (optional)           | `--input config.json`               |
 
 ---
 
@@ -182,6 +182,7 @@ pnpm start -- \
 ```
 
 **Benefits:**
+
 - ⚡ Instant feedback as each domain is generated
 - 🔍 Check availability immediately
 - ✨ Better user experience for interactive use
@@ -202,6 +203,7 @@ pnpm start -- \
 ```
 
 **Benefits:**
+
 - 📋 See all generated names before checking
 - 📊 Progress counter shows completion [X/Y]
 - 🤖 Good for automation and batch processing
