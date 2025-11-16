@@ -1,128 +1,192 @@
-# 🚀 Deployment Guide
+# Deployment Documentation
 
-## Quick Deploy
+## Overview
 
-Deploy a new version to npm in 7 simple steps:
+This project uses an automated continuous deployment (CD) pipeline that publishes packages to the npm registry upon GitHub release creation. The deployment process is fully automated through GitHub Actions, ensuring consistent and reliable releases.
 
-### 1. Update Version
+## Architecture
 
-Edit `package.json` and bump the version:
+### Deployment Workflow
+
+The deployment system operates on a **release-triggered** model:
+
+- **Trigger:** GitHub Release publication
+- **Constraint:** Releases must originate from the `main` branch
+- **Automation:** GitHub Actions workflow (`.github/workflows/publish.yml`)
+- **Target:** npm registry with provenance attestation
+
+### Prerequisites
+
+Before initiating a deployment, ensure the following requirements are met:
+
+1. **Authentication:** `NPM_TOKEN` secret configured in repository settings
+2. **Branch:** All changes committed and pushed to `main` branch
+3. **Quality:** All automated checks pass locally
+4. **Version:** Semantic versioning applied appropriately
+
+## Deployment Process
+
+### Step 1: Version Management
+
+Update the package version in `package.json` according to semantic versioning principles:
 
 ```json
-"version": "1.2.9"
+{
+  "version": "<MAJOR>.<MINOR>.<PATCH>"
+}
 ```
 
-**Version Rules:**
-- **Patch** (1.2.8 → 1.2.9): Bug fixes
-- **Minor** (1.2.0 → 1.3.0): New features
-- **Major** (1.0.0 → 2.0.0): Breaking changes
+**Semantic Versioning Guidelines:**
 
-### 2. Run Quality Checks
+| Type | Increment | Use Case |
+|------|-----------|----------|
+| MAJOR | x.0.0 | Breaking changes, incompatible API modifications |
+| MINOR | 0.x.0 | New features, backward-compatible functionality |
+| PATCH | 0.0.x | Bug fixes, backward-compatible corrections |
+
+### Step 2: Quality Assurance
+
+Execute the complete test suite to verify code integrity:
 
 ```bash
-pnpm run typecheck && pnpm run lint && pnpm test && pnpm run build
+pnpm run typecheck
+pnpm run lint
+pnpm test
+pnpm run build
 ```
 
-All must pass! ✅
+All validation steps must complete successfully before proceeding.
 
-### 3. Commit Changes
+### Step 3: Version Control
+
+Commit the version update and synchronize with the remote repository:
 
 ```bash
 git add package.json
-git commit -m "chore: bump version to 1.2.9"
+git commit -m "chore: bump version to <VERSION>"
 git push origin main
 ```
 
-### 4. Create Git Tag
+### Step 4: Tag Creation
+
+Create an annotated Git tag corresponding to the package version:
 
 ```bash
-git tag -a v1.2.9 -m "Release v1.2.9"
-git push origin v1.2.9
+git tag -a v<VERSION> -m "Release v<VERSION>: <DESCRIPTION>"
+git push origin v<VERSION>
 ```
 
-> **Note:** Tag must match package.json version (with or without `v` prefix)
+> **Important:** The tag name must match the version in `package.json`, with an optional `v` prefix.
 
-### 5. Create GitHub Release
+### Step 5: Release Publication
 
-**Using CLI (recommended):**
+Create a GitHub release to trigger the automated deployment pipeline.
+
+**Method A: Command Line Interface**
 
 ```bash
-gh release create v1.2.9 \
-  --title "v1.2.9 - Your Release Title" \
-  --notes "## What's New
-
-- Feature 1
-- Feature 2
-- Bug fix 3"
+gh release create v<VERSION> \
+  --title "v<VERSION> - <TITLE>" \
+  --notes "<RELEASE_NOTES>"
 ```
 
-**Using Web Interface:**
+**Method B: Web Interface**
 
-1. Go to https://github.com/idimetrix/find-my-domain/releases
-2. Click "Draft a new release"
-3. Choose tag: `v1.2.9`
-4. Add title and release notes
-5. Click "Publish release"
+1. Navigate to the repository's releases page
+2. Select "Draft a new release"
+3. Choose the created tag
+4. Provide release title and comprehensive notes
+5. Publish the release
 
-⚡ **Publishing the release triggers automatic deployment to npm!**
+Upon release publication, the deployment workflow initiates automatically.
 
-### 6. Monitor Deployment
+### Step 6: Deployment Monitoring
+
+Monitor the deployment progress through GitHub Actions:
 
 ```bash
 gh run watch
 ```
 
-Or visit: https://github.com/idimetrix/find-my-domain/actions
+Alternatively, view the workflow execution in the GitHub Actions dashboard.
 
-### 7. Verify Publication
+### Step 7: Publication Verification
+
+Confirm successful package publication:
 
 ```bash
-npm view find-my-domain version
+npm view <PACKAGE_NAME> version
 ```
 
-Visit: https://www.npmjs.com/package/find-my-domain
+Verify the package is accessible on the npm registry.
 
----
+## Continuous Integration Pipeline
 
-## Deployment Pipeline
+The automated deployment workflow executes the following stages:
 
-The automated workflow runs these steps:
+1. **Source Control:** Repository checkout
+2. **Version Validation:** Verify tag-version consistency
+3. **Environment Setup:** Install dependencies with locked versions
+4. **Static Analysis:** TypeScript compilation and ESLint validation
+5. **Testing:** Execute test suite
+6. **Build:** Generate distribution artifacts
+7. **Artifact Verification:** Validate build output
+8. **Publication:** Publish to npm with provenance signature
+9. **Reporting:** Generate deployment summary
 
-1. ✅ Checkout code
-2. ✅ Verify version matches tag
-3. ✅ Install dependencies
-4. ✅ Run typecheck
-5. ✅ Run linter
-6. ✅ Run tests
-7. ✅ Build project
-8. ✅ Verify build artifacts
-9. ✅ Publish to npm with provenance
-10. ✅ Create release summary
+**Failure Handling:** The pipeline employs fail-fast behavior; any stage failure prevents progression and blocks publication.
 
-If any step fails, deployment stops automatically.
+## Security Considerations
 
----
+### Access Control
 
-## Security
+- Deployment restricted to `main` branch releases
+- Requires `NPM_TOKEN` authentication secret
+- Utilizes GitHub's OIDC for provenance generation
 
-- ✅ Only releases from `main` branch are deployed
-- ✅ Version must match tag exactly
-- ✅ All quality checks must pass
-- ✅ Published with npm provenance signature
+### Integrity Verification
 
----
+- Version-tag consistency validation
+- Comprehensive quality gate enforcement
+- npm provenance attestation for supply chain security
+
+### Best Practices
+
+- Never commit authentication tokens to version control
+- Maintain `NPM_TOKEN` in GitHub Secrets with appropriate access controls
+- Review workflow logs for security anomalies
+- Regularly rotate authentication credentials
 
 ## Troubleshooting
 
-**Version mismatch error:**
-- Ensure `package.json` version matches the git tag
+### Version Mismatch
 
-**ENEEDAUTH error:**
-- Check `NPM_TOKEN` secret is set in GitHub repository settings
+**Symptom:** Deployment fails with version inconsistency error
 
-**Cannot publish over existing version:**
-- This is correct! Bump the version number first
+**Resolution:** Ensure the `package.json` version field exactly matches the Git tag (excluding optional `v` prefix)
 
-**Workflow doesn't trigger:**
-- Ensure you created a GitHub **Release**, not just a tag
+### Authentication Failure
 
+**Symptom:** `ENEEDAUTH` error during npm publication
+
+**Resolution:** Verify `NPM_TOKEN` secret is correctly configured in repository settings with appropriate permissions
+
+### Duplicate Version
+
+**Symptom:** Publication fails due to existing version
+
+**Resolution:** npm registry prevents version overwrites by design. Increment the version number appropriately.
+
+### Workflow Not Triggering
+
+**Symptom:** GitHub Actions workflow does not execute
+
+**Resolution:** Verify a GitHub Release was created, not merely a Git tag. Releases are the designated trigger mechanism.
+
+## References
+
+- **Workflow Definition:** `.github/workflows/publish.yml`
+- **Package Configuration:** `package.json`
+- **npm Registry:** https://www.npmjs.com/package/find-my-domain
+- **Repository Releases:** https://github.com/idimetrix/find-my-domain/releases
+- **Actions Dashboard:** https://github.com/idimetrix/find-my-domain/actions
