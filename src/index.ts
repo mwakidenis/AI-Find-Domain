@@ -5,7 +5,10 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { checkDomainStatus } from "./utils/whois.js";
 import type { DomainStatusResult } from "./utils/whois.js";
-import { generateDomainNamesStream } from "./utils/ai.js";
+import {
+  generateDomainNames,
+  generateDomainNamesStream,
+} from "./utils/ai.js";
 import { wait } from "./utils/wait.js";
 import * as logger from "./utils/logger.js";
 
@@ -23,6 +26,7 @@ interface InputConfig {
   apiKey?: string;
   prompt?: string;
   saveOutput?: boolean;
+  stream?: boolean;
 }
 
 interface OutputResult {
@@ -59,6 +63,7 @@ const DEFAULT_CONFIG = {
   apiKey: undefined as string | undefined,
   prompt: undefined as string | undefined,
   saveOutput: true,
+  stream: true,
 };
 
 // ============================================================================
@@ -120,6 +125,12 @@ function parseCliArgs() {
       description: "Save results to file (use --no-save to disable)",
       default: true,
     })
+    .option("stream", {
+      alias: "s",
+      type: "boolean",
+      description: "Enable streaming mode (use --no-stream for batch mode)",
+      default: true,
+    })
     .option("input", {
       alias: "i",
       type: "string",
@@ -134,6 +145,10 @@ function parseCliArgs() {
     .example(
       "$0 --keywords tech startup --count 10 --no-save",
       "Generate without saving to file",
+    )
+    .example(
+      "$0 --keywords ai ml --count 10 --no-stream",
+      "Use batch mode instead of streaming",
     )
     .example(
       "$0 --input myconfig.json --count 50",
@@ -216,9 +231,68 @@ function loadConfig(cliArgs: ReturnType<typeof parseCliArgs>) {
       cliArgs.save === false
         ? false
         : (fileConfig.saveOutput ?? DEFAULT_CONFIG.saveOutput),
+    stream:
+      cliArgs.stream === false
+        ? false
+        : (fileConfig.stream ?? DEFAULT_CONFIG.stream),
   };
 
   return config;
+}
+
+async function checkDomainsBatch(
+  names: string[],
+  tlds: string[],
+): Promise<DomainStatusResult[]> {
+  const totalChecks = names.length * tlds.length;
+  logger.startTimer("checking");
+  logger.spacer();
+  logger.log(
+    "🔍",
+    `Checking ${totalChecks} domain(s) across ${tlds.map((t) => `.${t}`).join(", ")}`,
+  );
+  logger.spacer();
+
+  const results: DomainStatusResult[] = [];
+  let checksCompleted = 0;
+
+  for (const tld of tlds) {
+    logger.spacer();
+    logger.log("📍", `Checking .${tld} domains (${names.length} names)`);
+    logger.spacer();
+
+    for (const name of names) {
+      const domain = `${name.toLowerCase()}.${tld}`;
+      const result = await checkDomainStatus(domain);
+
+      const emoji = result.available ? "✅" : result.sale ? "💰" : "❌";
+      const status = result.available
+        ? "AVAILABLE"
+        : result.sale
+          ? "FOR SALE "
+          : "TAKEN    ";
+
+      checksCompleted++;
+      const responseTime = logger.formatTime(result.duration / 1000);
+      console.log(
+        `  ${emoji} ${status} - ${domain} (${responseTime}) [${checksCompleted}/${totalChecks}]`,
+      );
+
+      results.push(result);
+
+      await wait(500);
+    }
+  }
+
+  const totalElapsed = logger.getElapsed("checking");
+  const avgTime = totalElapsed / results.length;
+  logger.spacer();
+  logger.log(
+    "🏁",
+    `Completed ${results.length} checks in ${logger.formatTime(totalElapsed)} (avg: ${logger.formatTime(avgTime)}/domain)`,
+  );
+
+  return results;
 }
 
 async function checkDomainsStreaming(
@@ -347,28 +421,56 @@ async function main() {
   console.log(`  🤖 AI Model: ${config.model}`);
   console.log(`  📄 Custom Prompt: ${config.prompt ? "Yes" : "No"}`);
   console.log(`  💾 Save Output: ${config.saveOutput}`);
+  console.log(`  ⚡ Stream Mode: ${config.stream ? "Enabled" : "Disabled (Batch)"}`);
 
-  // Generate and check domains with streaming
+  // Generate and check domains
   logger.spacer();
   logger.startTimer("total");
-  logger.log("🤖", "Starting AI domain generation stream...");
+
+  let results: DomainStatusResult[];
+  let names: string[];
 
   try {
-    // Create streaming generator
-    const domainGenerator = generateDomainNamesStream({
-      domains: config.domains,
-      keywords: config.keywords,
-      count: config.count,
-      apiKey: config.apiKey,
-      model: config.model,
-      customPrompt: config.prompt,
-    });
+    if (config.stream) {
+      // Streaming mode: generate and check domains as they come
+      logger.log("🤖", "Starting AI domain generation stream...");
 
-    // Check domains as they're generated
-    const { results, names } = await checkDomainsStreaming(
-      domainGenerator,
-      config.tlds,
-    );
+      const domainGenerator = generateDomainNamesStream({
+        domains: config.domains,
+        keywords: config.keywords,
+        count: config.count,
+        apiKey: config.apiKey,
+        model: config.model,
+        customPrompt: config.prompt,
+      });
+
+      const streamResult = await checkDomainsStreaming(
+        domainGenerator,
+        config.tlds,
+      );
+      results = streamResult.results;
+      names = streamResult.names;
+    } else {
+      // Batch mode: generate all first, then check
+      logger.startTimer("ai");
+      logger.log("🤖", `Generating ${config.count} domain names with AI...`);
+
+      names = await generateDomainNames({
+        domains: config.domains,
+        keywords: config.keywords,
+        count: config.count,
+        apiKey: config.apiKey,
+        model: config.model,
+        customPrompt: config.prompt,
+      });
+
+      logger.spacer();
+      logger.success(`Generated ${names.length} domain names`, "ai");
+      logger.spacer();
+      names.forEach((name, i) => console.log(`  ${i + 1}. ${name}`));
+
+      results = await checkDomainsBatch(names, config.tlds);
+    }
 
     // Validate we got results
     if (!results || results.length === 0) {
