@@ -9,7 +9,7 @@
 No files needed! Just use command-line arguments:
 
 ```bash
-npm start -- \
+ppnpm start -- \
   --api-key sk-your-key-here \
   --keywords tech startup ai \
   --count 10 \
@@ -60,7 +60,7 @@ This will:
 Generate domains with just keywords (no files required):
 
 ```bash
-npm start -- \
+pnpm start -- \
   --api-key $OPENAI_API_KEY \
   --keywords startup tech saas \
   --count 5 \
@@ -76,7 +76,7 @@ npm start -- \
 Everything via command line:
 
 ```bash
-npm start -- \
+pnpm start -- \
   --api-key sk-xxx \
   --keywords ai machine learning \
   --domains openai anthropic \
@@ -95,7 +95,7 @@ npm start -- \
 Use a custom prompt without creating a file:
 
 ```bash
-npm start -- \
+pnpm start -- \
   --api-key sk-xxx \
   --prompt "Generate {COUNT} short, catchy domain names for a {KEYWORDS} startup. Similar to: {DOMAINS}" \
   --keywords crypto blockchain \
@@ -117,7 +117,7 @@ Set the API key once:
 export OPENAI_API_KEY=sk-your-key-here
 
 # Now you can omit --api-key
-npm start -- \
+pnpm start -- \
   --keywords tech startup \
   --count 10 \
   --tlds com io \
@@ -132,7 +132,7 @@ Absolute minimum command:
 
 ```bash
 # Requires OPENAI_API_KEY environment variable
-npm start -- --keywords tech --count 5 --no-save
+pnpm start -- --keywords tech --count 5 --no-save
 ```
 
 Uses defaults:
@@ -148,7 +148,7 @@ Uses defaults:
 Use a custom prompt template file:
 
 ```bash
-npm start -- \
+pnpm start -- \
   --prompt-file my-custom-prompt.txt \
   --keywords ai tools \
   --count 15 \
@@ -163,7 +163,7 @@ Use input.json for base config, override with CLI:
 
 ```bash
 # input.json has your base settings
-npm start -- --count 50 --model gpt-4o
+pnpm start -- --count 50 --model gpt-4o
 ```
 
 ---
@@ -216,9 +216,9 @@ Return only domain names without TLDs.
 export OPENAI_API_KEY=sk-xxx
 
 # Quick searches without creating files
-npm start -- -k tech -c 5 --no-save
-npm start -- -k finance -c 5 --no-save
-npm start -- -k health -c 5 --no-save
+pnpm start -- -k tech -c 5 --no-save
+pnpm start -- -k finance -c 5 --no-save
+pnpm start -- -k health -c 5 --no-save
 ```
 
 ---
@@ -229,9 +229,9 @@ npm start -- -k health -c 5 --no-save
 export OPENAI_API_KEY=sk-xxx
 
 # Test different models
-npm start -- -k ai -c 5 -m gpt-4o-mini --no-save
-npm start -- -k ai -c 5 -m gpt-4o --no-save
-npm start -- -k ai -c 5 -m chatgpt-4o-latest --no-save
+pnpm start -- -k ai -c 5 -m gpt-4o-mini --no-save
+pnpm start -- -k ai -c 5 -m gpt-4o --no-save
+pnpm start -- -k ai -c 5 -m chatgpt-4o-latest --no-save
 ```
 
 ---
@@ -264,7 +264,7 @@ Perfect for:
 
 ```bash
 export OPENAI_API_KEY=sk-xxx
-npm start -- --keywords tech --count 5
+pnpm start -- --keywords tech --count 5
 ```
 
 ### Option 2: .env File
@@ -278,13 +278,13 @@ OPENAI_API_KEY=sk-xxx
 Then:
 
 ```bash
-npm start -- --keywords tech --count 5
+pnpm start -- --keywords tech --count 5
 ```
 
 ### Option 3: CLI Argument
 
 ```bash
-npm start -- --api-key sk-xxx --keywords tech --count 5
+pnpm start -- --api-key sk-xxx --keywords tech --count 5
 ```
 
 ### Option 4: input.json File
@@ -300,7 +300,7 @@ npm start -- --api-key sk-xxx --keywords tech --count 5
 Then:
 
 ```bash
-npm start
+pnpm start
 ```
 
 ---
@@ -338,21 +338,21 @@ Return ONLY the domain name without TLD extensions.
 ### Save to File (Default)
 
 ```bash
-npm start -- --keywords tech --count 5
+pnpm start -- --keywords tech --count 5
 # Creates: output/output.json
 ```
 
 ### Console Only (No Files)
 
 ```bash
-npm start -- --keywords tech --count 5 --no-save
+pnpm start -- --keywords tech --count 5 --no-save
 # No files created
 ```
 
 ### Custom Directory
 
 ```bash
-npm start -- --keywords tech --count 5 --directory my-results
+pnpm start -- --keywords tech --count 5 --directory my-results
 # Creates: my-results/output.json
 ```
 
@@ -363,7 +363,7 @@ npm start -- --keywords tech --count 5 --directory my-results
 ### Startup Founder
 
 ```bash
-npm start -- \
+pnpm start -- \
   --api-key $OPENAI_API_KEY \
   --keywords "productivity saas automation" \
   --domains "asana notion monday" \
@@ -375,7 +375,7 @@ npm start -- \
 ### Developer Testing
 
 ```bash
-npm start -- \
+pnpm start -- \
   --api-key $OPENAI_API_KEY \
   --keywords dev tools ci cd \
   --count 10 \
@@ -386,7 +386,7 @@ npm start -- \
 ### Domain Investor
 
 ```bash
-npm start -- \
+pnpm start -- \
   --api-key $OPENAI_API_KEY \
   --keywords tech ai blockchain \
   --count 100 \
@@ -398,7 +398,7 @@ npm start -- \
 ### Agency Client Work
 
 ```bash
-npm start -- \
+pnpm start -- \
   --prompt-file client-brief.txt \
   --domains "competitor1 competitor2" \
   --keywords "luxury premium boutique" \
@@ -459,19 +459,19 @@ docker run --rm -e OPENAI_API_KEY=sk-xxx node:22-alpine \
 ### Filter Available Domains
 
 ```bash
-npm start -- -k tech -c 20 --no-save | grep "✅ AVAILABLE"
+pnpm start -- -k tech -c 20 --no-save | grep "✅ AVAILABLE"
 ```
 
 ### Save Only Available Domains
 
 ```bash
-npm start -- -k tech -c 20 --no-save | grep "✅ AVAILABLE" > available.txt
+pnpm start -- -k tech -c 20 --no-save | grep "✅ AVAILABLE" > available.txt
 ```
 
 ### Count Available
 
 ```bash
-npm start -- -k tech -c 50 --no-save | grep -c "✅ AVAILABLE"
+pnpm start -- -k tech -c 50 --no-save | grep -c "✅ AVAILABLE"
 ```
 
 ---
@@ -490,7 +490,7 @@ npm start -- -k tech -c 50 --no-save | grep -c "✅ AVAILABLE"
 **Try it now**:
 
 ```bash
-npm start -- \
+pnpm start -- \
   --api-key sk-xxx \
   --keywords "your idea here" \
   --count 10 \

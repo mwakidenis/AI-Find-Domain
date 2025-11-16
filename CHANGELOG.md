@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 1. **❌ Wrong workflow purpose** - Was set up for GitHub Packages, needed npm
 2. **❌ Wrong Node version** - Used Node 18, package requires Node 22+
-3. **❌ Wrong package manager** - Used pnpm, project uses npm
+3. **❌ Wrong package manager** - Used npm, project uses pnpm
 4. **❌ Wrong trigger** - Ran on every push, even feature branches
 5. **❌ Wrong registry** - Configured for GitHub Packages instead of npm
 6. **❌ Wrong scope** - Had incorrect @dalenguyen scope
@@ -26,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ✅ Runs on push to main/develop branches and PRs
 - ✅ Uses Node.js 22 (correct version)
-- ✅ Uses npm (correct package manager)
+- ✅ Uses pnpm (correct package manager)
 - ✅ Runs comprehensive quality checks:
   - TypeScript type checking
   - ESLint linting
@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ✅ Only runs on GitHub releases (correct trigger)
 - ✅ Uses Node.js 22
+- ✅ Uses pnpm package manager
 - ✅ Publishes to npm registry (not GitHub Packages)
 - ✅ Includes npm provenance for security
 - ✅ Runs all quality checks before publishing
@@ -59,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Dependabot Configuration (`.github/dependabot.yml`)
 
 - ✅ Automatic dependency updates
-- ✅ Weekly npm dependency checks
+- ✅ Weekly pnpm dependency checks
 - ✅ Weekly GitHub Actions updates
 - ✅ Automatic PR creation
 - ✅ Proper labels and reviewers
@@ -101,9 +102,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Technical Details
 
-- All workflows use actions/checkout@v4 (latest)
-- All workflows use actions/setup-node@v4 (latest)
-- Proper use of `npm ci` for reproducible builds
+- All workflows use actions/checkout@v5 (latest)
+- All workflows use actions/setup-node@v6 (latest)
+- All workflows use pnpm/action-setup@v4 for pnpm support
+- Proper use of `pnpm install --frozen-lockfile` for reproducible builds
 - Artifact retention policy (7 days)
 - Proper permissions for npm provenance
 - Weekly security and dependency scans
@@ -357,13 +359,13 @@ Your existing code will continue to work exactly as before. The new CLI features
 
 ```bash
 # Old way (still works)
-npm start
+pnpm start
 
 # New way - Pure CLI
-npm start -- --api-key sk-xxx --keywords tech --count 10 --no-save
+pnpm start -- --api-key sk-xxx --keywords tech --count 10 --no-save
 
 # Hybrid approach
-npm start -- --count 50 --model gpt-4o
+pnpm start -- --count 50 --model gpt-4o
 ```
 
 ### Migrating from 1.0.0 to 1.1.0
@@ -373,8 +375,8 @@ npm start -- --count 50 --model gpt-4o
 **Action required:**
 
 1. Upgrade to Node.js 22 or higher
-2. Reinstall dependencies: `npm install`
-3. Rebuild: `npm run build`
+2. Reinstall dependencies: `pnpm install`
+3. Rebuild: `pnpm run build`
 
 Everything else remains the same!
 

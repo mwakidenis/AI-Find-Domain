@@ -118,10 +118,10 @@ npx find-my-domain \
 
 ```bash
 # Install globally
-npm install -g find-my-domain
+pnpm install -g find-my-domain
 
 # Or install in your project
-npm install find-my-domain
+pnpm install find-my-domain
 ```
 
 Then use it:
@@ -143,7 +143,7 @@ find-my-domain --keywords tech --count 10 --no-save
 **1. Install the package:**
 
 ```bash
-npm install -g find-my-domain
+pnpm install -g find-my-domain
 ```
 
 **2. Create configuration files:**
@@ -241,7 +241,7 @@ cp prompt.example.txt prompt.txt
 **Run:**
 
 ```bash
-npm start
+pnpm start
 ```
 
 This will:
@@ -262,7 +262,7 @@ Perfect for quick searches, CI/CD, Docker, or one-off tasks.
 **No setup needed** - everything via command line:
 
 ```bash
-npm start -- \
+pnpm start -- \
   --api-key sk-your-key-here \
   --keywords tech startup saas \
   --count 10 \
@@ -289,7 +289,7 @@ Use files for base configuration, override with CLI arguments:
 
 ```bash
 # input.json has your base settings
-npm start -- --count 50 --model gpt-4o --no-save
+pnpm start -- --count 50 --model gpt-4o --no-save
 ```
 
 This combines the convenience of files with CLI flexibility!
@@ -303,7 +303,7 @@ You can override any setting or work purely from CLI:
 #### Example 1: Quick Test (5 domains)
 
 ```bash
-npm start -- --count 5 --model gpt-4o-mini
+pnpm start -- --count 5 --model gpt-4o-mini
 ```
 
 This is perfect for testing your configuration without using too many API tokens.
@@ -311,7 +311,7 @@ This is perfect for testing your configuration without using too many API tokens
 #### Example 2: Multiple TLDs
 
 ```bash
-npm start -- --tlds com io dev ai --count 15 --model gpt-4o-mini
+pnpm start -- --tlds com io dev ai --count 15 --model gpt-4o-mini
 ```
 
 Check your domains across 4 different extensions. Great for finding alternatives!
@@ -319,7 +319,7 @@ Check your domains across 4 different extensions. Great for finding alternatives
 #### Example 3: Keyword-Based Generation
 
 ```bash
-npm start -- --keywords startup tech saas platform --count 20 --model gpt-4o-mini
+pnpm start -- --keywords startup tech saas platform --count 20 --model gpt-4o-mini
 ```
 
 Generate domains based purely on keywords. Perfect when you're starting from scratch.
@@ -327,7 +327,7 @@ Generate domains based purely on keywords. Perfect when you're starting from scr
 #### Example 4: Domain-Based Variations
 
 ```bash
-npm start -- --domains stripe vercel linear --count 15 --model gpt-4o-mini
+pnpm start -- --domains stripe vercel linear --count 15 --model gpt-4o-mini
 ```
 
 Generate names similar to successful companies. Great for inspiration!
@@ -335,7 +335,7 @@ Generate names similar to successful companies. Great for inspiration!
 #### Example 5: Combined Approach (Recommended)
 
 ```bash
-npm start -- --domains github gitlab --keywords code dev tools --tlds com io dev --count 30 --model gpt-4o
+pnpm start -- --domains github gitlab --keywords code dev tools --tlds com io dev --count 30 --model gpt-4o
 ```
 
 Combine example domains + keywords for the best results. Uses premium GPT-4o model.
@@ -343,7 +343,7 @@ Combine example domains + keywords for the best results. Uses premium GPT-4o mod
 #### Example 6: Custom Output Directory
 
 ```bash
-npm start -- --directory my-search-$(date +%Y%m%d) --count 25 --model gpt-4o-mini
+pnpm start -- --directory my-search-$(date +%Y%m%d) --count 25 --model gpt-4o-mini
 ```
 
 Organize multiple searches with dated directories.
@@ -351,7 +351,7 @@ Organize multiple searches with dated directories.
 #### Example 7: Bulk Search
 
 ```bash
-npm start -- --count 100 --tlds com --model gpt-4o
+pnpm start -- --count 100 --tlds com --model gpt-4o
 ```
 
 Generate 100 domains with the premium model. Great for serious domain hunting!
@@ -359,7 +359,7 @@ Generate 100 domains with the premium model. Great for serious domain hunting!
 #### Example 8: Use Custom Config File
 
 ```bash
-npm start -- --input startup-search.json
+pnpm start -- --input startup-search.json
 ```
 
 Use a different configuration file for different projects.
@@ -367,7 +367,7 @@ Use a different configuration file for different projects.
 #### Example 9: Pure CLI with API Key
 
 ```bash
-npm start -- \
+pnpm start -- \
   --api-key sk-your-key \
   --keywords tech startup \
   --count 10 \
@@ -380,7 +380,7 @@ Complete standalone usage - no configuration files needed!
 #### Example 10: Custom Inline Prompt
 
 ```bash
-npm start -- \
+pnpm start -- \
   --prompt "Generate {COUNT} short domain names for {KEYWORDS}" \
   --keywords ai robotics \
   --count 15 \
@@ -392,7 +392,7 @@ Use custom prompt without creating a file.
 #### Example 11: Custom Prompt File
 
 ```bash
-npm start -- \
+pnpm start -- \
   --prompt-file my-custom-prompt.txt \
   --keywords fintech blockchain \
   --count 20 \
@@ -404,7 +404,7 @@ Load custom prompt from a file.
 #### Example 12: CI/CD Mode
 
 ```bash
-npm start -- \
+pnpm start -- \
   --api-key $OPENAI_API_KEY \
   --keywords "$CI_PROJECT_KEYWORDS" \
   --count 10 \
@@ -795,7 +795,7 @@ Results are saved to `<directory>/output.json` with complete details:
 **Configuration**:
 
 ```bash
-npm start -- \
+pnpm start -- \
   --domains salesforce hubspot pipedrive \
   --keywords sales crm pipeline cloud \
   --tlds com io \
@@ -869,7 +869,7 @@ Return ONLY the domain name without extensions.
 **Configuration**:
 
 ```bash
-npm start -- \
+pnpm start -- \
   --domains google amazon facebook microsoft \
   --tlds com net org \
   --count 200 \
@@ -901,7 +901,7 @@ npm start -- \
 **Configuration**:
 
 ```bash
-npm start -- \
+pnpm start -- \
   --keywords ai tool developer productivity \
   --tlds dev io ai \
   --count 15 \
@@ -934,9 +934,9 @@ cp input.example.json client-blog.json
 # Edit each config file for the specific client
 
 # Run searches
-npm start -- --input client-saas.json
-npm start -- --input client-ecommerce.json
-npm start -- --input client-blog.json
+pnpm start -- --input client-saas.json
+pnpm start -- --input client-ecommerce.json
+pnpm start -- --input client-blog.json
 ```
 
 **Why this works**:
@@ -1162,13 +1162,13 @@ You can use any model ID from the `OpenAIResponsesModelId` type in `@ai-sdk/open
 
 ```bash
 # Try the latest ChatGPT model
-npm start -- --model chatgpt-4o-latest --count 10
+pnpm start -- --model chatgpt-4o-latest --count 10
 
 # Use reasoning model for complex task
-npm start -- --model o3-mini --count 20
+pnpm start -- --model o3-mini --count 20
 
 # Budget search with GPT-3.5
-npm start -- --model gpt-3.5-turbo --count 50
+pnpm start -- --model gpt-3.5-turbo --count 50
 ```
 
 ---
@@ -1216,7 +1216,7 @@ Return ONLY the domain name.
 **Step 3**: Run the search
 
 ```bash
-npm start
+pnpm start
 ```
 
 **Sample Results**:
@@ -1327,7 +1327,7 @@ Return ONLY the domain name.
 **Quick Command**:
 
 ```bash
-npm start -- \
+pnpm start -- \
   --keywords tech code programming blog tutorials \
   --tlds com blog dev \
   --count 20 \
@@ -1391,45 +1391,45 @@ find-my-domain/
 
 ```bash
 # Run the application
-npm start           # Use input.json configuration
-npm run dev         # Same as start
-npm run find        # Same as start
+pnpm start           # Use input.json configuration
+pnpm run dev         # Same as start
+pnpm run find        # Same as start
 
 # Development tools
-npm run typecheck   # Check TypeScript types
-npm run lint        # Check code quality
-npm run lint:fix    # Auto-fix linting issues
-npm run format      # Format code with Prettier
-npm run format:check # Check if code is formatted
+pnpm run typecheck   # Check TypeScript types
+pnpm run lint        # Check code quality
+pnpm run lint:fix    # Auto-fix linting issues
+pnpm run format      # Format code with Prettier
+pnpm run format:check # Check if code is formatted
 
 # Testing
-npm test            # Run all tests once
-npm run test:watch  # Run tests in watch mode
+pnpm test            # Run all tests once
+pnpm run test:watch  # Run tests in watch mode
 
 # Build
-npm run build       # Build for production (creates dist/)
+pnpm run build       # Build for production (creates dist/)
 ```
 
 ### Running Tests
 
 ```bash
 # Run all tests
-npm test
+pnpm test
 
 # Watch mode (auto-runs on file changes)
-npm run test:watch
+pnpm run test:watch
 
 # Type checking only
-npm run typecheck
+pnpm run typecheck
 ```
 
 ### Development Workflow
 
 1. **Make changes** to source files
-2. **Run type check**: `npm run typecheck`
-3. **Run tests**: `npm test`
-4. **Format code**: `npm run format`
-5. **Test your changes**: `npm start`
+2. **Run type check**: `pnpm run typecheck`
+3. **Run tests**: `pnpm test`
+4. **Format code**: `pnpm run format`
+5. **Test your changes**: `pnpm start`
 
 ---
 
@@ -1474,16 +1474,16 @@ cat .env
 
 ```bash
 # Instead of this
-npm start -- --tlds com net org io dev ai --count 20
+pnpm start -- --tlds com net org io dev ai --count 20
 
 # Do this
-npm start -- --tlds com io --count 20
+pnpm start -- --tlds com io --count 20
 ```
 
 **Option 2**: Reduce the number of domains
 
 ```bash
-npm start -- --count 10 --model gpt-4o-mini
+pnpm start -- --count 10 --model gpt-4o-mini
 ```
 
 **Option 3**: Increase the delay in code
@@ -1567,7 +1567,7 @@ cat prompt.txt
 
 ```bash
 # Try with simpler config
-npm start -- --count 5 --keywords tech --model gpt-4o-mini
+pnpm start -- --count 5 --keywords tech --model gpt-4o-mini
 
 # Reset your prompt to default
 cp prompt.example.txt prompt.txt
@@ -1591,13 +1591,13 @@ cp prompt.example.txt prompt.txt
 
 ```bash
 # Use mini model (20x cheaper!)
-npm start -- --model gpt-4o-mini
+pnpm start -- --model gpt-4o-mini
 
 # Generate fewer domains per search
-npm start -- --count 10 --model gpt-4o-mini
+pnpm start -- --count 10 --model gpt-4o-mini
 
 # Run focused searches (better than broad ones)
-npm start -- --domains stripe vercel --count 15 --model gpt-4o-mini
+pnpm start -- --domains stripe vercel --count 15 --model gpt-4o-mini
 ```
 
 **Cost tracking**:
@@ -1667,13 +1667,13 @@ These files are automatically gitignored to protect your data:
 
 ```bash
 # Step 1: Test (< 10 seconds)
-npm start -- --count 5 --model gpt-4o-mini
+pnpm start -- --count 5 --model gpt-4o-mini
 
 # Step 2: If results look good, scale up
-npm start -- --count 30 --model gpt-4o-mini
+pnpm start -- --count 30 --model gpt-4o-mini
 
 # Step 3: If still good, go premium
-npm start -- --count 50 --model gpt-4o
+pnpm start -- --count 50 --model gpt-4o
 ```
 
 ---
@@ -1789,16 +1789,16 @@ Are you testing/exploring?
 
 ```bash
 # Personal project → mini
-npm start -- --count 20 --model gpt-4o-mini
+pnpm start -- --count 20 --model gpt-4o-mini
 
 # Client work → premium
-npm start -- --count 30 --model gpt-4o
+pnpm start -- --count 30 --model gpt-4o
 
 # Your startup's main brand → best
-npm start -- --count 50 --model gpt-4-turbo
+pnpm start -- --count 50 --model gpt-4-turbo
 
 # Domain investing → mini (high volume)
-npm start -- --count 200 --model gpt-4o-mini
+pnpm start -- --count 200 --model gpt-4o-mini
 ```
 
 ---
@@ -1836,9 +1836,9 @@ cp input.example.json configs/project-b.json
 cp input.example.json configs/client-xyz.json
 
 # Run different searches
-npm start -- --input configs/project-a.json
-npm start -- --input configs/project-b.json
-npm start -- --input configs/client-xyz.json
+pnpm start -- --input configs/project-a.json
+pnpm start -- --input configs/project-b.json
+pnpm start -- --input configs/project-xyz.json
 ```
 
 ---
@@ -2103,16 +2103,16 @@ git checkout -b feature/my-awesome-feature
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Make your changes
 # ... edit files ...
 
 # Test your changes
-npm run typecheck
-npm test
-npm run lint:fix
-npm run format
+pnpm run typecheck
+pnpm test
+pnpm run lint:fix
+pnpm run format
 ```
 
 5. **Commit and push**
@@ -2133,7 +2133,7 @@ Go to GitHub and create a PR from your branch.
 # Clone and install
 git clone https://github.com/idimetrix/find-my-domain.git
 cd find-my-domain
-npm install
+pnpm install
 
 # Setup environment
 cp .env.example .env
@@ -2144,16 +2144,16 @@ cp prompt.example.txt prompt.txt
 echo "OPENAI_API_KEY=sk-your-key" > .env
 
 # Run in development
-npm run dev
+pnpm run dev
 
 # Run tests
-npm test
-npm run test:watch  # Watch mode
+pnpm test
+pnpm run test:watch  # Watch mode
 
 # Check code quality
-npm run typecheck
-npm run lint
-npm run format:check
+pnpm run typecheck
+pnpm run lint
+pnpm run format:check
 ```
 
 ### What to Contribute

@@ -61,7 +61,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "deploy": "npm publish"
+    "deploy": "pnpm publish"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.67",
