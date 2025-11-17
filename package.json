@@ -65,7 +65,7 @@
     "deploy": "pnpm publish"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^2.0.67",
+    "@ai-sdk/openai": "^2.0.68",
     "ai": "^5.0.93",
     "dotenv": "^17.2.3",
     "whoiser": "^2.0.0-beta.9",
@@ -83,10 +83,10 @@
     "prettier": "^3.6.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.4",
+    "typescript-eslint": "^8.47.0",
     "vite": "^7.2.2",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "^4.0.9"
+    "vitest": "^4.0.10"
   },
   "engines": {
     "node": ">=22"
