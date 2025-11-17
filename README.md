@@ -2628,6 +2628,7 @@ gh repo star idimetrix/find-my-domain
 
 ## 📊 Stats
 
+- **Current Version**: 1.4.1
 - **Node.js**: 22+
 - **TypeScript**: 5.9
 - **Dependencies**: 6 runtime, 11 dev

@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { writeFileSync, mkdirSync, readFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { checkDomainStatus } from "./utils/whois.js";
@@ -8,6 +9,13 @@ import type { DomainStatusResult } from "./utils/whois.js";
 import { generateDomainNames, generateDomainNamesStream } from "./utils/ai.js";
 import { wait } from "./utils/wait.js";
 import * as logger from "./utils/logger.js";
+
+// Get package version
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const packageJson = JSON.parse(
+  readFileSync(join(__dirname, "../package.json"), "utf-8")
+);
+const VERSION = packageJson.version;
 
 // ============================================================================
 // Types
@@ -73,6 +81,7 @@ const DEFAULT_CONFIG = {
 function parseCliArgs() {
   return yargs(hideBin(process.argv))
     .scriptName("find-my-domain")
+    .version(VERSION)
     .option("directory", {
       alias: "d",
       type: "string",
@@ -619,3 +628,6 @@ export { checkDomainsBatch, checkDomainsStreaming };
 
 // Export utility functions
 export { wait } from "./utils/wait.js";
+
+// Export logger utilities (for advanced users)
+export * as logger from "./utils/logger.js";
