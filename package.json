@@ -1,6 +1,6 @@
 {
   "name": "find-my-domain",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "AI-powered domain name generator with real-time WHOIS availability checking",
   "packageManager": "pnpm@10.22.0",
   "author": {
