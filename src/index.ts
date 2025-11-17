@@ -391,7 +391,7 @@ function validateConfig(config: InputConfig): void {
   }
 }
 
-async function main() {
+export async function main(): Promise<void> {
   logger.banner("🔍 FIND MY DOMAIN - AI-Powered Domain Generator");
 
   // Parse CLI arguments
@@ -601,4 +601,21 @@ async function main() {
   }
 }
 
-main().catch(console.error);
+// ============================================================================
+// Exports
+// ============================================================================
+
+// Re-export utilities from ai.ts and whois.ts
+export { generateDomainNames, generateDomainNamesStream } from "./utils/ai.js";
+export { checkDomainStatus } from "./utils/whois.js";
+export type { DomainStatusResult, DomainStatusOptions } from "./utils/whois.js";
+export type { GenerateDomainNamesOptions } from "./utils/ai.js";
+
+// Export types
+export type { InputConfig, OutputResult };
+
+// Export useful functions for library usage
+export { checkDomainsBatch, checkDomainsStreaming };
+
+// Export utility functions
+export { wait } from "./utils/wait.js";

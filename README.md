@@ -1943,17 +1943,32 @@ When you see 💰 **SALE** status:
 
 ---
 
-## 📚 API Documentation
+## 📚 Programmatic Usage (Library API)
 
-### Using Programmatically
+You can use `find-my-domain` as a library in your own Node.js/TypeScript applications!
 
-You can import and use the functions directly in your Node.js projects:
+### Installation
+
+```bash
+npm install find-my-domain
+# or
+pnpm add find-my-domain
+# or
+yarn add find-my-domain
+```
+
+### Quick Start
 
 ```typescript
-import { generateDomainNames } from "./src/utils/ai.js";
-import { checkDomainStatus } from "./src/utils/whois.js";
+import {
+  generateDomainNames,
+  checkDomainStatus,
+  checkDomainsBatch,
+  wait,
+  type DomainStatusResult
+} from "find-my-domain";
 
-// Generate domain names
+// Generate domain names with AI
 const names = await generateDomainNames({
   domains: ["stripe", "vercel"],
   keywords: ["fast", "modern"],
@@ -1963,148 +1978,461 @@ const names = await generateDomainNames({
 });
 
 console.log("Generated:", names);
-// Output: ["swiftpay", "rapidhub", "modernpay", ...]
 
-// Check availability for each
+// Check availability
 for (const name of names) {
   const status = await checkDomainStatus(`${name}.com`);
-
-  if (status.available) {
-    console.log(`✅ ${status.domain} is available!`);
-  } else if (status.sale) {
-    console.log(`💰 ${status.domain} is for sale`);
-  } else {
-    console.log(`❌ ${status.domain} is taken`);
-  }
+  console.log(`${status.domain}: ${status.available ? "✅" : "❌"}`);
+  await wait(500); // Rate limiting
 }
 ```
 
-### API Reference
+### Complete API Reference
+
+#### Available Exports
+
+```typescript
+// Functions
+import {
+  generateDomainNames,        // Generate domains (batch mode)
+  generateDomainNamesStream,  // Generate domains (streaming)
+  checkDomainStatus,          // Check single domain
+  checkDomainsBatch,          // Check multiple domains
+  checkDomainsStreaming,      // Check streaming domains
+  wait,                       // Utility for delays
+  main                        // Run CLI programmatically
+} from "find-my-domain";
+
+// Types
+import type {
+  DomainStatusResult,
+  DomainStatusOptions,
+  GenerateDomainNamesOptions,
+  InputConfig,
+  OutputResult
+} from "find-my-domain";
+```
+
+---
 
 #### `generateDomainNames(options)`
 
-Generates creative domain names using AI.
-
-**Parameters**:
+Generate domain names using AI in batch mode.
 
 ```typescript
+function generateDomainNames(
+  options: GenerateDomainNamesOptions
+): Promise<string[]>
+
 interface GenerateDomainNamesOptions {
-  domains?: string[]; // Example domains (optional)
-  keywords?: string[]; // Keywords (optional)
-  count: number; // Number to generate (required)
-  apiKey: string; // OpenAI API key (required)
-  model: string; // Model name (required)
+  domains?: string[];     // Example domains to inspire generation
+  keywords?: string[];    // Keywords to incorporate
+  count: number;          // Number of domains to generate
+  apiKey: string;         // OpenAI API key
+  model: string;          // AI model (e.g., "gpt-4o-mini")
+  customPrompt?: string;  // Custom prompt template (optional)
 }
 ```
 
-**Returns**: `Promise<string[]>`
-
-**Example**:
+**Example:**
 
 ```typescript
 const names = await generateDomainNames({
   domains: ["github", "gitlab"],
   keywords: ["code", "git"],
   count: 20,
-  apiKey: "sk-...",
+  apiKey: process.env.OPENAI_API_KEY!,
   model: "gpt-4o-mini",
 });
+// Returns: ["gitflow", "codebase", "devhub", ...]
 ```
-
-**Throws**:
-
-- `Error` if API key is invalid
-- `Error` if OpenAI API request fails
-- `Error` if model is not found
 
 ---
 
-#### `checkDomainStatus(domain)`
+#### `generateDomainNamesStream(options)`
 
-Checks domain availability via WHOIS lookup.
-
-**Parameters**:
+Generate domain names with streaming support (get results as they're generated).
 
 ```typescript
-domain: string; // Full domain with TLD (e.g., "example.com")
+function generateDomainNamesStream(
+  options: GenerateDomainNamesOptions
+): AsyncGenerator<string>
 ```
 
-**Returns**:
+**Example:**
+
+```typescript
+const stream = generateDomainNamesStream({
+  keywords: ["tech", "startup"],
+  count: 10,
+  apiKey: process.env.OPENAI_API_KEY!,
+  model: "gpt-4o-mini"
+});
+
+for await (const domain of stream) {
+  console.log(`Generated: ${domain}`);
+  // Process each domain immediately as it's generated
+  const status = await checkDomainStatus(`${domain}.com`);
+  if (status.available) {
+    console.log(`  ✅ Available!`);
+  }
+}
+```
+
+---
+
+#### `checkDomainStatus(domain, whoisOptions?, statusOptions?)`
+
+Check if a single domain is available via WHOIS lookup.
+
+```typescript
+function checkDomainStatus(
+  domain: string,
+  whoisOptions?: object,
+  statusOptions?: DomainStatusOptions
+): Promise<DomainStatusResult>
+
+interface DomainStatusOptions {
+  attempts?: number;  // Max retry attempts (default: 5)
+  delay?: number;     // Delay between retries in ms (default: 1500)
+}
+
+interface DomainStatusResult {
+  ok: boolean;          // Was the check successful?
+  domain: string;       // Full domain name
+  available: boolean;   // Is it available for registration?
+  sale: boolean;        // Is it for sale?
+  duration: number;     // Time taken for check (ms)
+  createdDate?: string; // Registration date
+  updatedDate?: string; // Last update
+  expiryDate?: string;  // Expiration date
+}
+```
+
+**Example:**
+
+```typescript
+const result = await checkDomainStatus("example.com");
+
+if (result.available) {
+  console.log("✅ Available! Go register it!");
+} else {
+  console.log(`❌ Taken - Registered: ${result.createdDate}`);
+  console.log(`   Expires: ${result.expiryDate}`);
+}
+
+// With custom retry options
+const result2 = await checkDomainStatus(
+  "example.com",
+  undefined,
+  { attempts: 3, delay: 2000 }
+);
+```
+
+---
+
+#### `checkDomainsBatch(names, tlds)`
+
+Check multiple domain names across multiple TLDs.
+
+```typescript
+function checkDomainsBatch(
+  names: string[],
+  tlds: string[]
+): Promise<DomainStatusResult[]>
+```
+
+**Example:**
+
+```typescript
+const results = await checkDomainsBatch(
+  ["techflow", "fastcode", "modernhub"],
+  ["com", "io", "dev"]
+);
+
+// Filter available domains
+const available = results.filter(r => r.available);
+console.log(`Found ${available.length} available domains`);
+available.forEach(r => console.log(`  ✅ ${r.domain}`));
+```
+
+---
+
+#### `checkDomainsStreaming(domainGenerator, tlds)`
+
+Check domains as they're generated from a stream.
+
+```typescript
+function checkDomainsStreaming(
+  domainGenerator: AsyncGenerator<string>,
+  tlds: string[]
+): Promise<{
+  results: DomainStatusResult[];
+  names: string[];
+}>
+```
+
+**Example:**
+
+```typescript
+const stream = generateDomainNamesStream({
+  keywords: ["startup"],
+  count: 5,
+  apiKey: process.env.OPENAI_API_KEY!,
+  model: "gpt-4o-mini"
+});
+
+const { results, names } = await checkDomainsStreaming(
+  stream,
+  ["com", "io"]
+);
+
+console.log(`Generated ${names.length} names`);
+console.log(`Checked ${results.length} domains`);
+```
+
+---
+
+#### `wait(ms)`
+
+Utility function for adding delays (useful for rate limiting).
+
+```typescript
+function wait(ms: number): Promise<void>
+```
+
+**Example:**
+
+```typescript
+// Wait 1 second between requests
+for (const domain of domains) {
+  const result = await checkDomainStatus(domain);
+  console.log(result);
+  await wait(1000); // Rate limiting
+}
+```
+
+---
+
+#### `main()`
+
+Run the CLI application programmatically.
+
+```typescript
+function main(): Promise<void>
+```
+
+**Example:**
+
+```typescript
+// Configure via environment and process.argv
+process.env.OPENAI_API_KEY = "sk-...";
+process.argv = [
+  "node", "script.js",
+  "--count", "10",
+  "--keywords", "tech", "startup",
+  "--tlds", "com", "io"
+];
+
+await main(); // Runs the full CLI application
+```
+
+---
+
+### Complete TypeScript Types
 
 ```typescript
 interface DomainStatusResult {
-  domain: string; // Full domain name
-  available: boolean; // Is it available for registration?
-  sale: boolean; // Is it for sale?
-  registrar?: string; // Who registered it (if taken)
-  createdDate?: string; // When it was registered
-  expiryDate?: string; // When registration expires
-  updatedDate?: string; // Last WHOIS update
+  ok: boolean;
+  domain: string;
+  available: boolean;
+  sale: boolean;
+  duration: number;
+  createdDate?: string;
+  updatedDate?: string;
+  expiryDate?: string;
+}
+
+interface DomainStatusOptions {
+  attempts?: number;
+  delay?: number;
+}
+
+interface GenerateDomainNamesOptions {
+  domains?: string[];
+  keywords?: string[];
+  count: number;
+  apiKey: string;
+  model: string;
+  customPrompt?: string;
+}
+
+interface InputConfig {
+  directory?: string;
+  tlds?: string[];
+  domains?: string[];
+  keywords?: string[];
+  count?: number;
+  model?: string;
+  apiKey?: string;
+  prompt?: string;
+  save?: boolean;
+  stream?: boolean;
+}
+
+interface OutputResult {
+  timestamp: string;
+  config: InputConfig;
+  generated: string[];
+  results: {
+    available: string[];
+    sale: string[];
+    taken: string[];
+  };
+  summary: {
+    total: number;
+    available: number;
+    sale: number;
+    taken: number;
+  };
 }
 ```
-
-**Example**:
-
-```typescript
-const status = await checkDomainStatus("example.com");
-
-if (status.available) {
-  console.log("Available! Go register it!");
-} else {
-  console.log(`Taken. Registered on ${status.createdDate}`);
-  console.log(`Expires on ${status.expiryDate}`);
-}
-```
-
-**Note**: WHOIS lookups can be slow (1-3 seconds each). Use rate limiting!
 
 ---
 
-### Building Your Own Tool
+### Real-World Examples
 
-Example: Domain searcher with custom filters
+#### Example 1: Find Short Available Domains
 
 ```typescript
-import { generateDomainNames, checkDomainStatus } from "./src/index.js";
+import { generateDomainNames, checkDomainStatus, wait } from "find-my-domain";
 
-async function findShortAvailableDomains() {
-  // Generate 50 domains
+async function findShortDomains() {
   const names = await generateDomainNames({
-    keywords: ["tech", "app", "digital"],
+    keywords: ["tech", "app"],
     count: 50,
     apiKey: process.env.OPENAI_API_KEY!,
-    model: "gpt-4o-mini",
+    model: "gpt-4o-mini"
   });
 
-  // Filter for short names only (< 8 characters)
-  const shortNames = names.filter((name) => name.length < 8);
+  // Filter for short names (< 8 characters)
+  const short = names.filter(n => n.length < 8);
+  console.log(`Found ${short.length} short names`);
 
-  console.log(
-    `Found ${shortNames.length} short names, checking availability...`,
-  );
-
-  // Check only .com domains
+  // Check .com availability
   const available = [];
-  for (const name of shortNames) {
-    const domain = `${name}.com`;
-    const status = await checkDomainStatus(domain);
-
-    if (status.available) {
-      available.push(domain);
-      console.log(`✅ ${domain}`);
+  for (const name of short) {
+    const result = await checkDomainStatus(`${name}.com`);
+    if (result.available) {
+      available.push(result.domain);
+      console.log(`✅ ${result.domain}`);
     }
-
-    // Rate limiting
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await wait(500); // Rate limiting
   }
 
-  console.log(`\nFound ${available.length} available short .com domains!`);
   return available;
 }
-
-// Run it
-findShortAvailableDomains();
 ```
+
+#### Example 2: Streaming with Real-time Checks
+
+```typescript
+import {
+  generateDomainNamesStream,
+  checkDomainStatus,
+  wait
+} from "find-my-domain";
+
+async function streamingSearch() {
+  const stream = generateDomainNamesStream({
+    keywords: ["ai", "ml"],
+    count: 15,
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: "gpt-4o-mini"
+  });
+
+  const available = [];
+
+  for await (const name of stream) {
+    console.log(`\nChecking: ${name}`);
+    
+    // Check multiple TLDs
+    for (const tld of ["com", "ai", "io"]) {
+      const domain = `${name}.${tld}`;
+      const result = await checkDomainStatus(domain);
+      
+      if (result.available) {
+        console.log(`  ✅ ${domain} - AVAILABLE!`);
+        available.push(domain);
+      }
+      
+      await wait(500);
+    }
+  }
+
+  console.log(`\nFound ${available.length} available domains!`);
+  return available;
+}
+```
+
+#### Example 3: Batch Processing with Error Handling
+
+```typescript
+import { 
+  generateDomainNames, 
+  checkDomainsBatch,
+  type DomainStatusResult 
+} from "find-my-domain";
+
+async function batchSearch() {
+  try {
+    // Generate domains
+    const names = await generateDomainNames({
+      domains: ["stripe", "vercel"],
+      keywords: ["payment", "checkout"],
+      count: 20,
+      apiKey: process.env.OPENAI_API_KEY!,
+      model: "gpt-4o-mini"
+    });
+
+    console.log(`Generated ${names.length} domains`);
+
+    // Check across multiple TLDs
+    const results = await checkDomainsBatch(
+      names,
+      ["com", "io", "dev", "app"]
+    );
+
+    // Analyze results
+    const available = results.filter(r => r.available);
+    const forSale = results.filter(r => !r.available && r.sale);
+    const taken = results.filter(r => !r.available && !r.sale);
+
+    console.log(`\n✅ Available: ${available.length}`);
+    available.forEach(r => console.log(`   ${r.domain}`));
+
+    console.log(`\n💰 For Sale: ${forSale.length}`);
+    forSale.forEach(r => console.log(`   ${r.domain}`));
+
+    return { available, forSale, taken };
+  } catch (error) {
+    console.error("Search failed:", error);
+    throw error;
+  }
+}
+```
+
+---
+
+### Key Features
+
+- ✅ **No Side Effects**: Import without auto-execution
+- ✅ **Tree-Shakeable**: Only bundle what you use
+- ✅ **TypeScript Support**: Full type definitions included
+- ✅ **Dual Mode**: Works as both CLI and library
+- ✅ **Streaming Support**: Get results as they're generated
+- ✅ **Rate Limiting**: Built-in utilities for WHOIS throttling
+- ✅ **Error Handling**: Retry logic with configurable attempts
 
 ---
 
