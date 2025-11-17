@@ -13,7 +13,7 @@ import * as logger from "./utils/logger.js";
 // Get package version
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const packageJson = JSON.parse(
-  readFileSync(join(__dirname, "../package.json"), "utf-8")
+  readFileSync(join(__dirname, "../package.json"), "utf-8"),
 );
 const VERSION = packageJson.version;
 

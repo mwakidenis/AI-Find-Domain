@@ -1965,7 +1965,7 @@ import {
   checkDomainStatus,
   checkDomainsBatch,
   wait,
-  type DomainStatusResult
+  type DomainStatusResult,
 } from "find-my-domain";
 
 // Generate domain names with AI
@@ -1994,13 +1994,13 @@ for (const name of names) {
 ```typescript
 // Functions
 import {
-  generateDomainNames,        // Generate domains (batch mode)
-  generateDomainNamesStream,  // Generate domains (streaming)
-  checkDomainStatus,          // Check single domain
-  checkDomainsBatch,          // Check multiple domains
-  checkDomainsStreaming,      // Check streaming domains
-  wait,                       // Utility for delays
-  main                        // Run CLI programmatically
+  generateDomainNames, // Generate domains (batch mode)
+  generateDomainNamesStream, // Generate domains (streaming)
+  checkDomainStatus, // Check single domain
+  checkDomainsBatch, // Check multiple domains
+  checkDomainsStreaming, // Check streaming domains
+  wait, // Utility for delays
+  main, // Run CLI programmatically
 } from "find-my-domain";
 
 // Types
@@ -2009,7 +2009,7 @@ import type {
   DomainStatusOptions,
   GenerateDomainNamesOptions,
   InputConfig,
-  OutputResult
+  OutputResult,
 } from "find-my-domain";
 ```
 
@@ -2021,16 +2021,16 @@ Generate domain names using AI in batch mode.
 
 ```typescript
 function generateDomainNames(
-  options: GenerateDomainNamesOptions
-): Promise<string[]>
+  options: GenerateDomainNamesOptions,
+): Promise<string[]>;
 
 interface GenerateDomainNamesOptions {
-  domains?: string[];     // Example domains to inspire generation
-  keywords?: string[];    // Keywords to incorporate
-  count: number;          // Number of domains to generate
-  apiKey: string;         // OpenAI API key
-  model: string;          // AI model (e.g., "gpt-4o-mini")
-  customPrompt?: string;  // Custom prompt template (optional)
+  domains?: string[]; // Example domains to inspire generation
+  keywords?: string[]; // Keywords to incorporate
+  count: number; // Number of domains to generate
+  apiKey: string; // OpenAI API key
+  model: string; // AI model (e.g., "gpt-4o-mini")
+  customPrompt?: string; // Custom prompt template (optional)
 }
 ```
 
@@ -2055,8 +2055,8 @@ Generate domain names with streaming support (get results as they're generated).
 
 ```typescript
 function generateDomainNamesStream(
-  options: GenerateDomainNamesOptions
-): AsyncGenerator<string>
+  options: GenerateDomainNamesOptions,
+): AsyncGenerator<string>;
 ```
 
 **Example:**
@@ -2066,7 +2066,7 @@ const stream = generateDomainNamesStream({
   keywords: ["tech", "startup"],
   count: 10,
   apiKey: process.env.OPENAI_API_KEY!,
-  model: "gpt-4o-mini"
+  model: "gpt-4o-mini",
 });
 
 for await (const domain of stream) {
@@ -2089,23 +2089,23 @@ Check if a single domain is available via WHOIS lookup.
 function checkDomainStatus(
   domain: string,
   whoisOptions?: object,
-  statusOptions?: DomainStatusOptions
-): Promise<DomainStatusResult>
+  statusOptions?: DomainStatusOptions,
+): Promise<DomainStatusResult>;
 
 interface DomainStatusOptions {
-  attempts?: number;  // Max retry attempts (default: 5)
-  delay?: number;     // Delay between retries in ms (default: 1500)
+  attempts?: number; // Max retry attempts (default: 5)
+  delay?: number; // Delay between retries in ms (default: 1500)
 }
 
 interface DomainStatusResult {
-  ok: boolean;          // Was the check successful?
-  domain: string;       // Full domain name
-  available: boolean;   // Is it available for registration?
-  sale: boolean;        // Is it for sale?
-  duration: number;     // Time taken for check (ms)
+  ok: boolean; // Was the check successful?
+  domain: string; // Full domain name
+  available: boolean; // Is it available for registration?
+  sale: boolean; // Is it for sale?
+  duration: number; // Time taken for check (ms)
   createdDate?: string; // Registration date
   updatedDate?: string; // Last update
-  expiryDate?: string;  // Expiration date
+  expiryDate?: string; // Expiration date
 }
 ```
 
@@ -2122,11 +2122,10 @@ if (result.available) {
 }
 
 // With custom retry options
-const result2 = await checkDomainStatus(
-  "example.com",
-  undefined,
-  { attempts: 3, delay: 2000 }
-);
+const result2 = await checkDomainStatus("example.com", undefined, {
+  attempts: 3,
+  delay: 2000,
+});
 ```
 
 ---
@@ -2138,8 +2137,8 @@ Check multiple domain names across multiple TLDs.
 ```typescript
 function checkDomainsBatch(
   names: string[],
-  tlds: string[]
-): Promise<DomainStatusResult[]>
+  tlds: string[],
+): Promise<DomainStatusResult[]>;
 ```
 
 **Example:**
@@ -2147,13 +2146,13 @@ function checkDomainsBatch(
 ```typescript
 const results = await checkDomainsBatch(
   ["techflow", "fastcode", "modernhub"],
-  ["com", "io", "dev"]
+  ["com", "io", "dev"],
 );
 
 // Filter available domains
-const available = results.filter(r => r.available);
+const available = results.filter((r) => r.available);
 console.log(`Found ${available.length} available domains`);
-available.forEach(r => console.log(`  ✅ ${r.domain}`));
+available.forEach((r) => console.log(`  ✅ ${r.domain}`));
 ```
 
 ---
@@ -2165,11 +2164,11 @@ Check domains as they're generated from a stream.
 ```typescript
 function checkDomainsStreaming(
   domainGenerator: AsyncGenerator<string>,
-  tlds: string[]
+  tlds: string[],
 ): Promise<{
   results: DomainStatusResult[];
   names: string[];
-}>
+}>;
 ```
 
 **Example:**
@@ -2179,13 +2178,10 @@ const stream = generateDomainNamesStream({
   keywords: ["startup"],
   count: 5,
   apiKey: process.env.OPENAI_API_KEY!,
-  model: "gpt-4o-mini"
+  model: "gpt-4o-mini",
 });
 
-const { results, names } = await checkDomainsStreaming(
-  stream,
-  ["com", "io"]
-);
+const { results, names } = await checkDomainsStreaming(stream, ["com", "io"]);
 
 console.log(`Generated ${names.length} names`);
 console.log(`Checked ${results.length} domains`);
@@ -2198,7 +2194,7 @@ console.log(`Checked ${results.length} domains`);
 Utility function for adding delays (useful for rate limiting).
 
 ```typescript
-function wait(ms: number): Promise<void>
+function wait(ms: number): Promise<void>;
 ```
 
 **Example:**
@@ -2219,7 +2215,7 @@ for (const domain of domains) {
 Run the CLI application programmatically.
 
 ```typescript
-function main(): Promise<void>
+function main(): Promise<void>;
 ```
 
 **Example:**
@@ -2228,10 +2224,16 @@ function main(): Promise<void>
 // Configure via environment and process.argv
 process.env.OPENAI_API_KEY = "sk-...";
 process.argv = [
-  "node", "script.js",
-  "--count", "10",
-  "--keywords", "tech", "startup",
-  "--tlds", "com", "io"
+  "node",
+  "script.js",
+  "--count",
+  "10",
+  "--keywords",
+  "tech",
+  "startup",
+  "--tlds",
+  "com",
+  "io",
 ];
 
 await main(); // Runs the full CLI application
@@ -2312,11 +2314,11 @@ async function findShortDomains() {
     keywords: ["tech", "app"],
     count: 50,
     apiKey: process.env.OPENAI_API_KEY!,
-    model: "gpt-4o-mini"
+    model: "gpt-4o-mini",
   });
 
   // Filter for short names (< 8 characters)
-  const short = names.filter(n => n.length < 8);
+  const short = names.filter((n) => n.length < 8);
   console.log(`Found ${short.length} short names`);
 
   // Check .com availability
@@ -2340,7 +2342,7 @@ async function findShortDomains() {
 import {
   generateDomainNamesStream,
   checkDomainStatus,
-  wait
+  wait,
 } from "find-my-domain";
 
 async function streamingSearch() {
@@ -2348,24 +2350,24 @@ async function streamingSearch() {
     keywords: ["ai", "ml"],
     count: 15,
     apiKey: process.env.OPENAI_API_KEY!,
-    model: "gpt-4o-mini"
+    model: "gpt-4o-mini",
   });
 
   const available = [];
 
   for await (const name of stream) {
     console.log(`\nChecking: ${name}`);
-    
+
     // Check multiple TLDs
     for (const tld of ["com", "ai", "io"]) {
       const domain = `${name}.${tld}`;
       const result = await checkDomainStatus(domain);
-      
+
       if (result.available) {
         console.log(`  ✅ ${domain} - AVAILABLE!`);
         available.push(domain);
       }
-      
+
       await wait(500);
     }
   }
@@ -2378,10 +2380,10 @@ async function streamingSearch() {
 #### Example 3: Batch Processing with Error Handling
 
 ```typescript
-import { 
-  generateDomainNames, 
+import {
+  generateDomainNames,
   checkDomainsBatch,
-  type DomainStatusResult 
+  type DomainStatusResult,
 } from "find-my-domain";
 
 async function batchSearch() {
@@ -2392,27 +2394,24 @@ async function batchSearch() {
       keywords: ["payment", "checkout"],
       count: 20,
       apiKey: process.env.OPENAI_API_KEY!,
-      model: "gpt-4o-mini"
+      model: "gpt-4o-mini",
     });
 
     console.log(`Generated ${names.length} domains`);
 
     // Check across multiple TLDs
-    const results = await checkDomainsBatch(
-      names,
-      ["com", "io", "dev", "app"]
-    );
+    const results = await checkDomainsBatch(names, ["com", "io", "dev", "app"]);
 
     // Analyze results
-    const available = results.filter(r => r.available);
-    const forSale = results.filter(r => !r.available && r.sale);
-    const taken = results.filter(r => !r.available && !r.sale);
+    const available = results.filter((r) => r.available);
+    const forSale = results.filter((r) => !r.available && r.sale);
+    const taken = results.filter((r) => !r.available && !r.sale);
 
     console.log(`\n✅ Available: ${available.length}`);
-    available.forEach(r => console.log(`   ${r.domain}`));
+    available.forEach((r) => console.log(`   ${r.domain}`));
 
     console.log(`\n💰 For Sale: ${forSale.length}`);
-    forSale.forEach(r => console.log(`   ${r.domain}`));
+    forSale.forEach((r) => console.log(`   ${r.domain}`));
 
     return { available, forSale, taken };
   } catch (error) {

@@ -2,7 +2,7 @@
 
 /**
  * Example: Using find-my-domain as a library
- * 
+ *
  * Run with: node example.mjs
  * Make sure to set OPENAI_API_KEY environment variable
  */
@@ -95,4 +95,3 @@ async function example() {
 
 // Run the example
 example();
-
