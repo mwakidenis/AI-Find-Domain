@@ -40,7 +40,7 @@ export function handleApiError(
       {
         error: "Invalid input data",
         code: "VALIDATION_ERROR",
-        details: error.errors[0]?.message,
+        details: error.issues[0]?.message,
       },
       { status: 400 },
     );
