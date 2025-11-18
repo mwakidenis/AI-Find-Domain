@@ -1,6 +1,6 @@
 {
   "name": "find-my-domain",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "AI-powered domain name generator with real-time WHOIS availability checking",
   "private": false,
   "author": {
