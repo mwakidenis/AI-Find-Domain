@@ -5,7 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.0.0] - 2025-11-18
+
+### Added
+
+- ✅ **NCU Configuration** - Created `.ncurc.json` to ignore `recharts` package from npm-check-updates
 
 ### Changed
 
@@ -19,10 +23,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Consistent with common patterns (like `console.log`)
   - All 9 logger functions now under single namespace: `startTimer`, `getElapsed`, `getTotalElapsed`, `formatTime`, `log`, `success`, `error`, `warn`, `info`, `spacer`, `separator`, `banner`
 
+### Fixed
+
+- ✅ **Documentation Accuracy** - Fixed all outdated code examples to use logger namespace
+  - Updated `packages/core/README.md` with correct import patterns
+  - Fixed 2 code examples (Full Example and Streaming Example)
+- ✅ **Component Count** - Corrected shadcn/ui component count from 48 to 55
+  - Updated root `README.md` (3 occurrences)
+  - Updated `apps/web/README.md` (2 occurrences)
+- ✅ **API Documentation** - Added missing `/api/attempts` route to web README
+- ✅ **Typo** - Fixed "ppnpm" typo in `apps/cli/CLI-USAGE.md`
+
 ### Updated
 
-- ✅ CLI app updated to use logger namespace throughout
-- ✅ All documentation updated with correct usage examples
+- ✅ CLI app updated to use logger namespace throughout (80+ function calls)
+- ✅ All documentation verified and updated with correct usage examples
 - ✅ `packages/core/README.md` - Updated all code examples
 - ✅ Type definitions remain the same, only import/usage pattern changed
 
