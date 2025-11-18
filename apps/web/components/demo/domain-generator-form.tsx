@@ -104,7 +104,7 @@ export function DomainGeneratorForm({ onGenerate, loading }: DomainGeneratorForm
             Domain Generator
           </CardTitle>
           <CardDescription>
-            Configure your domain generation settings. This demo uses mock data.
+            Configure your domain generation settings. This demo uses <strong>real OpenAI + WHOIS</strong>.
           </CardDescription>
         </CardHeader>
         <CardContent>

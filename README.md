@@ -18,7 +18,7 @@ This monorepo includes three packages:
 | Package | Description | Tech Stack |
 |---------|-------------|------------|
 | **[@find-my-domain/cli](apps/cli)** | Command-line tool for domain generation | Node.js, TypeScript, OpenAI |
-| **[@find-my-domain/web](apps/web)** | Beautiful web showcase with demo | Next.js 15, shadcn/ui, Tailwind |
+| **[@find-my-domain/web](apps/web)** | **100% REAL** web demo + showcase | Next.js 15, shadcn/ui, Tailwind, Real OpenAI + WHOIS |
 | **[@find-my-domain/core](packages/core)** | Shared types and utilities | TypeScript, Zod, AI SDK |
 
 ---
@@ -47,14 +47,25 @@ pnpm build
 
 ### Usage
 
-#### Web App (Showcase)
+#### Web App (100% Real Demo)
+
+The web app includes a **fully functional demo** with real OpenAI generation and WHOIS checking!
 
 ```bash
+# Configure OpenAI API key first
+cd apps/web
+cp .env.example .env.local
+# Edit .env.local and add: OPENAI_API_KEY=sk-your-key-here
+
 # Start web app in development
+cd ../..
 pnpm dev
 
 # Visit http://localhost:3000
+# Try the REAL demo at http://localhost:3000/demo
 ```
+
+**The demo is 100% real** - it uses actual OpenAI API to generate domains and real WHOIS to check availability!
 
 #### CLI Tool
 
@@ -182,8 +193,10 @@ packages:
 
 ### Web Showcase
 - ✅ Beautiful landing page with hero & features
-- ✅ Interactive demo with mock data
+- ✅ **100% REAL interactive demo** (OpenAI + WHOIS)
+- ✅ Live progress tracking & toast notifications
 - ✅ Complete documentation with examples
+- ✅ One-click copy on all code blocks
 - ✅ Responsive design (mobile-first)
 - ✅ Dark mode ready
 - ✅ 48 shadcn/ui components integrated

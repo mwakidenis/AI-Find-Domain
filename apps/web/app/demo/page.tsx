@@ -139,8 +139,8 @@ export default function DemoPage() {
               </span>
             </h1>
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
-              Experience AI-driven domain generation with mock data for instant results.
-              Install the CLI for real WHOIS checking.
+              Experience 100% real AI-driven domain generation with actual OpenAI and WHOIS checking.
+              Results typically arrive in 10-20 seconds.
             </p>
           </div>
 

@@ -15,7 +15,7 @@ import {
   formatTime,
   log,
   success,
-  error,
+  error as logError,
   warn,
   info,
   spacer,
@@ -263,21 +263,21 @@ async function checkDomainsBatch(
   tlds: string[],
 ): Promise<DomainStatusResult[]> {
   const totalChecks = names.length * tlds.length;
-  logger.startTimer("checking");
-  logger.spacer();
-  logger.log(
+  startTimer("checking");
+  spacer();
+  log(
     "🔍",
     `Checking ${totalChecks} domain(s) across ${tlds.map((t) => `.${t}`).join(", ")}`,
   );
-  logger.spacer();
+  spacer();
 
   const results: DomainStatusResult[] = [];
   let checksCompleted = 0;
 
   for (const tld of tlds) {
-    logger.spacer();
-    logger.log("📍", `Checking .${tld} domains (${names.length} names)`);
-    logger.spacer();
+    spacer();
+    log("📍", `Checking .${tld} domains (${names.length} names)`);
+    spacer();
 
     for (const name of names) {
       const domain = `${name.toLowerCase()}.${tld}`;
@@ -291,7 +291,7 @@ async function checkDomainsBatch(
           : "TAKEN    ";
 
       checksCompleted++;
-      const responseTime = logger.formatTime(result.duration / 1000);
+      const responseTime = formatTime(result.duration / 1000);
       console.log(
         `  ${emoji} ${status} - ${domain} (${responseTime}) [${checksCompleted}/${totalChecks}]`,
       );
@@ -302,12 +302,12 @@ async function checkDomainsBatch(
     }
   }
 
-  const totalElapsed = logger.getElapsed("checking");
+  const totalElapsed = getElapsed("checking");
   const avgTime = totalElapsed / results.length;
-  logger.spacer();
-  logger.log(
+  spacer();
+  log(
     "🏁",
-    `Completed ${results.length} checks in ${logger.formatTime(totalElapsed)} (avg: ${logger.formatTime(avgTime)}/domain)`,
+    `Completed ${results.length} checks in ${formatTime(totalElapsed)} (avg: ${formatTime(avgTime)}/domain)`,
   );
 
   return results;
@@ -320,18 +320,18 @@ async function checkDomainsStreaming(
   const results: DomainStatusResult[] = [];
   const names: string[] = [];
 
-  logger.spacer();
-  logger.log("🔍", "Starting streaming domain checks...");
-  logger.startTimer("checking");
-  logger.spacer();
+  spacer();
+  log("🔍", "Starting streaming domain checks...");
+  startTimer("checking");
+  spacer();
 
   // Process each domain as it's generated
   for await (const name of domainGenerator) {
     names.push(name);
 
     // Show generation immediately
-    logger.log("✨", `Generated: ${name}`);
-    logger.spacer();
+    log("✨", `Generated: ${name}`);
+    spacer();
 
     // Check each TLD sequentially
     for (const tld of tlds) {
@@ -346,7 +346,7 @@ async function checkDomainsStreaming(
         : result.sale
           ? "FOR SALE "
           : "TAKEN    ";
-      const responseTime = logger.formatTime(result.duration / 1000);
+      const responseTime = formatTime(result.duration / 1000);
 
       console.log(`  ${emoji} ${status} - ${domain} (${responseTime})`);
 
@@ -354,14 +354,14 @@ async function checkDomainsStreaming(
       await wait(500);
     }
 
-    logger.spacer();
+    spacer();
   }
 
-  const totalElapsed = logger.getElapsed("checking");
+  const totalElapsed = getElapsed("checking");
   const avgTime = results.length > 0 ? totalElapsed / results.length : 0;
-  logger.log(
+  log(
     "🏁",
-    `Completed ${results.length} checks in ${logger.formatTime(totalElapsed)} (avg: ${logger.formatTime(avgTime)}/domain)`,
+    `Completed ${results.length} checks in ${formatTime(totalElapsed)} (avg: ${formatTime(avgTime)}/domain)`,
   );
 
   return { results, names };
@@ -415,22 +415,22 @@ function validateConfig(config: InputConfig): void {
 }
 
 export async function main(): Promise<void> {
-  logger.banner("🔍 FIND MY DOMAIN - AI-Powered Domain Generator");
+  banner("🔍 FIND MY DOMAIN - AI-Powered Domain Generator");
 
   // Parse CLI arguments
   const cliArgs = parseCliArgs();
 
   // Load configuration (CLI args override input.json)
-  logger.startTimer("config");
-  logger.log("📋", "Loading configuration...");
+  startTimer("config");
+  log("📋", "Loading configuration...");
   const config = loadConfig(cliArgs);
 
   // Validate configuration
   validateConfig(config);
 
-  logger.spacer();
-  logger.success("Configuration loaded", "config");
-  logger.spacer();
+  spacer();
+  success("Configuration loaded", "config");
+  spacer();
   console.log(`  📂 Directory: ${config.directory}`);
   console.log(`  🌐 TLDs: ${config.tlds.join(", ")}`);
   console.log(`  📝 Example Domains: ${config.domains.length}`);
@@ -442,8 +442,8 @@ export async function main(): Promise<void> {
   console.log(`  ⚡ Stream: ${config.stream ? "Enabled" : "Disabled (Batch)"}`);
 
   // Generate and check domains
-  logger.spacer();
-  logger.startTimer("total");
+  spacer();
+  startTimer("total");
 
   let results: DomainStatusResult[];
   let names: string[];
@@ -451,7 +451,7 @@ export async function main(): Promise<void> {
   try {
     if (config.stream) {
       // Streaming mode: generate and check domains as they come
-      logger.log("🤖", "Starting AI domain generation stream...");
+      log("🤖", "Starting AI domain generation stream...");
 
       const domainGenerator = generateDomainNamesStream({
         domains: config.domains,
@@ -470,8 +470,8 @@ export async function main(): Promise<void> {
       names = streamResult.names;
     } else {
       // Batch mode: generate all first, then check
-      logger.startTimer("ai");
-      logger.log("🤖", `Generating ${config.count} domain names with AI...`);
+      startTimer("ai");
+      log("🤖", `Generating ${config.count} domain names with AI...`);
 
       names = await generateDomainNames({
         domains: config.domains,
@@ -482,9 +482,9 @@ export async function main(): Promise<void> {
         customPrompt: config.prompt,
       });
 
-      logger.spacer();
-      logger.success(`Generated ${names.length} domain names`, "ai");
-      logger.spacer();
+      spacer();
+      success(`Generated ${names.length} domain names`, "ai");
+      spacer();
       names.forEach((name, i) => console.log(`  ${i + 1}. ${name}`));
 
       results = await checkDomainsBatch(names, config.tlds);
@@ -492,8 +492,8 @@ export async function main(): Promise<void> {
 
     // Validate we got results
     if (!results || results.length === 0) {
-      logger.spacer();
-      logger.error("No domains were generated or checked");
+      spacer();
+      logError("No domains were generated or checked");
       console.error("   This could be due to:");
       console.error("   • API rate limits");
       console.error("   • Invalid model name");
@@ -507,7 +507,7 @@ export async function main(): Promise<void> {
     const taken = results.filter((r) => !r.available && !r.sale);
 
     // Display grouped results
-    logger.banner("📊 RESULTS SUMMARY");
+    banner("📊 RESULTS SUMMARY");
 
     console.log(`✅ AVAILABLE (${available.length}):\n`);
     if (available.length > 0) {
@@ -516,7 +516,7 @@ export async function main(): Promise<void> {
       console.log("  None found");
     }
 
-    logger.spacer();
+    spacer();
     console.log(`💰 FOR SALE (${sale.length}):\n`);
     if (sale.length > 0) {
       sale.forEach((r, i) => console.log(`  ${i + 1}. ${r.domain}`));
@@ -524,7 +524,7 @@ export async function main(): Promise<void> {
       console.log("  None found");
     }
 
-    logger.spacer();
+    spacer();
     console.log(`❌ TAKEN (${taken.length}):\n`);
     if (taken.length > 0) {
       taken.forEach((r, i) => console.log(`  ${i + 1}. ${r.domain}`));
@@ -532,13 +532,13 @@ export async function main(): Promise<void> {
       console.log("  None found");
     }
 
-    logger.separator();
+    separator();
 
     // Save results to JSON file if enabled
     if (config.save) {
-      logger.spacer();
-      logger.startTimer("saving");
-      logger.log("💾", `Saving results to ${config.directory}/`);
+      spacer();
+      startTimer("saving");
+      log("💾", `Saving results to ${config.directory}/`);
 
       try {
         mkdirSync(config.directory, { recursive: true });
@@ -568,29 +568,29 @@ export async function main(): Promise<void> {
           "utf-8",
         );
 
-        logger.spacer();
-        logger.success(`Saved results to ${outputJsonFile}`, "saving");
-        logger.spacer();
+        spacer();
+        success(`Saved results to ${outputJsonFile}`, "saving");
+        spacer();
         console.log(`  ✅ Available: ${available.length}`);
         console.log(`  💰 For Sale: ${sale.length}`);
         console.log(`  ❌ Taken: ${taken.length}`);
       } catch (error) {
-        logger.spacer();
-        logger.error(`Failed to save file: ${error}`);
+        spacer();
+        logError(`Failed to save file: ${error}`);
       }
     } else {
-      logger.spacer();
-      logger.info("Results displayed above (not saved to file)");
+      spacer();
+      info("Results displayed above (not saved to file)");
     }
 
     // Final summary with timing
-    const totalTime = logger.getTotalElapsed();
+    const totalTime = getTotalElapsed();
     const availablePercent = (
       (available.length / results.length) *
       100
     ).toFixed(1);
 
-    logger.banner("🎉 EXECUTION COMPLETED");
+    banner("🎉 EXECUTION COMPLETED");
 
     console.log(`  📊 Total Domains: ${results.length}`);
     console.log(`  ✅ Available: ${available.length} (${availablePercent}%)`);
@@ -600,24 +600,24 @@ export async function main(): Promise<void> {
     console.log(
       `  ❌ Taken: ${taken.length} (${((taken.length / results.length) * 100).toFixed(1)}%)`,
     );
-    console.log(`  ⏱️  Total Time: ${logger.formatTime(totalTime)}`);
-    logger.spacer();
+    console.log(`  ⏱️  Total Time: ${formatTime(totalTime)}`);
+    spacer();
 
     if (available.length > 0) {
-      logger.success(`Found ${available.length} available domain(s)! 🎯`);
+      success(`Found ${available.length} available domain(s)! 🎯`);
     } else if (sale.length > 0) {
-      logger.info(
+      info(
         `Found ${sale.length} domain(s) for sale - might be worth checking! 💡`,
       );
     } else {
-      logger.warn("All domains are taken. Try different keywords or TLDs. 💭");
+      warn("All domains are taken. Try different keywords or TLDs. 💭");
     }
 
-    logger.spacer();
-    logger.separator();
+    spacer();
+    separator();
   } catch (error) {
-    logger.spacer();
-    logger.error(
+    spacer();
+    logError(
       `An error occurred: ${error instanceof Error ? error.message : "Unknown error"}`,
     );
     process.exit(1);
