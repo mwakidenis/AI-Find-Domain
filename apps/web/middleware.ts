@@ -19,6 +19,3 @@ export const config = {
     "/(api|trpc)(.*)",
   ],
 };
-
-// Force Node.js runtime for Clerk compatibility
-export const runtime = "nodejs";
