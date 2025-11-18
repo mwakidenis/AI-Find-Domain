@@ -9,21 +9,26 @@ export const maxDuration = 10;
 const MAX_ATTEMPTS = 5;
 
 export async function GET(req: NextRequest) {
+  const requestId = getRequestId(req);
   try {
-    const { user } = await getAuthUser();
+    const { userId, user } = await getAuthUser();
     const attempts =
       (user.publicMetadata.domainGenerationAttempts as number) ?? MAX_ATTEMPTS;
+    console.log(
+      `[${requestId}] GET attempts: user=${userId}, remaining=${attempts}`,
+    );
     return NextResponse.json({
       success: true,
       remaining: attempts,
       max: MAX_ATTEMPTS,
     });
   } catch (error) {
-    return handleApiError(error, getRequestId(req));
+    return handleApiError(error, requestId);
   }
 }
 
 export async function POST(req: NextRequest) {
+  const requestId = getRequestId(req);
   try {
     const { userId, user, client } = await getAuthUser();
     const attempts =
@@ -37,13 +42,16 @@ export async function POST(req: NextRequest) {
         domainGenerationAttempts: newAttempts,
       },
     });
+    console.log(
+      `[${requestId}] POST decrement: user=${userId}, remaining=${newAttempts}`,
+    );
     return NextResponse.json({
       success: true,
       remaining: newAttempts,
       max: MAX_ATTEMPTS,
     });
   } catch (error) {
-    return handleApiError(error, getRequestId(req));
+    return handleApiError(error, requestId);
   }
 }
 

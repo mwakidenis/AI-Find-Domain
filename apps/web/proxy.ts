@@ -7,7 +7,7 @@ const isProtectedRoute = createRouteMatcher([
   "/api/check-domain(.*)",
 ]);
 
-const allowedOrigins = [
+const origins = [
   process.env.NEXT_PUBLIC_BASE_URL || "https://find-my-domain.vercel.app",
   process.env.NODE_ENV === "development" ? "http://localhost:3000" : null,
 ].filter(Boolean);
@@ -21,9 +21,8 @@ export default clerkMiddleware(async (auth, req) => {
     return new NextResponse(null, {
       status: 204,
       headers: {
-        "Access-Control-Allow-Origin": allowedOrigins.includes(origin!)
-          ? origin!
-          : "",
+        "Access-Control-Allow-Origin":
+          origin && origins.includes(origin) ? origin : "",
         "Access-Control-Allow-Methods": "GET, POST",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
         "Access-Control-Max-Age": "86400",
@@ -38,8 +37,8 @@ export default clerkMiddleware(async (auth, req) => {
 
   const response = NextResponse.next();
   response.headers.set("X-Request-ID", requestId);
-  if (allowedOrigins.includes(origin!)) {
-    response.headers.set("Access-Control-Allow-Origin", origin!);
+  if (origin && allowedOrigins.includes(origin)) {
+    response.headers.set("Access-Control-Allow-Origin", origin);
     response.headers.set("Access-Control-Allow-Credentials", "true");
   }
   return response;
