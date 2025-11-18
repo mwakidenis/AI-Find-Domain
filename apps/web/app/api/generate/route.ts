@@ -1,111 +1,119 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateDomainNames } from "@find-my-domain/core";
 import { auth, clerkClient } from "@clerk/nextjs/server";
+import { z } from "zod";
+import { handleApiError, getRequestId, getClientIp, ApiError } from "@/lib/errors";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 30;
 
 const MAX_ATTEMPTS = 5;
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 10;
 
-interface GenerateRequest {
-  keywords: string[];
-  domains: string[];
-  count: number;
-}
+const requestLog = new Map<string, { count: number; timestamp: number }>();
+
+const GenerateRequestSchema = z.object({
+  keywords: z.array(z.string().min(1).max(50).regex(/^[a-zA-Z0-9\s-]+$/)).max(10).optional(),
+  domains: z.array(z.string().min(1).max(63).regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/i)).max(10).optional(),
+  count: z.number().int().min(1).max(25),
+});
 
 interface AttemptsMetadata {
   domainGenerationAttempts?: number;
+  emailVerified?: boolean;
+  lastGenerationTime?: number;
 }
 
+const checkRateLimit = (key: string): boolean => {
+  const now = Date.now();
+  const record = requestLog.get(key);
+  
+  if (!record || now - record.timestamp > RATE_LIMIT_WINDOW) {
+    requestLog.set(key, { count: 1, timestamp: now });
+    return true;
+  }
+  
+  if (record.count >= MAX_REQUESTS_PER_WINDOW) return false;
+  
+  record.count++;
+  return true;
+};
+
 export async function POST(request: NextRequest) {
+  const requestId = getRequestId(request);
+  const clientIp = getClientIp(request);
+  
   try {
-    // Check authentication
-    const authObj = await auth();
-    if (!authObj.userId) {
-      return NextResponse.json(
-        { error: "Unauthorized. Please sign in to use the domain generator." },
-        { status: 401 },
-      );
+    // Rate limit by IP
+    if (!checkRateLimit(clientIp)) {
+      throw new ApiError("Too many requests. Please try again later.", 429, "RATE_LIMIT_EXCEEDED");
     }
 
-    // Check and decrement attempts
+    const authObj = await auth();
+    if (!authObj.userId) throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
+
+    // Rate limit by user
+    if (!checkRateLimit(authObj.userId)) {
+      throw new ApiError("Too many requests. Please slow down.", 429, "RATE_LIMIT_EXCEEDED");
+    }
+
     const client = await clerkClient();
     const user = await client.users.getUser(authObj.userId);
+    
+    // Check email verification
+    const emailVerified = user.emailAddresses?.[0]?.verification?.status === "verified";
+    if (!emailVerified) {
+      throw new ApiError("Please verify your email before using this service", 403, "EMAIL_NOT_VERIFIED");
+    }
+
     const metadata = user.publicMetadata as AttemptsMetadata;
     const currentAttempts = metadata.domainGenerationAttempts ?? MAX_ATTEMPTS;
 
     if (currentAttempts <= 0) {
-      return NextResponse.json(
-        {
-          error: "No attempts remaining. You have used all 5 free generations.",
-          remaining: 0,
-        },
-        { status: 403 },
-      );
+      throw new ApiError("No attempts remaining", 403, "NO_ATTEMPTS");
     }
 
-    const body = (await request.json()) as GenerateRequest;
-    const { keywords, domains, count } = body;
+    // Prevent race conditions with timestamp check
+    const now = Date.now();
+    const lastGen = metadata.lastGenerationTime || 0;
+    if (now - lastGen < 2000) {
+      throw new ApiError("Please wait before generating again", 429, "TOO_FAST");
+    }
 
-    // Validate API key
+    const body = await request.json();
+    const { keywords = [], domains = [], count } = GenerateRequestSchema.parse(body);
+
+    if (keywords.length === 0 && domains.length === 0) {
+      throw new ApiError("Provide keywords or domains", 400, "MISSING_INPUT");
+    }
+
     const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json(
-        {
-          error:
-            "OpenAI API key is not configured. Set OPENAI_API_KEY environment variable.",
-        },
-        { status: 500 },
-      );
-    }
+    if (!apiKey) throw new ApiError("Service unavailable", 503, "SERVICE_ERROR");
 
-    // Validate input
-    if (!keywords && !domains) {
-      return NextResponse.json(
-        { error: "Please provide either keywords or example domains" },
-        { status: 400 },
-      );
-    }
-
-    if (count < 1 || count > 25) {
-      return NextResponse.json(
-        { error: "Count must be between 1 and 25" },
-        { status: 400 },
-      );
-    }
-
-    // Decrement attempts BEFORE generation to prevent abuse
     const newAttempts = currentAttempts - 1;
     await client.users.updateUser(authObj.userId, {
       publicMetadata: {
         ...user.publicMetadata,
         domainGenerationAttempts: newAttempts,
+        lastGenerationTime: now,
       },
     });
 
-    // Generate domain names using the core package (always use cheap model)
     const names = await generateDomainNames({
-      keywords: keywords || [],
-      domains: domains || [],
+      keywords,
+      domains,
       count,
       apiKey,
-      model: "gpt-4o-mini", // Hardcoded to prevent cost exploitation
+      model: "gpt-4o-mini",
     });
 
-    return NextResponse.json({
-      success: true,
-      names,
-      count: names.length,
-      remaining: newAttempts,
-    });
+    console.log(`[${requestId}] SUCCESS: user=${authObj.userId}, ip=${clientIp}, count=${count}, remaining=${newAttempts}`);
+
+    return NextResponse.json({ success: true, names, count: names.length, remaining: newAttempts });
   } catch (error) {
-    console.error("Error generating domains:", error);
-    return NextResponse.json(
-      {
-        error: "Failed to generate domain names",
-        details: error instanceof Error ? error.message : "Unknown error",
-      },
-      { status: 500 },
-    );
+    console.error(`[${requestId}] ERROR: ip=${clientIp}, error=${error instanceof Error ? error.message : "unknown"}`);
+    return handleApiError(error, requestId);
   }
 }

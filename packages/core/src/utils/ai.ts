@@ -157,15 +157,18 @@ export async function generateDomainNames({
   // Initialize OpenAI client
   const openai = createOpenAI({ apiKey });
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
+
   try {
-    // Generate domain names using AI
     const { object } = await generateObject({
       model: openai(model),
       schema: domainNamesSchema,
       prompt,
+      abortSignal: controller.signal,
     });
 
-    // Strip TLD extensions and clean results
+    clearTimeout(timeout);
     return object.domains
       .map((domain) => {
         const name = domain.split(".")[0];
@@ -174,6 +177,10 @@ export async function generateDomainNames({
       .filter(Boolean)
       .slice(0, count);
   } catch (error) {
+    clearTimeout(timeout);
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new Error("Request timeout - AI generation took too long");
+    }
     throw new Error(
       `Failed to generate domain names: ${error instanceof Error ? error.message : "Unknown error occurred"}`,
     );
