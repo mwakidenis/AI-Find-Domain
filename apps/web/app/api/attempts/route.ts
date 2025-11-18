@@ -8,63 +8,34 @@ export const maxDuration = 10;
 
 const MAX_ATTEMPTS = 5;
 
-interface AttemptsMetadata {
-  domainGenerationAttempts?: number;
-}
+const getAuthUser = async () => {
+  const { userId } = await auth();
+  if (!userId) throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
+  const user = await (await clerkClient()).users.getUser(userId);
+  return { userId, user, attempts: (user.publicMetadata.domainGenerationAttempts as number) ?? MAX_ATTEMPTS };
+};
 
-export async function GET(request: NextRequest) {
-  const requestId = getRequestId(request);
+export async function GET(req: NextRequest) {
   try {
-    const authObj = await auth();
-    if (!authObj.userId)
-      throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
-
-    const client = await clerkClient();
-    const user = await client.users.getUser(authObj.userId);
-    const metadata = user.publicMetadata as AttemptsMetadata;
-    const attempts = metadata.domainGenerationAttempts ?? MAX_ATTEMPTS;
-
-    return NextResponse.json({
-      success: true,
-      remaining: attempts,
-      max: MAX_ATTEMPTS,
-    });
+    const { attempts } = await getAuthUser();
+    return NextResponse.json({ success: true, remaining: attempts, max: MAX_ATTEMPTS });
   } catch (error) {
-    return handleApiError(error, requestId);
+    return handleApiError(error, getRequestId(req));
   }
 }
 
-export async function POST(request: NextRequest) {
-  const requestId = getRequestId(request);
+export async function POST(req: NextRequest) {
   try {
-    const authObj = await auth();
-    if (!authObj.userId)
-      throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
-
-    const client = await clerkClient();
-    const user = await client.users.getUser(authObj.userId);
-    const metadata = user.publicMetadata as AttemptsMetadata;
-    const currentAttempts = metadata.domainGenerationAttempts ?? MAX_ATTEMPTS;
-
-    if (currentAttempts <= 0)
-      throw new ApiError("No attempts remaining", 403, "NO_ATTEMPTS");
-
-    const newAttempts = currentAttempts - 1;
-    await client.users.updateUser(authObj.userId, {
-      publicMetadata: {
-        ...user.publicMetadata,
-        domainGenerationAttempts: newAttempts,
-      },
+    const { userId, user, attempts } = await getAuthUser();
+    if (attempts <= 0) throw new ApiError("No attempts remaining", 403, "NO_ATTEMPTS");
+    const newAttempts = attempts - 1;
+    await (await clerkClient()).users.updateUser(userId, {
+      publicMetadata: { ...user.publicMetadata, domainGenerationAttempts: newAttempts },
     });
-
-    return NextResponse.json({
-      success: true,
-      remaining: newAttempts,
-      max: MAX_ATTEMPTS,
-    });
+    return NextResponse.json({ success: true, remaining: newAttempts, max: MAX_ATTEMPTS });
   } catch (error) {
-    return handleApiError(error, requestId);
+    return handleApiError(error, getRequestId(req));
   }
 }
 
-// DELETE endpoint removed for security - prevents unlimited rate limit resets
+// DELETE removed for security
