@@ -16,14 +16,19 @@ export async function GET(request: NextRequest) {
   const requestId = getRequestId(request);
   try {
     const authObj = await auth();
-    if (!authObj.userId) throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
+    if (!authObj.userId)
+      throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
 
     const client = await clerkClient();
     const user = await client.users.getUser(authObj.userId);
     const metadata = user.publicMetadata as AttemptsMetadata;
     const attempts = metadata.domainGenerationAttempts ?? MAX_ATTEMPTS;
 
-    return NextResponse.json({ success: true, remaining: attempts, max: MAX_ATTEMPTS });
+    return NextResponse.json({
+      success: true,
+      remaining: attempts,
+      max: MAX_ATTEMPTS,
+    });
   } catch (error) {
     return handleApiError(error, requestId);
   }
@@ -33,21 +38,30 @@ export async function POST(request: NextRequest) {
   const requestId = getRequestId(request);
   try {
     const authObj = await auth();
-    if (!authObj.userId) throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
+    if (!authObj.userId)
+      throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
 
     const client = await clerkClient();
     const user = await client.users.getUser(authObj.userId);
     const metadata = user.publicMetadata as AttemptsMetadata;
     const currentAttempts = metadata.domainGenerationAttempts ?? MAX_ATTEMPTS;
 
-    if (currentAttempts <= 0) throw new ApiError("No attempts remaining", 403, "NO_ATTEMPTS");
+    if (currentAttempts <= 0)
+      throw new ApiError("No attempts remaining", 403, "NO_ATTEMPTS");
 
     const newAttempts = currentAttempts - 1;
     await client.users.updateUser(authObj.userId, {
-      publicMetadata: { ...user.publicMetadata, domainGenerationAttempts: newAttempts },
+      publicMetadata: {
+        ...user.publicMetadata,
+        domainGenerationAttempts: newAttempts,
+      },
     });
 
-    return NextResponse.json({ success: true, remaining: newAttempts, max: MAX_ATTEMPTS });
+    return NextResponse.json({
+      success: true,
+      remaining: newAttempts,
+      max: MAX_ATTEMPTS,
+    });
   } catch (error) {
     return handleApiError(error, requestId);
   }
