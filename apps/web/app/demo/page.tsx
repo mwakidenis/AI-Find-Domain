@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
 import { Header } from "@/components/landing/header";
 import { Footer } from "@/components/landing/footer";
 import { DomainGeneratorForm } from "@/components/demo/domain-generator-form";
 import { DomainResults } from "@/components/demo/domain-results";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Info, Sparkles, AlertCircle } from "lucide-react";
+import { Info, Sparkles, AlertCircle, Shield } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CodeBlock } from "@/components/demo/code-block";
 import { toast } from "sonner";
+import { Progress } from "@/components/ui/progress";
 
 interface DomainResult {
   domain: string;
@@ -21,11 +23,37 @@ interface DomainResult {
 }
 
 export default function DemoPage() {
+  const { isSignedIn, isLoaded, user } = useUser();
   const [results, setResults] = useState<DomainResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("demo");
   const [error, setError] = useState<string | null>(null);
   const [generatingStatus, setGeneratingStatus] = useState<string>("");
+  const [remainingAttempts, setRemainingAttempts] = useState<number | null>(null);
+  const [loadingAttempts, setLoadingAttempts] = useState(true);
+
+  // Fetch remaining attempts when user is loaded
+  useEffect(() => {
+    const fetchAttempts = async () => {
+      if (isLoaded && isSignedIn) {
+        try {
+          const response = await fetch("/api/attempts");
+          if (response.ok) {
+            const data = await response.json();
+            setRemainingAttempts(data.remaining);
+          }
+        } catch (err) {
+          console.error("Failed to fetch attempts:", err);
+        } finally {
+          setLoadingAttempts(false);
+        }
+      } else if (isLoaded) {
+        setLoadingAttempts(false);
+      }
+    };
+
+    fetchAttempts();
+  }, [isLoaded, isSignedIn]);
 
   const handleGenerate = async (config: {
     keywords: string[];
@@ -58,7 +86,12 @@ export default function DemoPage() {
         throw new Error(errorData.error || "Failed to generate domain names");
       }
 
-      const { names } = await generateResponse.json();
+      const { names, remaining } = await generateResponse.json();
+      
+      // Update remaining attempts from the response
+      if (typeof remaining === "number") {
+        setRemainingAttempts(remaining);
+      }
       
       if (!names || names.length === 0) {
         throw new Error("No domain names were generated");
@@ -128,10 +161,26 @@ export default function DemoPage() {
       <main className="flex-1 container py-8 md:py-12">
         <div className="mx-auto max-w-5xl space-y-6">
           <div className="space-y-3 text-center">
-            <Badge variant="outline" className="text-xs px-2.5 py-0.5">
-              <Sparkles className="mr-1.5 h-3 w-3" />
-              Interactive Playground
-            </Badge>
+            <div className="flex items-center justify-center gap-3">
+              <Badge variant="outline" className="text-xs px-2.5 py-0.5">
+                <Sparkles className="mr-1.5 h-3 w-3" />
+                Interactive Playground
+              </Badge>
+              {isLoaded && (
+                <div className="flex items-center gap-2">
+                  {isSignedIn ? (
+                    <UserButton afterSignOutUrl="/demo" />
+                  ) : (
+                    <SignInButton mode="modal">
+                      <Button size="sm" variant="outline">
+                        <Shield className="mr-2 h-3.5 w-3.5" />
+                        Sign In
+                      </Button>
+                    </SignInButton>
+                  )}
+                </div>
+              )}
+            </div>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
               Try{" "}
               <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
@@ -142,6 +191,26 @@ export default function DemoPage() {
               Experience 100% real AI-driven domain generation with actual OpenAI and WHOIS checking.
               Results typically arrive in 10-20 seconds.
             </p>
+            
+            {/* Attempts Counter */}
+            {isSignedIn && !loadingAttempts && remainingAttempts !== null && (
+              <Card className="max-w-md mx-auto border-2">
+                <CardContent className="pt-4 pb-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="font-medium">Remaining Attempts</span>
+                      <span className="text-lg font-bold">{remainingAttempts} / 5</span>
+                    </div>
+                    <Progress value={(remainingAttempts / 5) * 100} className="h-2" />
+                    <p className="text-xs text-muted-foreground text-center">
+                      {remainingAttempts === 0
+                        ? "No attempts left. Contact support to get more."
+                        : `You can generate domains ${remainingAttempts} more time${remainingAttempts !== 1 ? "s" : ""}.`}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -157,14 +226,33 @@ export default function DemoPage() {
             </TabsList>
 
             <TabsContent value="demo" className="space-y-6 mt-6">
-              <Alert>
-                <Sparkles className="h-4 w-4" />
-                <AlertTitle>Real AI-Powered Demo</AlertTitle>
-                <AlertDescription>
-                  This demo uses <strong>real OpenAI API</strong> to generate domains and <strong>real WHOIS</strong> to check availability.
-                  Results may take 10-30 seconds depending on the number of domains.
-                </AlertDescription>
-              </Alert>
+              {!isSignedIn && isLoaded && (
+                <Alert className="border-orange-200 bg-orange-50 dark:bg-orange-950/20">
+                  <Shield className="h-4 w-4 text-orange-600" />
+                  <AlertTitle className="text-orange-800 dark:text-orange-400">Sign In Required</AlertTitle>
+                  <AlertDescription className="text-orange-700 dark:text-orange-300">
+                    Please sign in to use the domain generator. Each user gets <strong>5 free generations</strong> to prevent abuse.
+                  </AlertDescription>
+                  <div className="mt-3">
+                    <SignInButton mode="modal">
+                      <Button size="sm" variant="default">
+                        Sign In to Continue
+                      </Button>
+                    </SignInButton>
+                  </div>
+                </Alert>
+              )}
+
+              {isSignedIn && (
+                <Alert>
+                  <Sparkles className="h-4 w-4" />
+                  <AlertTitle>Real AI-Powered Demo</AlertTitle>
+                  <AlertDescription>
+                    This demo uses <strong>real OpenAI API</strong> to generate domains and <strong>real WHOIS</strong> to check availability.
+                    Results may take 10-30 seconds depending on the number of domains. You have <strong>{remainingAttempts ?? 5} attempts</strong> remaining.
+                  </AlertDescription>
+                </Alert>
+              )}
 
               {error && (
                 <Alert variant="destructive">
@@ -184,7 +272,11 @@ export default function DemoPage() {
 
               <div className="grid gap-6 lg:grid-cols-2">
                 <div>
-                  <DomainGeneratorForm onGenerate={handleGenerate} loading={loading} />
+                  <DomainGeneratorForm 
+                    onGenerate={handleGenerate} 
+                    loading={loading}
+                    disabled={!isSignedIn || remainingAttempts === 0}
+                  />
                 </div>
                 <div>
                   {loading ? (

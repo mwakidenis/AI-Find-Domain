@@ -30,6 +30,7 @@ This monorepo includes three packages:
 - **Node.js** 22 or higher
 - **pnpm** 10 or higher
 - **OpenAI API Key** (get one at [platform.openai.com](https://platform.openai.com))
+- **Clerk Account** (for web app auth - [clerk.com](https://clerk.com))
 
 ### Installation
 
@@ -47,15 +48,18 @@ pnpm build
 
 ### Usage
 
-#### Web App (100% Real Demo)
+#### Web App (100% Real Demo with Auth)
 
-The web app includes a **fully functional demo** with real OpenAI generation and WHOIS checking!
+The web app includes a **fully functional demo** with real OpenAI generation, WHOIS checking, and Clerk authentication!
 
 ```bash
-# Configure OpenAI API key first
+# Configure environment variables
 cd apps/web
-cp .env.example .env.local
-# Edit .env.local and add: OPENAI_API_KEY=sk-your-key-here
+
+# Create .env.local with:
+# OPENAI_API_KEY=sk-your-openai-key
+# NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your-clerk-key
+# CLERK_SECRET_KEY=sk_test_your-clerk-key
 
 # Start web app in development
 cd ../..
@@ -65,7 +69,11 @@ pnpm dev
 # Try the REAL demo at http://localhost:3000/demo
 ```
 
-**The demo is 100% real** - it uses actual OpenAI API to generate domains and real WHOIS to check availability!
+**The demo is 100% real** - it uses:
+- ✅ **Clerk authentication** for user sign-in
+- ✅ **Rate limiting** (5 free generations per user, no database!)
+- ✅ **Actual OpenAI API** to generate domains
+- ✅ **Real WHOIS** to check availability
 
 #### CLI Tool
 

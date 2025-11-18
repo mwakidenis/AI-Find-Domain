@@ -12,7 +12,8 @@ Next.js 15 web application featuring a **100% REAL interactive demo** with actua
 
 - Node.js 22+
 - pnpm 10+
-- **OpenAI API Key** (for the real demo)
+- **OpenAI API Key** (for AI domain generation)
+- **Clerk Account** (for authentication & rate limiting)
 
 ### Setup
 
@@ -24,15 +25,21 @@ pnpm install
 2. **Configure environment variables**:
 ```bash
 cd apps/web
-cp .env.example .env.local
 ```
 
-3. **Add your OpenAI API key** to `.env.local`:
+3. **Create `.env.local` with required keys**:
 ```env
+# OpenAI API key
 OPENAI_API_KEY=sk-your-actual-openai-key-here
+
+# Clerk authentication keys
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your-key-here
+CLERK_SECRET_KEY=sk_test_your-key-here
 ```
 
-Get your API key at: https://platform.openai.com/api-keys
+**Get your keys:**
+- OpenAI API: https://platform.openai.com/api-keys
+- Clerk Auth: https://dashboard.clerk.com/
 
 ### Development
 
@@ -53,11 +60,14 @@ Visit **http://localhost:3000**
 
 The `/demo` page features a **100% real, fully functional** demo that:
 
+- ✅ **User Authentication** using Clerk (email, Google, GitHub, etc.)
+- ✅ **Rate Limiting** - 5 free generations per user (no database!)
 - ✅ **Generates actual domain names** using OpenAI API (gpt-4o-mini)
 - ✅ **Checks real availability** via WHOIS lookup
 - ✅ **Shows live progress** during generation and checking
 - ✅ **Returns actual results** - not mock data!
 - ✅ **Displays toast notifications** for better UX
+- ✅ **Tracks remaining attempts** per user (stored in Clerk metadata)
 - ✅ **Handles errors gracefully** with helpful messages
 
 **Without API Key:** The demo will show an error message guiding users to set up the environment variable or use the CLI tool.

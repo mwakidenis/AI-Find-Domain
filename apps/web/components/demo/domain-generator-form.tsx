@@ -28,9 +28,10 @@ interface DomainGeneratorFormProps {
     count: number;
   }) => void;
   loading: boolean;
+  disabled?: boolean;
 }
 
-export function DomainGeneratorForm({ onGenerate, loading }: DomainGeneratorFormProps) {
+export function DomainGeneratorForm({ onGenerate, loading, disabled = false }: DomainGeneratorFormProps) {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [keywordInput, setKeywordInput] = useState("");
   const [domains, setDomains] = useState<string[]>([]);
@@ -275,7 +276,7 @@ export function DomainGeneratorForm({ onGenerate, loading }: DomainGeneratorForm
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading || selectedTlds.length === 0}>
+            <Button type="submit" className="w-full" disabled={loading || disabled || selectedTlds.length === 0}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
