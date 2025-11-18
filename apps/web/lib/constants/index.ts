@@ -1,17 +1,20 @@
 // ============================================================================
-// LIMITS & CONSTRAINTS
+// LIMITS - COUNTS
 // ============================================================================
 
 export const MAX_ATTEMPTS = 5;
-export const MAX_DOMAINS_TO_GENERATE = 25;
-export const MAX_DOMAINS_TO_CHECK = 25;
+export const MAX_DOMAINS_GENERATE = 25;
+export const MAX_DOMAINS_CHECK = 25;
+export const MAX_DOMAINS_EXAMPLE = 25;
 export const MAX_KEYWORDS = 10;
-export const MAX_EXAMPLE_DOMAINS = 25;
+export const MIN_DOMAINS = 1;
 
-export const MIN_DOMAIN_COUNT = 1;
+// ============================================================================
+// LIMITS - LENGTHS
+// ============================================================================
+
 export const MIN_KEYWORD_LENGTH = 1;
 export const MIN_DOMAIN_LENGTH = 3;
-
 export const MAX_KEYWORD_LENGTH = 50;
 export const MAX_DOMAIN_PART_LENGTH = 63;
 export const MAX_DOMAIN_LENGTH = 253;
@@ -60,7 +63,7 @@ export const BLOCKED_DOMAINS = [
 // VALIDATION PATTERNS
 // ============================================================================
 
-export const REGEX_PATTERNS = {
+export const REGEX = {
   IP: /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/,
   SUSPICIOUS: /(.)\1{5,}|[<>{}[\]\\]/,
   KEYWORD: /^[a-zA-Z0-9\s-]+$/,

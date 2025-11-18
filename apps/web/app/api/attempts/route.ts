@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiError, getRequestId, ApiError } from "@/lib/errors";
 import { getAuthUser } from "@/lib/auth";
-import {
-  MAX_ATTEMPTS,
-  ERROR_MESSAGES,
-  ERROR_CODES,
-} from "@/lib/constants";
+import { MAX_ATTEMPTS, ERROR_MESSAGES, ERROR_CODES } from "@/lib/constants";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

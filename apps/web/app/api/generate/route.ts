@@ -10,16 +10,16 @@ import {
 import { getAuthUser } from "@/lib/auth";
 import {
   MAX_ATTEMPTS,
-  MAX_DOMAINS_TO_GENERATE,
+  MAX_DOMAINS_GENERATE,
   MAX_KEYWORDS,
   MAX_KEYWORD_LENGTH,
   MAX_DOMAIN_PART_LENGTH,
-  MAX_EXAMPLE_DOMAINS,
-  MIN_DOMAIN_COUNT,
+  MAX_DOMAINS_EXAMPLE,
+  MIN_DOMAINS,
   MIN_KEYWORD_LENGTH,
   RATE_LIMIT_DELAY_MS,
   OPENAI_MODEL,
-  REGEX_PATTERNS,
+  REGEX,
   ERROR_MESSAGES,
   ERROR_CODES,
 } from "@/lib/constants";
@@ -36,7 +36,7 @@ const Schema = z
           .string()
           .min(MIN_KEYWORD_LENGTH)
           .max(MAX_KEYWORD_LENGTH)
-          .regex(REGEX_PATTERNS.KEYWORD),
+          .regex(REGEX.KEYWORD),
       )
       .max(MAX_KEYWORDS)
       .optional()
@@ -47,12 +47,12 @@ const Schema = z
           .string()
           .min(MIN_KEYWORD_LENGTH)
           .max(MAX_DOMAIN_PART_LENGTH)
-          .regex(REGEX_PATTERNS.DOMAIN_PART),
+          .regex(REGEX.DOMAIN_PART),
       )
-      .max(MAX_EXAMPLE_DOMAINS)
+      .max(MAX_DOMAINS_EXAMPLE)
       .optional()
       .default([]),
-    count: z.number().int().min(MIN_DOMAIN_COUNT).max(MAX_DOMAINS_TO_GENERATE),
+    count: z.number().int().min(MIN_DOMAINS).max(MAX_DOMAINS_GENERATE),
   })
   .refine((d) => d.keywords.length || d.domains.length, {
     message: "Provide keywords or domains",

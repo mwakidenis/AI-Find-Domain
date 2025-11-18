@@ -8,11 +8,11 @@ import {
   ApiError,
 } from "@/lib/errors";
 import {
-  MAX_DOMAINS_TO_CHECK,
+  MAX_DOMAINS_CHECK,
   MAX_DOMAIN_LENGTH,
   MIN_DOMAIN_LENGTH,
   BLOCKED_DOMAINS,
-  REGEX_PATTERNS,
+  REGEX,
   ERROR_MESSAGES,
   ERROR_CODES,
   WHOIS_STAGGER_DELAY_MS,
@@ -26,14 +26,14 @@ const DomainSchema = z
   .string()
   .min(MIN_DOMAIN_LENGTH)
   .max(MAX_DOMAIN_LENGTH)
-  .regex(REGEX_PATTERNS.DOMAIN_FULL, "Invalid format")
+  .regex(REGEX.DOMAIN_FULL, "Invalid format")
   .transform((v) => v.toLowerCase())
   .superRefine((d, ctx) => {
-    if (REGEX_PATTERNS.IP.test(d))
+    if (REGEX.IP.test(d))
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "IP not allowed" });
     if (BLOCKED_DOMAINS.some((p) => d.includes(p)))
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Blocked domain" });
-    if (REGEX_PATTERNS.SUSPICIOUS.test(d))
+    if (REGEX.SUSPICIOUS.test(d))
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Suspicious format",
@@ -42,7 +42,7 @@ const DomainSchema = z
 
 const SingleSchema = z.object({ domain: DomainSchema });
 const MultiSchema = z
-  .object({ domains: z.array(DomainSchema).min(1).max(MAX_DOMAINS_TO_CHECK) })
+  .object({ domains: z.array(DomainSchema).min(1).max(MAX_DOMAINS_CHECK) })
   .refine((d) => new Set(d.domains).size === d.domains.length, {
     message: "Duplicates detected",
     path: ["domains"],

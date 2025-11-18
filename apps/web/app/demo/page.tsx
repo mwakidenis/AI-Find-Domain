@@ -198,7 +198,7 @@ export default function DemoPage() {
                 <Sparkles className="mr-1 h-3 w-3" />
                 Interactive Playground
               </Badge>
-              <SignInButton mode="modal">
+              <SignInButton mode="modal" fallbackRedirectUrl="/demo">
                 <button
                   ref={signInButtonRef}
                   style={{ display: "none" }}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Github, Search, Menu, LogOut } from "lucide-react";
 import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
@@ -23,9 +24,13 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
   const { isSignedIn, user, isLoaded } = useUser();
+  const pathname = usePathname();
 
   const userInitials = user?.firstName?.[0] || user?.username?.[0] || "U";
   const userName = user?.firstName || user?.username || "User";
+
+  // Generate the redirect URL for after sign-in
+  const signInFallbackRedirectUrl = pathname || "/demo";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -105,7 +110,10 @@ export function Header() {
             <>
               {isLoaded && (
                 <>
-                  <SignInButton mode="modal">
+                  <SignInButton
+                    mode="modal"
+                    fallbackRedirectUrl={signInFallbackRedirectUrl}
+                  >
                     <Button
                       variant="ghost"
                       size="sm"
@@ -189,7 +197,10 @@ export function Header() {
                   <>
                     {isLoaded && (
                       <div className="flex flex-col gap-2">
-                        <SignInButton mode="modal">
+                        <SignInButton
+                          mode="modal"
+                          fallbackRedirectUrl={signInFallbackRedirectUrl}
+                        >
                           <Button variant="outline" className="w-full">
                             Sign In
                           </Button>

@@ -15,8 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, X, Plus } from "lucide-react";
 import {
   POPULAR_TLDS,
-  MAX_DOMAINS_TO_GENERATE,
-  MIN_DOMAIN_COUNT,
+  MAX_DOMAINS_GENERATE,
+  MIN_DOMAINS,
 } from "@/lib/constants";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
@@ -298,15 +298,15 @@ export function DomainGeneratorForm({
               </div>
               <Slider
                 id="count"
-                min={MIN_DOMAIN_COUNT}
-                max={MAX_DOMAINS_TO_GENERATE}
+                min={MIN_DOMAINS}
+                max={MAX_DOMAINS_GENERATE}
                 step={1}
                 value={count}
                 onValueChange={setCount}
                 className="w-full"
               />
               <p className="text-xs text-muted-foreground">
-                Demo limited to {MAX_DOMAINS_TO_GENERATE} domains maximum
+                Demo limited to {MAX_DOMAINS_GENERATE} domains maximum
               </p>
             </div>
 
