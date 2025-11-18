@@ -40,14 +40,16 @@ export function Header() {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <Link href="/demo" legacyBehavior passHref>
+                <Link href="/demo">
+                  {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */}
                   <NavigationMenuLink className="text-sm font-medium transition-colors hover:text-primary px-3 py-2">
                     Demo
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/docs" legacyBehavior passHref>
+                <Link href="/docs">
+                  {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */}
                   <NavigationMenuLink className="text-sm font-medium transition-colors hover:text-primary px-3 py-2">
                     Docs
                   </NavigationMenuLink>
@@ -58,9 +60,8 @@ export function Header() {
                   href="https://github.com/idimetrix/find-my-domain"
                   target="_blank"
                   rel="noopener noreferrer"
-                  legacyBehavior
-                  passHref
                 >
+                  {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */}
                   <NavigationMenuLink className="text-sm font-medium transition-colors hover:text-primary px-3 py-2">
                     <Github className="h-4 w-4" />
                   </NavigationMenuLink>
