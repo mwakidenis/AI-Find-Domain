@@ -9,7 +9,7 @@
 No files needed! Just use command-line arguments:
 
 ```bash
-ppnpm start -- \
+pnpm start -- \
   --api-key sk-your-key-here \
   --keywords tech startup ai \
   --count 10 \

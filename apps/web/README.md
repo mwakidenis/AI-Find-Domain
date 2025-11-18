@@ -161,8 +161,9 @@ apps/web/
 - **Real API Integration**
   - `/api/generate` - OpenAI domain generation
   - `/api/check-domain` - WHOIS availability checking
+  - `/api/attempts` - User rate limiting management (GET/POST/DELETE)
   - Error handling and retry logic
-  - Rate limiting (200ms between WHOIS checks)
+  - Rate limiting (200ms between WHOIS checks, 5 generations per user)
 
 - **Results Display**
   - Tabbed interface (Available/Sale/Taken)
@@ -213,13 +214,13 @@ apps/web/
 ### Styling & UI
 
 - **Tailwind CSS** - Utility-first CSS
-- **shadcn/ui** - Component library (48 components)
+- **shadcn/ui** - Component library (55 components)
 - **Lucide React** - Icons
 - **Framer Motion** - Animations
 
 ### Components (shadcn/ui)
 
-**Installed: 48 components**
+**Installed: 55 components**
 
 - **Forms**: Button, Input, Label, Select, Textarea, Switch, Slider, Checkbox, Radio Group
 - **Feedback**: Alert, Toast, Sonner, Progress, Skeleton, Badge

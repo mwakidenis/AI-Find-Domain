@@ -5,6 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+#### Logger Utilities - Namespace Refactoring 📦
+
+- **BREAKING CHANGE**: Logger utilities now exported as namespace instead of individual functions
+  - **Before**: `import { startTimer, log, success, ... } from "@find-my-domain/core"`
+  - **After**: `import { logger } from "@find-my-domain/core"` and use `logger.startTimer()`, `logger.log()`, etc.
+  - Better organization and cleaner imports
+  - Improved IntelliSense and autocomplete experience
+  - Consistent with common patterns (like `console.log`)
+  - All 9 logger functions now under single namespace: `startTimer`, `getElapsed`, `getTotalElapsed`, `formatTime`, `log`, `success`, `error`, `warn`, `info`, `spacer`, `separator`, `banner`
+
+### Updated
+
+- ✅ CLI app updated to use logger namespace throughout
+- ✅ All documentation updated with correct usage examples
+- ✅ `packages/core/README.md` - Updated all code examples
+- ✅ Type definitions remain the same, only import/usage pattern changed
+
+### Migration Guide
+
+**For existing users**: Update your imports from:
+
+```typescript
+import { startTimer, log, success } from "@find-my-domain/core";
+startTimer("timer");
+log("🎉", "message");
+success("Done!", "timer");
+```
+
+To:
+
+```typescript
+import { logger } from "@find-my-domain/core";
+logger.startTimer("timer");
+logger.log("🎉", "message");
+logger.success("Done!", "timer");
+```
+
+---
+
 ## [1.3.0] - 2025-11-16
 
 ### Added

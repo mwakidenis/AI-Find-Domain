@@ -398,17 +398,14 @@ import {
   generateDomainNames,
   checkDomainStatus,
   wait,
-  startTimer,
-  success,
-  error,
-  banner,
+  logger,
 } from "@find-my-domain/core";
 
 async function findDomains() {
-  banner("DOMAIN SEARCH");
+  logger.banner("DOMAIN SEARCH");
 
   // Start timing
-  startTimer("total");
+  logger.startTimer("total");
 
   try {
     // Generate names
@@ -419,7 +416,7 @@ async function findDomains() {
       model: "gpt-4o-mini",
     });
 
-    success(`Generated ${names.length} domain names`, "total");
+    logger.success(`Generated ${names.length} domain names`, "total");
 
     // Check availability
     const available = [];
@@ -434,10 +431,10 @@ async function findDomains() {
       await wait(500); // Rate limiting
     }
 
-    success(`Found ${available.length} available domains`, "total");
+    logger.success(`Found ${available.length} available domains`, "total");
     return available;
   } catch (err) {
-    error(`Search failed: ${err}`);
+    logger.error(`Search failed: ${err}`);
     throw err;
   }
 }
@@ -452,7 +449,7 @@ findDomains().then(console.log);
 import {
   generateDomainNamesStream,
   checkDomainStatus,
-  log,
+  logger,
 } from "@find-my-domain/core";
 
 async function streamingSearch() {
@@ -464,11 +461,11 @@ async function streamingSearch() {
   });
 
   for await (const name of stream) {
-    log("✨", `Generated: ${name}`);
+    logger.log("✨", `Generated: ${name}`);
 
     const result = await checkDomainStatus(`${name}.com`);
     const status = result.available ? "✅ Available" : "❌ Taken";
-    log("🔍", `${name}.com - ${status}`);
+    logger.log("🔍", `${name}.com - ${status}`);
   }
 }
 ```

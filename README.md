@@ -115,7 +115,7 @@ find-my-domain/
 │   └── web/                    # Next.js web app
 │       ├── app/                # App router pages
 │       ├── components/         # React components
-│       │   ├── ui/            # shadcn/ui components (48)
+│       │   ├── ui/            # shadcn/ui components (55)
 │       │   ├── landing/       # Landing page components
 │       │   └── demo/          # Demo page components
 │       ├── lib/               # Utilities
@@ -211,7 +211,7 @@ packages:
 - ✅ One-click copy on all code blocks
 - ✅ Responsive design (mobile-first)
 - ✅ Dark mode ready
-- ✅ 48 shadcn/ui components integrated
+- ✅ 55 shadcn/ui components integrated
 
 ### Core Library
 
@@ -239,7 +239,7 @@ packages:
 - **Framework**: Next.js 15 (App Router)
 - **UI Library**: React 19
 - **Styling**: Tailwind CSS
-- **Components**: shadcn/ui (48 components)
+- **Components**: shadcn/ui (55 components)
 - **Icons**: Lucide React
 - **Animations**: Framer Motion
 
