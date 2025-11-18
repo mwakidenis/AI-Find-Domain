@@ -10,7 +10,7 @@ interface AttemptsMetadata {
   domainGenerationAttempts?: number;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const authObj = await auth();
 
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const authObj = await auth();
 
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE(_request: NextRequest) {
   try {
     const authObj = await auth();
 

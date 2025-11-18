@@ -28,8 +28,16 @@ interface DomainResult {
   status: "available" | "sale" | "taken";
 }
 
+interface DomainCheckResult {
+  domain: string;
+  available: boolean;
+  sale: boolean;
+  ok: boolean;
+  duration: number;
+}
+
 export default function DemoPage() {
-  const { isSignedIn, isLoaded, user } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
   const [results, setResults] = useState<DomainResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("demo");
@@ -144,7 +152,7 @@ export default function DemoPage() {
 
       // Step 4: Transform results to our format
       const transformedResults: DomainResult[] = domainResults.map(
-        (result: any) => ({
+        (result: DomainCheckResult) => ({
           domain: result.domain,
           status: result.available
             ? "available"

@@ -17,11 +17,7 @@ interface CodeBlockProps {
   showLineNumbers?: boolean;
 }
 
-export function CodeBlock({
-  code,
-  language = "bash",
-  showLineNumbers = false,
-}: CodeBlockProps) {
+export function CodeBlock({ code }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
