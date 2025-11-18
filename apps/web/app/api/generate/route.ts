@@ -8,12 +8,25 @@ import {
   ApiError,
 } from "@/lib/errors";
 import { getAuthUser } from "@/lib/auth";
+import {
+  MAX_ATTEMPTS,
+  MAX_DOMAINS_TO_GENERATE,
+  MAX_KEYWORDS,
+  MAX_KEYWORD_LENGTH,
+  MAX_DOMAIN_PART_LENGTH,
+  MAX_EXAMPLE_DOMAINS,
+  MIN_DOMAIN_COUNT,
+  MIN_KEYWORD_LENGTH,
+  RATE_LIMIT_DELAY_MS,
+  OPENAI_MODEL,
+  REGEX_PATTERNS,
+  ERROR_MESSAGES,
+  ERROR_CODES,
+} from "@/lib/constants";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
-
-const MAX_ATTEMPTS = 5;
 
 const Schema = z
   .object({
@@ -21,25 +34,25 @@ const Schema = z
       .array(
         z
           .string()
-          .min(1)
-          .max(50)
-          .regex(/^[a-zA-Z0-9\s-]+$/),
+          .min(MIN_KEYWORD_LENGTH)
+          .max(MAX_KEYWORD_LENGTH)
+          .regex(REGEX_PATTERNS.KEYWORD),
       )
-      .max(10)
+      .max(MAX_KEYWORDS)
       .optional()
       .default([]),
     domains: z
       .array(
         z
           .string()
-          .min(1)
-          .max(63)
-          .regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/i),
+          .min(MIN_KEYWORD_LENGTH)
+          .max(MAX_DOMAIN_PART_LENGTH)
+          .regex(REGEX_PATTERNS.DOMAIN_PART),
       )
-      .max(25)
+      .max(MAX_EXAMPLE_DOMAINS)
       .optional()
       .default([]),
-    count: z.number().int().min(1).max(25),
+    count: z.number().int().min(MIN_DOMAIN_COUNT).max(MAX_DOMAINS_TO_GENERATE),
   })
   .refine((d) => d.keywords.length || d.domains.length, {
     message: "Provide keywords or domains",
@@ -52,7 +65,11 @@ export async function POST(req: NextRequest) {
   try {
     const { userId, user, client } = await getAuthUser();
     if (user.emailAddresses?.[0]?.verification?.status !== "verified")
-      throw new ApiError("Verify email first", 403, "EMAIL_NOT_VERIFIED");
+      throw new ApiError(
+        ERROR_MESSAGES.EMAIL_NOT_VERIFIED,
+        403,
+        ERROR_CODES.EMAIL_NOT_VERIFIED,
+      );
 
     const meta = user.publicMetadata as {
       domainGenerationAttempts?: number;
@@ -62,9 +79,13 @@ export async function POST(req: NextRequest) {
       now = Date.now();
 
     if (attempts <= 0)
-      throw new ApiError("No attempts remaining", 403, "NO_ATTEMPTS");
-    if (now - (meta.lastGenerationTime || 0) < 2000)
-      throw new ApiError("Wait before generating", 429, "TOO_FAST");
+      throw new ApiError(
+        ERROR_MESSAGES.NO_ATTEMPTS,
+        403,
+        ERROR_CODES.NO_ATTEMPTS,
+      );
+    if (now - (meta.lastGenerationTime || 0) < RATE_LIMIT_DELAY_MS)
+      throw new ApiError(ERROR_MESSAGES.TOO_FAST, 429, ERROR_CODES.TOO_FAST);
 
     const { keywords, domains, count } = Schema.parse(await req.json());
 
@@ -73,7 +94,7 @@ export async function POST(req: NextRequest) {
       domains,
       count,
       apiKey: process.env.OPENAI_API_KEY!,
-      model: "gpt-4o-mini",
+      model: OPENAI_MODEL,
     });
 
     const newAttempts = attempts - 1;

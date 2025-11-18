@@ -13,34 +13,11 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, X, Plus } from "lucide-react";
-// Import only types and constants from core (browser-safe)
-const POPULAR_TLDS = [
-  "com",
-  "io",
-  "dev",
-  "ai",
-  "app",
-  "net",
-  "org",
-  "co",
-  "tech",
-  "sh",
-  "xyz",
-  "me",
-  "so",
-  "gg",
-  "fm",
-  "to",
-  "cc",
-  "tv",
-  "vc",
-  "ws",
-  "us",
-  "biz",
-  "info",
-  "online",
-  "site",
-] as const;
+import {
+  POPULAR_TLDS,
+  MAX_DOMAINS_TO_GENERATE,
+  MIN_DOMAIN_COUNT,
+} from "@/lib/constants";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
@@ -321,15 +298,15 @@ export function DomainGeneratorForm({
               </div>
               <Slider
                 id="count"
-                min={1}
-                max={25}
+                min={MIN_DOMAIN_COUNT}
+                max={MAX_DOMAINS_TO_GENERATE}
                 step={1}
                 value={count}
                 onValueChange={setCount}
                 className="w-full"
               />
               <p className="text-xs text-muted-foreground">
-                Demo limited to 25 domains maximum
+                Demo limited to {MAX_DOMAINS_TO_GENERATE} domains maximum
               </p>
             </div>
 

@@ -7,30 +7,33 @@ import {
   getClientIp,
   ApiError,
 } from "@/lib/errors";
+import {
+  MAX_DOMAINS_TO_CHECK,
+  MAX_DOMAIN_LENGTH,
+  MIN_DOMAIN_LENGTH,
+  BLOCKED_DOMAINS,
+  REGEX_PATTERNS,
+  ERROR_MESSAGES,
+  ERROR_CODES,
+  WHOIS_STAGGER_DELAY_MS,
+} from "@/lib/constants";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
-const BLOCKED: string[] = [];
-const IP_REGEX = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
-const SUSPICIOUS_REGEX = /(.)\1{5,}|[<>{}[\]\\]/;
-
 const DomainSchema = z
   .string()
-  .min(3)
-  .max(253)
-  .regex(
-    /^[a-z0-9][a-z0-9-]*[a-z0-9](\.[a-z0-9][a-z0-9-]*[a-z0-9])*\.[a-z]{2,}$/i,
-    "Invalid format",
-  )
+  .min(MIN_DOMAIN_LENGTH)
+  .max(MAX_DOMAIN_LENGTH)
+  .regex(REGEX_PATTERNS.DOMAIN_FULL, "Invalid format")
   .transform((v) => v.toLowerCase())
   .superRefine((d, ctx) => {
-    if (IP_REGEX.test(d))
+    if (REGEX_PATTERNS.IP.test(d))
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "IP not allowed" });
-    if (BLOCKED.some((p) => d.includes(p)))
+    if (BLOCKED_DOMAINS.some((p) => d.includes(p)))
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Blocked domain" });
-    if (SUSPICIOUS_REGEX.test(d))
+    if (REGEX_PATTERNS.SUSPICIOUS.test(d))
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Suspicious format",
@@ -39,7 +42,7 @@ const DomainSchema = z
 
 const SingleSchema = z.object({ domain: DomainSchema });
 const MultiSchema = z
-  .object({ domains: z.array(DomainSchema).min(1).max(25) })
+  .object({ domains: z.array(DomainSchema).min(1).max(MAX_DOMAINS_TO_CHECK) })
   .refine((d) => new Set(d.domains).size === d.domains.length, {
     message: "Duplicates detected",
     path: ["domains"],
@@ -64,7 +67,7 @@ export async function POST(req: NextRequest) {
       const { domains } = MultiSchema.parse(body);
       const results = await Promise.all(
         domains.map(async (domain, i) => {
-          await new Promise((r) => setTimeout(r, i * 250));
+          await new Promise((r) => setTimeout(r, i * WHOIS_STAGGER_DELAY_MS));
           try {
             return { ...(await checkDomainStatus(domain)), domain };
           } catch {
@@ -89,7 +92,11 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    throw new ApiError("Invalid request", 400, "INVALID_REQUEST");
+    throw new ApiError(
+      ERROR_MESSAGES.INVALID_REQUEST,
+      400,
+      ERROR_CODES.INVALID_REQUEST,
+    );
   } catch (error) {
     console.error(`[${requestId}] ERROR: ip=${clientIp}`);
     return handleApiError(error, requestId);

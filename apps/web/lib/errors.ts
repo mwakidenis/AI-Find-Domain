@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { ERROR_MESSAGES, ERROR_CODES } from "./constants";
 
 export class ApiError extends Error {
   constructor(
     message: string,
     public statusCode: number = 500,
-    public code: string = "INTERNAL_ERROR",
+    public code: string = ERROR_CODES.INTERNAL_ERROR,
   ) {
     super(message);
     this.name = "ApiError";
@@ -38,8 +39,8 @@ export function handleApiError(
   if (error instanceof z.ZodError) {
     return NextResponse.json(
       {
-        error: "Invalid input data",
-        code: "VALIDATION_ERROR",
+        error: ERROR_MESSAGES.VALIDATION_ERROR,
+        code: ERROR_CODES.VALIDATION_ERROR,
         details: error.issues[0]?.message,
       },
       { status: 400 },
@@ -54,7 +55,10 @@ export function handleApiError(
   }
 
   return NextResponse.json(
-    { error: "An unexpected error occurred.", code: "INTERNAL_ERROR" },
+    {
+      error: "An unexpected error occurred.",
+      code: ERROR_CODES.INTERNAL_ERROR,
+    },
     { status: 500 },
   );
 }

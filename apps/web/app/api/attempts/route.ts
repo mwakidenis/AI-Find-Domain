@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { handleApiError, getRequestId, ApiError } from "@/lib/errors";
 import { getAuthUser } from "@/lib/auth";
+import {
+  MAX_ATTEMPTS,
+  ERROR_MESSAGES,
+  ERROR_CODES,
+} from "@/lib/constants";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 10;
-
-const MAX_ATTEMPTS = 5;
 
 export async function GET(req: NextRequest) {
   const requestId = getRequestId(req);
@@ -34,7 +37,11 @@ export async function POST(req: NextRequest) {
     const attempts =
       (user.publicMetadata.domainGenerationAttempts as number) ?? MAX_ATTEMPTS;
     if (attempts <= 0)
-      throw new ApiError("No attempts remaining", 403, "NO_ATTEMPTS");
+      throw new ApiError(
+        ERROR_MESSAGES.NO_ATTEMPTS,
+        403,
+        ERROR_CODES.NO_ATTEMPTS,
+      );
     const newAttempts = attempts - 1;
     await client.users.updateUser(userId, {
       publicMetadata: {
