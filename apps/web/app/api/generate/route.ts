@@ -36,7 +36,7 @@ const Schema = z
           .max(63)
           .regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/i),
       )
-      .max(10)
+      .max(25)
       .optional()
       .default([]),
     count: z.number().int().min(1).max(25),

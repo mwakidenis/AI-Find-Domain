@@ -198,12 +198,13 @@ export default function DemoPage() {
                 <Sparkles className="mr-1 h-3 w-3" />
                 Interactive Playground
               </Badge>
-              {/* Hidden sign-in button that we'll trigger programmatically */}
-              {isLoaded && !isSignedIn && (
-                <SignInButton mode="modal">
-                  <button ref={signInButtonRef} style={{ display: "none" }} />
-                </SignInButton>
-              )}
+              <SignInButton mode="modal">
+                <button
+                  ref={signInButtonRef}
+                  style={{ display: "none" }}
+                  aria-hidden="true"
+                />
+              </SignInButton>
             </div>
             <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
               Try{" "}
@@ -314,11 +315,12 @@ export default function DemoPage() {
                     disabled={
                       loading || (isSignedIn && remainingAttempts === 0)
                     }
-                    isSignedIn={isSignedIn}
+                    isSignedIn={isLoaded && isSignedIn}
                     onSignInRequired={() => {
-                      // Trigger the hidden Clerk sign-in button
                       if (signInButtonRef.current) {
                         signInButtonRef.current.click();
+                      } else {
+                        toast.error("Please wait for sign-in to load...");
                       }
                     }}
                   />

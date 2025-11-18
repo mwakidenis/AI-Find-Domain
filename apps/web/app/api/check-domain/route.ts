@@ -12,21 +12,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
-const BLOCKED = [
-  "localhost",
-  "127.0.0.1",
-  "0.0.0.0",
-  "192.168.",
-  "10.",
-  "172.16.",
-  "169.254.",
-  "metadata",
-  ".local",
-  ".internal",
-  ".private",
-  "example.com",
-  "test.com",
-];
+const BLOCKED: string[] = [];
 const IP_REGEX = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
 const SUSPICIOUS_REGEX = /(.)\1{5,}|[<>{}[\]\\]/;
 
@@ -53,7 +39,7 @@ const DomainSchema = z
 
 const SingleSchema = z.object({ domain: DomainSchema });
 const MultiSchema = z
-  .object({ domains: z.array(DomainSchema).min(1).max(15) })
+  .object({ domains: z.array(DomainSchema).min(1).max(25) })
   .refine((d) => new Set(d.domains).size === d.domains.length, {
     message: "Duplicates detected",
     path: ["domains"],
