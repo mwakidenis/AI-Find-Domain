@@ -1,10 +1,21 @@
-// @ts-nocheck
 "use client";
 
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "@/lib/utils";
+
+type ValueType = number | string | Array<number | string>;
+type NameType = number | string;
+
+interface LegendPayload {
+  value: string;
+  id?: string;
+  type?: string;
+  color?: string;
+  dataKey?: string;
+  payload?: Record<string, unknown>;
+}
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
@@ -103,16 +114,38 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
+interface ChartTooltipContentProps extends React.ComponentProps<"div"> {
+  active?: boolean;
+  payload?: Array<{
+    dataKey?: string;
+    name?: string;
+    value?: ValueType;
+    type?: string;
+    color?: string;
+    payload?: Record<string, unknown>;
+    fill?: string;
+  }>;
+  label?: string;
+  hideLabel?: boolean;
+  hideIndicator?: boolean;
+  indicator?: "line" | "dot" | "dashed";
+  nameKey?: string;
+  labelKey?: string;
+  labelFormatter?: (value: unknown, payload: unknown[]) => React.ReactNode;
+  labelClassName?: string;
+  formatter?: (
+    value: ValueType,
+    name: NameType,
+    item: unknown,
+    index: number,
+    payload: unknown,
+  ) => React.ReactNode;
+  color?: string;
+}
+
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
-    React.ComponentProps<"div"> & {
-      hideLabel?: boolean;
-      hideIndicator?: boolean;
-      indicator?: "line" | "dot" | "dashed";
-      nameKey?: string;
-      labelKey?: string;
-    }
+  ChartTooltipContentProps
 >(
   (
     {
@@ -187,11 +220,11 @@ const ChartTooltipContent = React.forwardRef<
         {!nestLabel ? tooltipLabel : null}
         <div className="grid gap-1.5">
           {payload
-            .filter((item) => item.type !== "none")
+            .filter((item): item is NonNullable<typeof item> => item.type !== "none")
             .map((item, index) => {
               const key = `${nameKey || item.name || item.dataKey || "value"}`;
               const itemConfig = getPayloadConfigFromPayload(config, item, key);
-              const indicatorColor = color || item.payload.fill || item.color;
+              const indicatorColor = color || item.payload?.fill || item.color;
 
               return (
                 <div
@@ -261,13 +294,16 @@ ChartTooltipContent.displayName = "ChartTooltip";
 
 const ChartLegend = RechartsPrimitive.Legend;
 
+interface ChartLegendContentProps extends React.ComponentProps<"div"> {
+  payload?: LegendPayload[];
+  verticalAlign?: "top" | "bottom";
+  hideIcon?: boolean;
+  nameKey?: string;
+}
+
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<"div"> &
-    Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
-      hideIcon?: boolean;
-      nameKey?: string;
-    }
+  ChartLegendContentProps
 >(
   (
     { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey },
@@ -289,7 +325,7 @@ const ChartLegendContent = React.forwardRef<
         )}
       >
         {payload
-          .filter((item) => item.type !== "none")
+          .filter((item): item is NonNullable<typeof item> => item.type !== "none")
           .map((item) => {
             const key = `${nameKey || item.dataKey || "value"}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
