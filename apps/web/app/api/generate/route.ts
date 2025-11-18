@@ -11,7 +11,6 @@ interface GenerateRequest {
   keywords: string[];
   domains: string[];
   count: number;
-  model?: string;
 }
 
 interface AttemptsMetadata {
@@ -46,7 +45,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = (await request.json()) as GenerateRequest;
-    const { keywords, domains, count, model = "gpt-4o-mini" } = body;
+    const { keywords, domains, count } = body;
 
     // Validate API key
     const apiKey = process.env.OPENAI_API_KEY;
@@ -84,13 +83,13 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Generate domain names using the core package
+    // Generate domain names using the core package (always use cheap model)
     const names = await generateDomainNames({
       keywords: keywords || [],
       domains: domains || [],
       count,
       apiKey,
-      model,
+      model: "gpt-4o-mini", // Hardcoded to prevent cost exploitation
     });
 
     return NextResponse.json({
