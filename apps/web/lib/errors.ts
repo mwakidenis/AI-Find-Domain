@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { ERROR_MESSAGES, ERROR_CODES } from "./constants";
+import { ERROR_MESSAGES, ERROR_CODES } from "../constants";
 
 export class ApiError extends Error {
   constructor(

@@ -2,7 +2,7 @@
 // LIMITS - COUNTS
 // ============================================================================
 
-export const MAX_ATTEMPTS = 10;
+export const MAX_ATTEMPTS = 5;
 export const MAX_DOMAINS = 25;
 export const MAX_KEYWORDS = 25;
 export const MIN_DOMAINS = 1;

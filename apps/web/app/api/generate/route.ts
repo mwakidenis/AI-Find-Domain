@@ -21,7 +21,7 @@ import {
   REGEX,
   ERROR_MESSAGES,
   ERROR_CODES,
-} from "@/lib/constants";
+} from "@/constants";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

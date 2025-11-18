@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, X, Plus } from "lucide-react";
-import { POPULAR_TLDS, MAX_DOMAINS, MIN_DOMAINS } from "@/lib/constants";
+import { POPULAR_TLDS, MAX_DOMAINS, MIN_DOMAINS } from "@/constants";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";

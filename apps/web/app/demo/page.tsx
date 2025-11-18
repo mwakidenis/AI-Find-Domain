@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { CodeBlock } from "@/components/demo/code-block";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
+import { MAX_ATTEMPTS } from "@/constants";
 
 interface DomainResult {
   domain: string;
@@ -46,6 +47,7 @@ export default function DemoPage() {
   const [remainingAttempts, setRemainingAttempts] = useState<number | null>(
     null,
   );
+  const [maxAttempts, setMaxAttempts] = useState<number>(MAX_ATTEMPTS);
   const [loadingAttempts, setLoadingAttempts] = useState(true);
   const signInButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -58,6 +60,7 @@ export default function DemoPage() {
           if (response.ok) {
             const data = await response.json();
             setRemainingAttempts(data.remaining);
+            setMaxAttempts(data.max);
           }
         } catch (err) {
           console.error("Failed to fetch attempts:", err);
@@ -225,11 +228,11 @@ export default function DemoPage() {
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-medium">Remaining Attempts</span>
                       <span className="text-sm font-bold">
-                        {remainingAttempts} / 5
+                        {remainingAttempts} / {maxAttempts}
                       </span>
                     </div>
                     <Progress
-                      value={(remainingAttempts / 5) * 100}
+                      value={(remainingAttempts / maxAttempts) * 100}
                       className="h-1.5"
                     />
                     <p className="text-xs text-muted-foreground text-center">
@@ -271,8 +274,9 @@ export default function DemoPage() {
                   {isSignedIn && remainingAttempts !== null && (
                     <>
                       {" "}
-                      You have <strong>
-                        {remainingAttempts} / 5 attempts
+                      You have{" "}
+                      <strong>
+                        {remainingAttempts} / {maxAttempts} attempts
                       </strong>{" "}
                       remaining.
                     </>
@@ -280,7 +284,7 @@ export default function DemoPage() {
                   {!isSignedIn && isLoaded && (
                     <div className="mt-2">
                       <strong className="text-base">
-                        ✨ Sign in to get 5 free generations!
+                        ✨ Sign in to get {MAX_ATTEMPTS} free generations!
                       </strong>
                     </div>
                   )}

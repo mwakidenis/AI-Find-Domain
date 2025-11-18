@@ -16,7 +16,7 @@ import {
   ERROR_MESSAGES,
   ERROR_CODES,
   WHOIS_STAGGER_DELAY_MS,
-} from "@/lib/constants";
+} from "@/constants";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
