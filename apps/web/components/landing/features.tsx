@@ -71,33 +71,32 @@ const features = [
 
 export function Features() {
   return (
-    <section id="features" className="container py-24 md:py-32">
-      <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
-        <h2 className="text-3xl font-bold leading-[1.1] sm:text-3xl md:text-5xl">
+    <section id="features" className="container py-16 md:py-20">
+      <div className="mx-auto flex max-w-[56rem] flex-col items-center space-y-3 text-center">
+        <h2 className="text-2xl font-bold leading-tight sm:text-3xl md:text-4xl">
           Features
         </h2>
-        <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-          Everything you need to find the perfect domain name for your next
-          project
+        <p className="max-w-[85%] text-sm leading-relaxed text-muted-foreground sm:text-base">
+          Everything you need to find the perfect domain name
         </p>
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-6 py-12 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-6xl gap-4 py-8 md:grid-cols-2 lg:grid-cols-4">
         {features.map((feature) => {
           const Icon = feature.icon;
           return (
             <Card
               key={feature.title}
-              className="relative overflow-hidden hover:shadow-lg transition-shadow"
+              className="relative overflow-hidden hover:shadow-md transition-all hover:-translate-y-0.5 duration-200"
             >
-              <CardHeader>
-                <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Icon className="h-6 w-6 text-primary" />
+              <CardHeader className="pb-3">
+                <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                  <Icon className="h-5 w-5 text-primary" />
                 </div>
-                <CardTitle className="text-lg">{feature.title}</CardTitle>
+                <CardTitle className="text-base">{feature.title}</CardTitle>
               </CardHeader>
-              <CardContent>
-                <CardDescription>{feature.description}</CardDescription>
+              <CardContent className="pt-0">
+                <CardDescription className="text-xs leading-relaxed">{feature.description}</CardDescription>
               </CardContent>
             </Card>
           );

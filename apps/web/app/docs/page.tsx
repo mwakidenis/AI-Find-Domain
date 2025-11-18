@@ -5,23 +5,30 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { CodeBlock } from "@/components/demo/code-block";
 import { Badge } from "@/components/ui/badge";
-import { Terminal, Package, Code, BookOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Terminal, Package, Code, BookOpen, Info } from "lucide-react";
 
 export default function DocsPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1 container py-12">
-        <div className="mx-auto max-w-5xl space-y-8">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">Documentation</h1>
-            <p className="text-muted-foreground">
-              Everything you need to get started with Find My Domain
+      <main className="flex-1 container py-8 md:py-12">
+        <div className="mx-auto max-w-5xl space-y-6">
+          <div className="space-y-3 text-center">
+            <Badge variant="outline" className="text-xs px-2.5 py-0.5">
+              <BookOpen className="mr-1.5 h-3 w-3" />
+              Complete Guide
+            </Badge>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Documentation
+            </h1>
+            <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
+              Everything you need to get started and master AI-powered domain generation
             </p>
           </div>
 
           <Tabs defaultValue="installation" className="space-y-8">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="installation">
                 <Package className="h-4 w-4 mr-2" />
                 Installation
@@ -37,6 +44,10 @@ export default function DocsPage() {
               <TabsTrigger value="examples">
                 <BookOpen className="h-4 w-4 mr-2" />
                 Examples
+              </TabsTrigger>
+              <TabsTrigger value="faq">
+                <Info className="h-4 w-4 mr-2" />
+                FAQ
               </TabsTrigger>
             </TabsList>
 
@@ -363,6 +374,275 @@ async function findDomain() {
   return available;
 }`}
                     />
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </TabsContent>
+
+            <TabsContent value="faq" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Frequently Asked Questions</CardTitle>
+                  <CardDescription>
+                    Common questions and answers about Find My Domain
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="faq-1">
+                  <AccordionTrigger>
+                    <span className="font-semibold">How much does it cost?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      Find My Domain is <strong>100% free and open source</strong> (MIT license). 
+                      You only need an OpenAI API key, which has its own pricing:
+                    </p>
+                    <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground ml-4">
+                      <li><strong>gpt-4o-mini</strong>: $0.15 per 1M input tokens (very affordable)</li>
+                      <li><strong>gpt-4o</strong>: $2.50 per 1M input tokens</li>
+                      <li>Typical search: 10 domains = ~$0.001 with gpt-4o-mini</li>
+                    </ul>
+                    <p className="text-sm text-muted-foreground">
+                      Visit <a href="https://openai.com/api/pricing/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OpenAI Pricing</a> for current rates.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="faq-2">
+                  <AccordionTrigger>
+                    <span className="font-semibold">Do I need an OpenAI API key?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      Yes, you need an OpenAI API key to use the domain generation feature. 
+                      WHOIS checking works without an API key.
+                    </p>
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">How to get your API key:</p>
+                      <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground ml-4">
+                        <li>Sign up at <a href="https://platform.openai.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">platform.openai.com</a></li>
+                        <li>Navigate to API Keys section</li>
+                        <li>Create a new secret key</li>
+                        <li>Copy and save it securely</li>
+                        <li>Set it: <code className="bg-muted px-2 py-0.5 rounded">export OPENAI_API_KEY=sk-your-key</code></li>
+                      </ol>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="faq-3">
+                  <AccordionTrigger>
+                    <span className="font-semibold">Which AI model should I use?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      It depends on your needs and budget:
+                    </p>
+                    <div className="space-y-3">
+                      <div className="rounded-lg border p-3">
+                        <p className="font-medium text-sm mb-1">🚀 gpt-4o-mini (Recommended)</p>
+                        <p className="text-xs text-muted-foreground">
+                          Best balance of speed, cost, and quality. Perfect for most use cases.
+                        </p>
+                      </div>
+                      <div className="rounded-lg border p-3">
+                        <p className="font-medium text-sm mb-1">⭐ gpt-4o</p>
+                        <p className="text-xs text-muted-foreground">
+                          Higher quality, more creative names. Use for important projects.
+                        </p>
+                      </div>
+                      <div className="rounded-lg border p-3">
+                        <p className="font-medium text-sm mb-1">💡 gpt-4-turbo</p>
+                        <p className="text-xs text-muted-foreground">
+                          Premium quality. Best for finding that perfect, unique domain.
+                        </p>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="faq-4">
+                  <AccordionTrigger>
+                    <span className="font-semibold">How accurate is the WHOIS checking?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      WHOIS checking is <strong>highly accurate</strong> (95%+) but not 100% guaranteed:
+                    </p>
+                    <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground ml-4">
+                      <li><strong>Available</strong>: Domain is likely available for registration</li>
+                      <li><strong>Sale</strong>: Domain is registered but listed for sale</li>
+                      <li><strong>Taken</strong>: Domain is registered and not for sale</li>
+                    </ul>
+                    <p className="text-sm text-muted-foreground">
+                      <strong>Important:</strong> Always verify availability on your registrar before purchasing.
+                      WHOIS data can have a slight delay (~24-48 hours).
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="faq-5">
+                  <AccordionTrigger>
+                    <span className="font-semibold">Can I use this in my own project?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      Yes! Find My Domain is MIT licensed and can be integrated into your projects:
+                    </p>
+                    <CodeBlock
+                      code={`// Install as dependency
+pnpm add find-my-domain
+
+// Use in your code
+import { generateDomainNames, checkDomainStatus } from 'find-my-domain';
+
+const names = await generateDomainNames({
+  keywords: ['tech', 'startup'],
+  count: 10,
+  apiKey: process.env.OPENAI_API_KEY,
+  model: 'gpt-4o-mini'
+});`}
+                    />
+                    <p className="text-sm text-muted-foreground">
+                      Full TypeScript support included. See the <a href="#api" className="text-primary hover:underline">API tab</a> for more examples.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="faq-6">
+                  <AccordionTrigger>
+                    <span className="font-semibold">What TLDs are supported?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      We support 15+ popular TLDs, with more being added:
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {[".com", ".io", ".dev", ".ai", ".app", ".net", ".org", ".co", ".tech", ".sh", ".xyz", ".me", ".so", ".gg", ".fm"].map((tld) => (
+                        <Badge key={tld} variant="secondary">{tld}</Badge>
+                      ))}
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      You can check any TLD by specifying it with the <code className="bg-muted px-2 py-0.5 rounded">--tlds</code> flag.
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="faq-7">
+                  <AccordionTrigger>
+                    <span className="font-semibold">Is my data private?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      Yes, your data is private:
+                    </p>
+                    <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground ml-4">
+                      <li><strong>CLI runs locally</strong> on your machine</li>
+                      <li><strong>OpenAI API</strong>: Your prompts are sent to OpenAI&apos;s API (see their <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">privacy policy</a>)</li>
+                      <li><strong>WHOIS lookups</strong>: Anonymous public queries</li>
+                      <li><strong>No tracking</strong>: We don&apos;t collect any analytics or usage data</li>
+                      <li><strong>Open source</strong>: You can audit the code yourself</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="faq-8">
+                  <AccordionTrigger>
+                    <span className="font-semibold">I found a bug or have a feature request</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      We welcome contributions and feedback!
+                    </p>
+                    <div className="space-y-2">
+                      <Button asChild variant="outline" size="sm" className="w-full">
+                        <a
+                          href="https://github.com/idimetrix/find-my-domain/issues"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Report an Issue on GitHub
+                        </a>
+                      </Button>
+                      <Button asChild variant="outline" size="sm" className="w-full">
+                        <a
+                          href="https://github.com/idimetrix/find-my-domain/pulls"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Submit a Pull Request
+                        </a>
+                      </Button>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Please include as much detail as possible, including:
+                    </p>
+                    <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-4">
+                      <li>Your Node.js version</li>
+                      <li>Command you ran</li>
+                      <li>Expected vs actual behavior</li>
+                      <li>Error messages or screenshots</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="faq-9">
+                  <AccordionTrigger>
+                    <span className="font-semibold">Can I run this in CI/CD or Docker?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      Absolutely! Find My Domain works great in automated environments:
+                    </p>
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-sm font-medium mb-2">Docker Example:</p>
+                        <CodeBlock
+                          code={`FROM node:22-alpine
+WORKDIR /app
+RUN npm install -g find-my-domain
+ENV OPENAI_API_KEY=\${OPENAI_API_KEY}
+CMD ["find-my-domain", "--keywords", "tech", "--count", "10"]`}
+                        />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium mb-2">GitHub Actions Example:</p>
+                        <CodeBlock
+                          code={`- name: Find Domain
+  run: |
+    npm install -g find-my-domain
+    find-my-domain --keywords tech --count 10 --no-save
+  env:
+    OPENAI_API_KEY: \${{ secrets.OPENAI_API_KEY }}`}
+                        />
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="faq-10">
+                  <AccordionTrigger>
+                    <span className="font-semibold">How do I update to the latest version?</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      Updating is simple:
+                    </p>
+                    <CodeBlock
+                      code={`# If installed globally
+pnpm update -g find-my-domain
+
+# Or with npm
+npm update -g find-my-domain
+
+# Or just use npx (always latest)
+npx find-my-domain@latest --keywords tech --count 10`}
+                    />
+                    <p className="text-sm text-muted-foreground">
+                      Check your current version: <code className="bg-muted px-2 py-0.5 rounded">find-my-domain --version</code>
+                    </p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

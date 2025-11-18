@@ -10,6 +10,9 @@ import { Info, Sparkles } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { CodeBlock } from "@/components/demo/code-block";
 
 interface DomainResult {
   domain: string;
@@ -90,13 +93,22 @@ export default function DemoPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1 container py-12">
-        <div className="mx-auto max-w-5xl space-y-8">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">Interactive Demo</h1>
-            <p className="text-muted-foreground">
-              Try out the domain generator with mock data. For real domain checking,
-              install the CLI tool.
+      <main className="flex-1 container py-8 md:py-12">
+        <div className="mx-auto max-w-5xl space-y-6">
+          <div className="space-y-3 text-center">
+            <Badge variant="outline" className="text-xs px-2.5 py-0.5">
+              <Sparkles className="mr-1.5 h-3 w-3" />
+              Interactive Playground
+            </Badge>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Try{" "}
+              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                Find My Domain
+              </span>
+            </h1>
+            <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
+              Experience AI-driven domain generation with mock data for instant results.
+              Install the CLI for real WHOIS checking.
             </p>
           </div>
 
@@ -155,57 +167,154 @@ export default function DemoPage() {
             </TabsContent>
 
             <TabsContent value="info" className="space-y-6 mt-6">
-              <Card>
+              <Card className="border-2 border-primary/20">
                 <CardHeader>
-                  <CardTitle>Ready for the real thing?</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-primary" />
+                    Ready for the real thing?
+                  </CardTitle>
                   <CardDescription>
-                    Install the CLI tool to access the full power of AI-generated domains
+                    Install the CLI tool to access the full power of AI-generated domains with real WHOIS checking
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-sm text-muted-foreground">
-                    The CLI tool provides real-time WHOIS checking with OpenAI integration:
-                  </p>
-                  <pre className="rounded bg-muted p-4 text-sm overflow-x-auto">
-                    <code>
-                      {`# Install globally
+                <CardContent className="space-y-6">
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-semibold">Quick Start (No Installation)</h3>
+                    <CodeBlock
+                      code={`# Use npx - instant execution!
+npx find-my-domain --keywords tech startup --count 10`}
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-semibold">Global Installation</h3>
+                    <CodeBlock
+                      code={`# Install globally
 pnpm install -g find-my-domain
 
-# Run with your OpenAI API key
-export OPENAI_API_KEY=sk-your-key
-find-my-domain --keywords tech startup --count 10 --tlds com io`}
-                    </code>
-                  </pre>
+# Set your OpenAI API key
+export OPENAI_API_KEY=sk-your-key-here
+
+# Run anywhere
+find-my-domain --keywords tech --tlds com io --count 20`}
+                    />
+                  </div>
+
+                  <div className="flex gap-3">
+                    <Button asChild variant="default" className="flex-1">
+                      <a href="/docs">View Full Documentation</a>
+                    </Button>
+                    <Button asChild variant="outline" className="flex-1">
+                      <a
+                        href="https://github.com/idimetrix/find-my-domain"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        GitHub Repository
+                      </a>
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Features</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <Info className="h-5 w-5" />
+                    Key Features
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-start gap-2">
-                      <span className="text-green-500">✓</span>
-                      <span>Real-time WHOIS availability checking</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-green-500">✓</span>
-                      <span>40+ OpenAI models supported</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-green-500">✓</span>
-                      <span>Streaming or batch processing modes</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-green-500">✓</span>
-                      <span>Multiple TLD support (.com, .io, .dev, etc.)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-green-500">✓</span>
-                      <span>Programmatic API for Node.js integration</span>
-                    </li>
-                  </ul>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="flex items-start gap-3 rounded-lg border p-3">
+                      <span className="text-green-500 text-xl">✓</span>
+                      <div>
+                        <p className="font-medium text-sm">Real-time WHOIS</p>
+                        <p className="text-xs text-muted-foreground">Instant availability checking</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 rounded-lg border p-3">
+                      <span className="text-green-500 text-xl">✓</span>
+                      <div>
+                        <p className="font-medium text-sm">40+ AI Models</p>
+                        <p className="text-xs text-muted-foreground">All OpenAI models supported</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 rounded-lg border p-3">
+                      <span className="text-green-500 text-xl">✓</span>
+                      <div>
+                        <p className="font-medium text-sm">Streaming Mode</p>
+                        <p className="text-xs text-muted-foreground">See results as they generate</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 rounded-lg border p-3">
+                      <span className="text-green-500 text-xl">✓</span>
+                      <div>
+                        <p className="font-medium text-sm">15+ TLDs</p>
+                        <p className="text-xs text-muted-foreground">.com, .io, .dev, and more</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 rounded-lg border p-3">
+                      <span className="text-green-500 text-xl">✓</span>
+                      <div>
+                        <p className="font-medium text-sm">Node.js API</p>
+                        <p className="text-xs text-muted-foreground">Full TypeScript support</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 rounded-lg border p-3">
+                      <span className="text-green-500 text-xl">✓</span>
+                      <div>
+                        <p className="font-medium text-sm">JSON Export</p>
+                        <p className="text-xs text-muted-foreground">Structured output files</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-200/50">
+                <CardHeader>
+                  <CardTitle className="text-lg">Popular Use Cases</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-2">
+                      <Badge variant="secondary" className="mt-0.5">🚀</Badge>
+                      <div>
+                        <p className="text-sm font-medium">Startup Launch</p>
+                        <p className="text-xs text-muted-foreground">
+                          Find brandable domains for your new SaaS or product
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Badge variant="secondary" className="mt-0.5">💻</Badge>
+                      <div>
+                        <p className="text-sm font-medium">Developer Projects</p>
+                        <p className="text-xs text-muted-foreground">
+                          Technical names for open source tools and libraries
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Badge variant="secondary" className="mt-0.5">🎨</Badge>
+                      <div>
+                        <p className="text-sm font-medium">Personal Branding</p>
+                        <p className="text-xs text-muted-foreground">
+                          Portfolio, blog, or professional website domains
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Badge variant="secondary" className="mt-0.5">🛍️</Badge>
+                      <div>
+                        <p className="text-sm font-medium">E-commerce</p>
+                        <p className="text-xs text-muted-foreground">
+                          Memorable shop names that customers will remember
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
