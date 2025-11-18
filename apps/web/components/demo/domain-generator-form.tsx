@@ -31,6 +31,16 @@ const POPULAR_TLDS = [
   "so",
   "gg",
   "fm",
+  "to",
+  "cc",
+  "tv",
+  "vc",
+  "ws",
+  "us",
+  "biz",
+  "info",
+  "online",
+  "site",
 ] as const;
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
@@ -139,22 +149,24 @@ export function DomainGeneratorForm({
   return (
     <TooltipProvider>
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+        <CardHeader className="pb-4">
+          <CardTitle className="flex items-center gap-2 text-lg">
             <Sparkles className="h-5 w-5" />
             Domain Generator
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-sm">
             Configure your domain generation settings. This demo uses{" "}
             <strong>real OpenAI + WHOIS</strong>.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Keywords Section */}
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               <div className="flex items-center justify-between">
-                <Label htmlFor="keywords">Keywords</Label>
+                <Label htmlFor="keywords" className="text-sm font-medium">
+                  Keywords
+                </Label>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Badge variant="outline" className="cursor-help">
@@ -217,9 +229,11 @@ export function DomainGeneratorForm({
             <Separator />
 
             {/* Example Domains Section */}
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               <div className="flex items-center justify-between">
-                <Label htmlFor="domains">Example Domains</Label>
+                <Label htmlFor="domains" className="text-sm font-medium">
+                  Example Domains
+                </Label>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Badge variant="outline" className="cursor-help">
@@ -276,11 +290,11 @@ export function DomainGeneratorForm({
             <Separator />
 
             {/* TLDs Section */}
-            <div className="space-y-3">
-              <Label>TLDs to Check</Label>
+            <div className="space-y-2.5">
+              <Label className="text-sm font-medium">TLDs to Check</Label>
               <ScrollArea className="h-24 rounded-md border p-3">
                 <div className="flex flex-wrap gap-2">
-                  {POPULAR_TLDS.slice(0, 15).map((tld) => (
+                  {POPULAR_TLDS.map((tld) => (
                     <Badge
                       key={tld}
                       variant={
@@ -299,22 +313,24 @@ export function DomainGeneratorForm({
             <Separator />
 
             {/* Count Section */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label htmlFor="count">Number of Domains: {count[0]}</Label>
+                <Label htmlFor="count" className="text-sm font-medium">
+                  Number of Domains: {count[0]}
+                </Label>
                 <Badge variant="secondary">{count[0]} domains</Badge>
               </div>
               <Slider
                 id="count"
                 min={1}
-                max={20}
+                max={25}
                 step={1}
                 value={count}
                 onValueChange={setCount}
                 className="w-full"
               />
               <p className="text-xs text-muted-foreground">
-                Demo limited to 20 domains maximum
+                Demo limited to 25 domains maximum
               </p>
             </div>
 
@@ -323,7 +339,9 @@ export function DomainGeneratorForm({
             {/* Stream Mode Toggle */}
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label htmlFor="stream-mode">Streaming Mode</Label>
+                <Label htmlFor="stream-mode" className="text-sm font-medium">
+                  Streaming Mode
+                </Label>
                 <p className="text-xs text-muted-foreground">
                   Get results as they&apos;re generated
                 </p>

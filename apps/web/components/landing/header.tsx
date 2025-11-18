@@ -23,7 +23,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
   const { isSignedIn, user, isLoaded } = useUser();
-  
+
   const userInitials = user?.firstName?.[0] || user?.username?.[0] || "U";
   const userName = user?.firstName || user?.username || "User";
 
@@ -72,19 +72,25 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          
+
           {isLoaded && isSignedIn ? (
             <>
               <div className="hidden md:flex items-center gap-2">
                 <Avatar className="h-7 w-7">
-                  <AvatarFallback className="text-xs">{userInitials}</AvatarFallback>
+                  <AvatarFallback className="text-xs">
+                    {userInitials}
+                  </AvatarFallback>
                 </Avatar>
                 <span className="text-sm text-muted-foreground">
                   {userName}
                 </span>
               </div>
               <SignOutButton>
-                <Button variant="ghost" size="sm" className="hidden md:flex gap-1.5 h-8">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hidden md:flex gap-1.5 h-8"
+                >
                   <LogOut className="h-3.5 w-3.5" />
                   Logout
                 </Button>
@@ -95,7 +101,11 @@ export function Header() {
               {isLoaded && (
                 <>
                   <SignInButton mode="modal">
-                    <Button variant="ghost" size="sm" className="hidden md:flex h-8">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="hidden md:flex h-8"
+                    >
                       Sign In
                     </Button>
                   </SignInButton>
@@ -138,28 +148,33 @@ export function Header() {
                     </Link>
                   </Button>
                 </nav>
-                
+
                 <Separator />
-                
+
                 <div className="px-2">
                   <p className="text-xs text-muted-foreground mb-2">Theme</p>
                   <div className="flex justify-start">
                     <ThemeToggle />
                   </div>
                 </div>
-                
+
                 <Separator />
-                
+
                 {isLoaded && isSignedIn ? (
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-2 px-2">
                       <Avatar className="h-8 w-8">
-                        <AvatarFallback className="text-xs">{userInitials}</AvatarFallback>
+                        <AvatarFallback className="text-xs">
+                          {userInitials}
+                        </AvatarFallback>
                       </Avatar>
                       <span className="text-sm font-medium">{userName}</span>
                     </div>
                     <SignOutButton>
-                      <Button variant="outline" className="w-full justify-start gap-2">
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start gap-2"
+                      >
                         <LogOut className="h-4 w-4" />
                         Logout
                       </Button>

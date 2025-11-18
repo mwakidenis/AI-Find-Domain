@@ -81,7 +81,10 @@ export function HowItWorks() {
                     >
                       <Icon className="h-4 w-4" />
                     </div>
-                    <Badge variant="secondary" className="text-xs font-bold px-2 py-0.5">
+                    <Badge
+                      variant="secondary"
+                      className="text-xs font-bold px-2 py-0.5"
+                    >
                       {step.number}
                     </Badge>
                   </div>

@@ -201,7 +201,7 @@ export default function DemoPage() {
               {/* Hidden sign-in button that we'll trigger programmatically */}
               {isLoaded && !isSignedIn && (
                 <SignInButton mode="modal">
-                  <button ref={signInButtonRef} style={{ display: 'none' }} />
+                  <button ref={signInButtonRef} style={{ display: "none" }} />
                 </SignInButton>
               )}
             </div>
@@ -259,24 +259,29 @@ export default function DemoPage() {
             </TabsList>
 
             <TabsContent value="demo" className="space-y-4 mt-4">
-              <Alert>
-                <Sparkles className="h-4 w-4" />
-                <AlertTitle className="text-sm">Real AI-Powered Demo</AlertTitle>
-                <AlertDescription className="text-xs">
+              <Alert className="border-2 border-primary/50 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10">
+                <Sparkles className="h-5 w-5" />
+                <AlertTitle className="text-base font-bold">
+                  Real AI-Powered Demo
+                </AlertTitle>
+                <AlertDescription className="text-sm">
                   This demo uses <strong>real OpenAI API</strong> to generate
-                  domains and <strong>real WHOIS</strong> to check
-                  availability.
+                  domains and <strong>real WHOIS</strong> to check availability.
                   {isSignedIn && remainingAttempts !== null && (
                     <>
-                      {" "}You have{" "}
-                      <strong>{remainingAttempts} / 5 attempts</strong>{" "}
+                      {" "}
+                      You have <strong>
+                        {remainingAttempts} / 5 attempts
+                      </strong>{" "}
                       remaining.
                     </>
                   )}
                   {!isSignedIn && isLoaded && (
-                    <>
-                      {" "}<strong>Sign in to get 5 free generations!</strong>
-                    </>
+                    <div className="mt-2">
+                      <strong className="text-base">
+                        ✨ Sign in to get 5 free generations!
+                      </strong>
+                    </div>
                   )}
                 </AlertDescription>
               </Alert>
@@ -285,7 +290,9 @@ export default function DemoPage() {
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
                   <AlertTitle className="text-sm">Error</AlertTitle>
-                  <AlertDescription className="text-xs">{error}</AlertDescription>
+                  <AlertDescription className="text-xs">
+                    {error}
+                  </AlertDescription>
                 </Alert>
               )}
 
@@ -293,7 +300,9 @@ export default function DemoPage() {
                 <Alert>
                   <Info className="h-4 w-4 animate-pulse" />
                   <AlertTitle className="text-sm">Processing</AlertTitle>
-                  <AlertDescription className="text-xs">{generatingStatus}</AlertDescription>
+                  <AlertDescription className="text-xs">
+                    {generatingStatus}
+                  </AlertDescription>
                 </Alert>
               )}
 
@@ -302,7 +311,9 @@ export default function DemoPage() {
                   <DomainGeneratorForm
                     onGenerate={handleGenerate}
                     loading={loading}
-                    disabled={loading || (isSignedIn && remainingAttempts === 0)}
+                    disabled={
+                      loading || (isSignedIn && remainingAttempts === 0)
+                    }
                     isSignedIn={isSignedIn}
                     onSignInRequired={() => {
                       // Trigger the hidden Clerk sign-in button
@@ -380,10 +391,20 @@ find-my-domain --keywords tech --tlds com io --count 20`}
                   </div>
 
                   <div className="flex gap-2">
-                    <Button asChild variant="default" size="sm" className="flex-1">
+                    <Button
+                      asChild
+                      variant="default"
+                      size="sm"
+                      className="flex-1"
+                    >
                       <a href="/docs">Docs</a>
                     </Button>
-                    <Button asChild variant="outline" size="sm" className="flex-1">
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="flex-1"
+                    >
                       <a
                         href="https://github.com/idimetrix/find-my-domain"
                         target="_blank"
@@ -470,7 +491,10 @@ find-my-domain --keywords tech --tlds com io --count 20`}
                 <CardContent>
                   <div className="space-y-2.5">
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5 text-xs px-2 py-0.5">
+                      <Badge
+                        variant="secondary"
+                        className="mt-0.5 text-xs px-2 py-0.5"
+                      >
                         🚀
                       </Badge>
                       <div>
@@ -481,18 +505,26 @@ find-my-domain --keywords tech --tlds com io --count 20`}
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5 text-xs px-2 py-0.5">
+                      <Badge
+                        variant="secondary"
+                        className="mt-0.5 text-xs px-2 py-0.5"
+                      >
                         💻
                       </Badge>
                       <div>
-                        <p className="text-xs font-medium">Developer Projects</p>
+                        <p className="text-xs font-medium">
+                          Developer Projects
+                        </p>
                         <p className="text-xs text-muted-foreground">
                           Names for open source tools and libraries
                         </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5 text-xs px-2 py-0.5">
+                      <Badge
+                        variant="secondary"
+                        className="mt-0.5 text-xs px-2 py-0.5"
+                      >
                         🎨
                       </Badge>
                       <div>
@@ -503,7 +535,10 @@ find-my-domain --keywords tech --tlds com io --count 20`}
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5 text-xs px-2 py-0.5">
+                      <Badge
+                        variant="secondary"
+                        className="mt-0.5 text-xs px-2 py-0.5"
+                      >
                         🛍️
                       </Badge>
                       <div>

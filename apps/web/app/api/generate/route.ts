@@ -68,9 +68,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (count < 1 || count > 100) {
+    if (count < 1 || count > 25) {
       return NextResponse.json(
-        { error: "Count must be between 1 and 100" },
+        { error: "Count must be between 1 and 25" },
         { status: 400 },
       );
     }

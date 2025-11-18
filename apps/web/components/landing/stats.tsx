@@ -94,9 +94,18 @@ export function Stats() {
               </p>
             </div>
             <div className="flex items-center gap-2 justify-center md:justify-end">
-              <Badge variant="secondary" className="text-sm px-3 py-1.5">
-                ⭐ Open Source
-              </Badge>
+              <a
+                href="https://github.com/idimetrix/find-my-domain"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Badge
+                  variant="secondary"
+                  className="text-sm px-3 py-1.5 cursor-pointer hover:bg-secondary/80 transition-colors"
+                >
+                  ⭐ Open Source
+                </Badge>
+              </a>
             </div>
           </CardContent>
         </Card>

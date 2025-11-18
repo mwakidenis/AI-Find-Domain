@@ -15,12 +15,7 @@ export function Footer() {
               checking.
             </p>
             <div className="flex gap-2">
-              <Button
-                asChild
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-              >
+              <Button asChild variant="ghost" size="icon" className="h-8 w-8">
                 <Link
                   href="https://github.com/idimetrix/find-my-domain"
                   target="_blank"
@@ -30,12 +25,7 @@ export function Footer() {
                   <span className="sr-only">GitHub</span>
                 </Link>
               </Button>
-              <Button
-                asChild
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-              >
+              <Button asChild variant="ghost" size="icon" className="h-8 w-8">
                 <Link
                   href="https://www.linkedin.com/in/dimetrix"
                   target="_blank"
@@ -45,12 +35,7 @@ export function Footer() {
                   <span className="sr-only">LinkedIn</span>
                 </Link>
               </Button>
-              <Button
-                asChild
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-              >
+              <Button asChild variant="ghost" size="icon" className="h-8 w-8">
                 <Link href="mailto:selikhov.dmitrey@gmail.com">
                   <Mail className="h-4 w-4" />
                   <span className="sr-only">Email</span>
@@ -62,13 +47,25 @@ export function Footer() {
           <div className="space-y-3">
             <h3 className="text-sm font-semibold">Product</h3>
             <nav className="flex flex-col gap-2">
-              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
+              <Button
+                asChild
+                variant="link"
+                className="h-auto p-0 justify-start text-xs text-muted-foreground"
+              >
                 <Link href="/demo">Demo</Link>
               </Button>
-              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
+              <Button
+                asChild
+                variant="link"
+                className="h-auto p-0 justify-start text-xs text-muted-foreground"
+              >
                 <Link href="/docs">Documentation</Link>
               </Button>
-              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
+              <Button
+                asChild
+                variant="link"
+                className="h-auto p-0 justify-start text-xs text-muted-foreground"
+              >
                 <Link
                   href="https://github.com/idimetrix/find-my-domain"
                   target="_blank"
@@ -83,7 +80,11 @@ export function Footer() {
           <div className="space-y-3">
             <h3 className="text-sm font-semibold">Resources</h3>
             <nav className="flex flex-col gap-2">
-              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
+              <Button
+                asChild
+                variant="link"
+                className="h-auto p-0 justify-start text-xs text-muted-foreground"
+              >
                 <Link
                   href="https://github.com/idimetrix/find-my-domain#-quick-start"
                   target="_blank"
@@ -92,7 +93,11 @@ export function Footer() {
                   Quick Start
                 </Link>
               </Button>
-              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
+              <Button
+                asChild
+                variant="link"
+                className="h-auto p-0 justify-start text-xs text-muted-foreground"
+              >
                 <Link
                   href="https://github.com/idimetrix/find-my-domain#-usage-guide"
                   target="_blank"
@@ -101,7 +106,11 @@ export function Footer() {
                   Usage Guide
                 </Link>
               </Button>
-              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
+              <Button
+                asChild
+                variant="link"
+                className="h-auto p-0 justify-start text-xs text-muted-foreground"
+              >
                 <Link
                   href="https://github.com/idimetrix/find-my-domain/issues"
                   target="_blank"
@@ -116,7 +125,11 @@ export function Footer() {
           <div className="space-y-3">
             <h3 className="text-sm font-semibold">Legal</h3>
             <nav className="flex flex-col gap-2">
-              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
+              <Button
+                asChild
+                variant="link"
+                className="h-auto p-0 justify-start text-xs text-muted-foreground"
+              >
                 <Link
                   href="https://github.com/idimetrix/find-my-domain/blob/main/LICENSE"
                   target="_blank"
@@ -154,8 +167,8 @@ export function Footer() {
               >
                 Next.js
               </Link>
-            </Button>
-            {" "}and{" "}
+            </Button>{" "}
+            and{" "}
             <Button asChild variant="link" className="h-auto p-0 text-xs">
               <Link
                 href="https://ui.shadcn.com"

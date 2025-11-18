@@ -78,14 +78,14 @@ export function DomainResults({ results }: DomainResultsProps) {
   return (
     <TooltipProvider>
       <Card>
-        <CardHeader>
-          <CardTitle>Results</CardTitle>
-          <CardDescription>
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg">Results</CardTitle>
+          <CardDescription className="text-sm">
             Found {available.length} available, {sale.length} for sale, and{" "}
             {taken.length} taken domains
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-5">
           {/* Summary Stats */}
           <div className="grid grid-cols-3 gap-4">
             <Card>

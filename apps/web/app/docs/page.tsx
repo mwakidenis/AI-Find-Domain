@@ -23,14 +23,14 @@ export default function DocsPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1 container py-8 md:py-12">
+      <main className="flex-1 container mx-auto py-6 md:py-8 px-4">
         <div className="mx-auto max-w-5xl space-y-6">
           <div className="space-y-3 text-center">
             <Badge variant="outline" className="text-xs px-2.5 py-0.5">
               <BookOpen className="mr-1.5 h-3 w-3" />
               Complete Guide
             </Badge>
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
               Documentation
             </h1>
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
@@ -39,41 +39,58 @@ export default function DocsPage() {
             </p>
           </div>
 
-          <Tabs defaultValue="installation" className="space-y-8">
-            <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="installation">
-                <Package className="h-4 w-4 mr-2" />
-                Installation
+          <Tabs defaultValue="installation" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto gap-2 p-1">
+              <TabsTrigger
+                value="installation"
+                className="gap-2 flex-col sm:flex-row py-2"
+              >
+                <Package className="h-4 w-4" />
+                <span className="hidden sm:inline">Installation</span>
+                <span className="sm:hidden text-xs">Install</span>
               </TabsTrigger>
-              <TabsTrigger value="cli">
-                <Terminal className="h-4 w-4 mr-2" />
-                CLI Usage
+              <TabsTrigger
+                value="cli"
+                className="gap-2 flex-col sm:flex-row py-2"
+              >
+                <Terminal className="h-4 w-4" />
+                <span>CLI</span>
               </TabsTrigger>
-              <TabsTrigger value="api">
-                <Code className="h-4 w-4 mr-2" />
-                API
+              <TabsTrigger
+                value="api"
+                className="gap-2 flex-col sm:flex-row py-2"
+              >
+                <Code className="h-4 w-4" />
+                <span>API</span>
               </TabsTrigger>
-              <TabsTrigger value="examples">
-                <BookOpen className="h-4 w-4 mr-2" />
-                Examples
+              <TabsTrigger
+                value="examples"
+                className="gap-2 flex-col sm:flex-row py-2"
+              >
+                <BookOpen className="h-4 w-4" />
+                <span className="hidden sm:inline">Examples</span>
+                <span className="sm:hidden text-xs">Ex</span>
               </TabsTrigger>
-              <TabsTrigger value="faq">
-                <Info className="h-4 w-4 mr-2" />
-                FAQ
+              <TabsTrigger
+                value="faq"
+                className="gap-2 flex-col sm:flex-row py-2"
+              >
+                <Info className="h-4 w-4" />
+                <span>FAQ</span>
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="installation" className="space-y-6">
+            <TabsContent value="installation" className="space-y-4">
               <Card>
-                <CardHeader>
-                  <CardTitle>Quick Start</CardTitle>
-                  <CardDescription>
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-lg">Quick Start</CardTitle>
+                  <CardDescription className="text-sm">
                     Get started with Find My Domain in seconds
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">Prerequisites</h3>
+                    <h3 className="text-base font-semibold">Prerequisites</h3>
                     <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                       <li>Node.js 22 or higher</li>
                       <li>OpenAI API key (get one at platform.openai.com)</li>
@@ -82,7 +99,7 @@ export default function DocsPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-base font-semibold">
                       Option 1: Use with npx (No Installation)
                     </h3>
                     <CodeBlock
@@ -95,7 +112,7 @@ npx find-my-domain --keywords tech startup --count 10`}
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-base font-semibold">
                       Option 2: Install Globally
                     </h3>
                     <CodeBlock
@@ -111,7 +128,7 @@ yarn global add find-my-domain`}
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-base font-semibold">
                       Option 3: Install in Project
                     </h3>
                     <CodeBlock
@@ -126,17 +143,17 @@ import { generateDomainNames } from 'find-my-domain';`}
               </Card>
             </TabsContent>
 
-            <TabsContent value="cli" className="space-y-6">
+            <TabsContent value="cli" className="space-y-4">
               <Card>
-                <CardHeader>
-                  <CardTitle>CLI Usage</CardTitle>
-                  <CardDescription>
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-lg">CLI Usage</CardTitle>
+                  <CardDescription className="text-sm">
                     Command-line interface examples and options
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">Basic Usage</h3>
+                    <h3 className="text-base font-semibold">Basic Usage</h3>
                     <CodeBlock
                       code={`# Generate 10 domains based on keywords
 find-my-domain --keywords tech startup saas --count 10
@@ -150,7 +167,9 @@ find-my-domain --domains stripe vercel --count 20`}
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">Available Options</h3>
+                    <h3 className="text-base font-semibold">
+                      Available Options
+                    </h3>
                     <div className="space-y-2">
                       <div className="flex items-start gap-2">
                         <Badge variant="secondary">--keywords, -k</Badge>
@@ -198,7 +217,7 @@ find-my-domain --domains stripe vercel --count 20`}
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-base font-semibold">
                       Configuration File
                     </h3>
                     <p className="text-sm text-muted-foreground">
@@ -220,17 +239,17 @@ find-my-domain --domains stripe vercel --count 20`}
               </Card>
             </TabsContent>
 
-            <TabsContent value="api" className="space-y-6">
+            <TabsContent value="api" className="space-y-4">
               <Card>
-                <CardHeader>
-                  <CardTitle>Programmatic API</CardTitle>
-                  <CardDescription>
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-lg">Programmatic API</CardTitle>
+                  <CardDescription className="text-sm">
                     Use Find My Domain in your Node.js applications
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-base font-semibold">
                       Generate Domain Names
                     </h3>
                     <CodeBlock
@@ -248,7 +267,7 @@ console.log(domains); // ['techflow', 'startuplab', ...]`}
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-base font-semibold">
                       Check Domain Availability
                     </h3>
                     <CodeBlock
@@ -270,7 +289,7 @@ console.log(result);
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-base font-semibold">
                       Streaming Generation
                     </h3>
                     <CodeBlock
@@ -294,7 +313,9 @@ for await (const name of stream) {
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">TypeScript Types</h3>
+                    <h3 className="text-base font-semibold">
+                      TypeScript Types
+                    </h3>
                     <CodeBlock
                       code={`import type {
   DomainStatusResult,
@@ -416,11 +437,13 @@ async function findDomain() {
               </Accordion>
             </TabsContent>
 
-            <TabsContent value="faq" className="space-y-6">
+            <TabsContent value="faq" className="space-y-4">
               <Card>
-                <CardHeader>
-                  <CardTitle>Frequently Asked Questions</CardTitle>
-                  <CardDescription>
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-lg">
+                    Frequently Asked Questions
+                  </CardTitle>
+                  <CardDescription className="text-sm">
                     Common questions and answers about Find My Domain
                   </CardDescription>
                 </CardHeader>
@@ -826,8 +849,8 @@ npx find-my-domain@latest --keywords tech --count 10`}
           </Tabs>
 
           <Card>
-            <CardHeader>
-              <CardTitle>Need More Help?</CardTitle>
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg">Need More Help?</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
