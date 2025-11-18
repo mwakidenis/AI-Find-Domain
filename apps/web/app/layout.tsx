@@ -10,16 +10,39 @@ import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Find My Domain - AI-Powered Domain Name Generator",
+  metadataBase: new URL("https://find-my-domain.vercel.app"),
+  title: {
+    default:
+      "Find My Domain - AI-Powered Domain Name Generator | Free WHOIS Check",
+    template: "%s | Find My Domain",
+  },
   description:
-    "Generate creative, available domain names using AI and check their availability in real-time across multiple TLDs. Perfect for startups, developers, and entrepreneurs.",
+    "Generate creative, brandable domain names using OpenAI GPT-4 and check availability in real-time across 25+ TLDs. Free online tool with instant WHOIS lookup. Perfect for startups, developers, and entrepreneurs.",
   keywords: [
     "domain generator",
     "AI domain names",
-    "domain availability",
+    "domain name generator",
+    "domain availability checker",
+    "WHOIS lookup",
     "WHOIS checker",
-    "startup tools",
+    "startup domain names",
+    "brandable domains",
+    "domain search tool",
+    "OpenAI domain generator",
+    "GPT-4 domain names",
+    "free domain checker",
+    "available domains",
+    "domain name ideas",
+    "business name generator",
+    "startup name generator",
     "domain search",
+    "check domain availability",
+    "domain name availability",
+    "TLD checker",
+    ".com domain checker",
+    ".io domain checker",
+    "domain registration checker",
+    "AI-powered domain search",
   ],
   authors: [
     {
@@ -28,21 +51,51 @@ export const metadata: Metadata = {
     },
   ],
   creator: "Dmitrii Selikhov",
+  publisher: "Find My Domain",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://find-my-domain.vercel.app",
-    title: "Find My Domain - AI-Powered Domain Name Generator",
+    title:
+      "Find My Domain - AI-Powered Domain Name Generator | Free WHOIS Check",
     description:
-      "Generate creative, available domain names using AI and check their availability in real-time.",
+      "Generate creative, brandable domain names using OpenAI GPT-4 and check availability in real-time across 25+ TLDs. Free online tool with instant WHOIS lookup.",
     siteName: "Find My Domain",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Find My Domain - AI-Powered Domain Name Generator",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Find My Domain - AI-Powered Domain Name Generator",
     description:
-      "Generate creative, available domain names using AI and check their availability in real-time.",
+      "Generate creative, brandable domain names using OpenAI GPT-4 and check availability in real-time across 25+ TLDs.",
     creator: "@idimetrix",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code",
   },
 };
 

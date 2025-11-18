@@ -1,0 +1,25 @@
+OG IMAGE NEEDED
+
+Create an Open Graph image with these specifications:
+
+Dimensions: 1200x630 pixels
+Format: PNG
+File name: og-image.png
+Location: apps/web/public/og-image.png
+
+Content Suggestions:
+- "Find My Domain" logo/title
+- "AI-Powered Domain Generator"
+- Gradient background (purple to pink)
+- OpenAI logo/mention
+- "25+ TLDs | Free | Real-time WHOIS"
+- Clean, professional design
+
+Tools to create:
+- Canva (easiest)
+- Figma
+- Photoshop
+- https://www.opengraph.xyz/ (generator)
+
+Once created, replace this file with the actual og-image.png
+

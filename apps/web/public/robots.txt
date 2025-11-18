@@ -1,0 +1,32 @@
+# robots.txt for Find My Domain
+# https://find-my-domain.vercel.app
+
+User-agent: *
+Allow: /
+Allow: /demo
+Allow: /docs
+Allow: /api/
+
+Disallow: /api/generate
+Disallow: /api/check-domain
+Disallow: /api/attempts
+
+Sitemap: https://find-my-domain.vercel.app/sitemap.xml
+
+# Crawl-delay for specific bots
+User-agent: Googlebot
+Crawl-delay: 0
+
+User-agent: Bingbot
+Crawl-delay: 0
+
+# Block common bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
