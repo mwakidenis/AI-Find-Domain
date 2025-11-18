@@ -29,17 +29,4 @@ export { checkDomainStatus } from "./utils/whois.js";
 export { wait } from "./utils/wait.js";
 
 // Export logger utilities
-export {
-  startTimer,
-  getElapsed,
-  getTotalElapsed,
-  formatTime,
-  log,
-  success,
-  error,
-  warn,
-  info,
-  spacer,
-  separator,
-  banner,
-} from "./utils/logger.js";
+export * as logger from "./utils/logger.js";

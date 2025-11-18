@@ -269,48 +269,42 @@ const result = await checkDomainStatus(
 
 ### Logger Utilities
 
+All logger utilities are exported as a namespace for better organization:
+
 ```typescript
-import {
-  // Timing
-  startTimer,
-  getElapsed,
-  getTotalElapsed,
-  formatTime,
-
-  // Logging
-  log,
-  success,
-  error,
-  warn,
-  info,
-
-  // Formatting
-  spacer,
-  separator,
-  banner,
-} from "@find-my-domain/core";
+import { logger } from "@find-my-domain/core";
 ```
 
 #### Example Usage
 
 ```typescript
 // Start a timer
-startTimer("generation");
+logger.startTimer("generation");
 
 // Do some work
 await generateDomains();
 
 // Log success with elapsed time
-success("Generated domains", "generation");
+logger.success("Generated domains", "generation");
 // Output: ✅ Generated domains (2.34s)
 
 // Format time
-const time = formatTime(2.5); // "2.50s"
+const time = logger.formatTime(2.5); // "2.50s"
 
 // Add spacing
-spacer(); // Empty line
-separator(); // ==============================
-banner("RESULTS"); // Formatted title
+logger.spacer(); // Empty line
+logger.separator(); // ==============================
+logger.banner("RESULTS"); // Formatted title
+
+// Other logging functions
+logger.log("🎉", "Custom message");
+logger.error("Something went wrong");
+logger.warn("Warning message");
+logger.info("Information message");
+
+// Timing functions
+logger.getElapsed("generation"); // Get elapsed time for a timer
+logger.getTotalElapsed(); // Get total elapsed time since start
 ```
 
 ---
