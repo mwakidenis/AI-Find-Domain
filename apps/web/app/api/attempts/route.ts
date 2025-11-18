@@ -54,5 +54,3 @@ export async function POST(req: NextRequest) {
     return handleApiError(error, requestId);
   }
 }
-
-// DELETE removed for security

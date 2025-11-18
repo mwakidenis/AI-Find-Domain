@@ -68,7 +68,6 @@ export async function POST(req: NextRequest) {
 
     const { keywords, domains, count } = Schema.parse(await req.json());
 
-    // Generate FIRST, then decrement attempts only on success
     const names = await generateDomainNames({
       keywords,
       domains,
@@ -77,7 +76,6 @@ export async function POST(req: NextRequest) {
       model: "gpt-4o-mini",
     });
 
-    // Only decrement if generation succeeded
     const newAttempts = attempts - 1;
     await client.users.updateUser(userId, {
       publicMetadata: {

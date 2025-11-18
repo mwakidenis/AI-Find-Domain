@@ -16,7 +16,6 @@ export default clerkMiddleware(async (auth, req) => {
   const requestId = crypto.randomUUID();
   const origin = req.headers.get("origin");
 
-  // CORS preflight
   if (req.method === "OPTIONS") {
     return new NextResponse(null, {
       status: 204,
@@ -31,13 +30,11 @@ export default clerkMiddleware(async (auth, req) => {
     });
   }
 
-  if (isProtectedRoute(req)) {
-    await auth.protect();
-  }
+  if (isProtectedRoute(req)) await auth.protect();
 
   const response = NextResponse.next();
   response.headers.set("X-Request-ID", requestId);
-  if (origin && allowedOrigins.includes(origin)) {
+  if (origin && origins.includes(origin)) {
     response.headers.set("Access-Control-Allow-Origin", origin);
     response.headers.set("Access-Control-Allow-Credentials", "true");
   }

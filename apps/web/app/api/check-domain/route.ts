@@ -12,7 +12,6 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
-// Security: Blocked patterns moved outside for performance (no recreation on each validation)
 const BLOCKED = [
   "localhost",
   "127.0.0.1",
@@ -61,8 +60,8 @@ const MultiSchema = z
   });
 
 export async function POST(req: NextRequest) {
-  const requestId = getRequestId(req);
-  const clientIp = getClientIp(req);
+  const requestId = getRequestId(req),
+    clientIp = getClientIp(req);
   try {
     const body = await req.json();
 
