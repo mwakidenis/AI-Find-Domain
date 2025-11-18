@@ -43,14 +43,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build project
-        run: pnpm run build
+      - name: Build packages
+        run: |
+          pnpm run build:core
+          pnpm run build:cli
 
       - name: Run quality checks
         run: |
-          pnpm run typecheck
-          pnpm run lint
-          pnpm test
+          pnpm --filter @find-my-domain/core run typecheck
+          pnpm --filter @find-my-domain/cli run typecheck
+          pnpm --filter @find-my-domain/cli run lint
+          pnpm --filter @find-my-domain/cli run test
 
       - name: Verify build artifacts
         run: |
