@@ -9,6 +9,8 @@
 
 **Monorepo** containing a powerful CLI tool, beautiful web showcase, and shared core library for AI-powered domain name generation.
 
+🌐 **[Try Live Demo](https://find-my-domain-web.vercel.app/demo)** | 📖 **[Documentation](https://find-my-domain-web.vercel.app/docs)** | 🏠 **[Website](https://find-my-domain-web.vercel.app/)**
+
 ---
 
 ## ✨ What's Inside
@@ -336,6 +338,9 @@ See [LICENSE](LICENSE) for details.
 
 ## 🔗 Links
 
+- **🌐 Website**: https://find-my-domain-web.vercel.app/
+- **🚀 Live Demo**: https://find-my-domain-web.vercel.app/demo
+- **📖 Documentation**: https://find-my-domain-web.vercel.app/docs
 - **GitHub**: https://github.com/idimetrix/find-my-domain
 - **npm Package**: https://www.npmjs.com/package/find-my-domain
 - **Author**: [Dmitrii Selikhov](https://www.linkedin.com/in/dimetrix)

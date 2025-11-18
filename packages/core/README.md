@@ -4,6 +4,8 @@
 
 TypeScript library containing shared types, constants, and utilities for AI-powered domain name generation and WHOIS checking.
 
+🌐 **[Website](https://find-my-domain-web.vercel.app/)** | 🚀 **[Try Demo](https://find-my-domain-web.vercel.app/demo)** | 📖 **[Full Docs](https://find-my-domain-web.vercel.app/docs)**
+
 ---
 
 ## 📦 What's Inside

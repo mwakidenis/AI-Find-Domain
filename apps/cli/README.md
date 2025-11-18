@@ -4,6 +4,8 @@
 
 Command-line tool for generating creative domain names using OpenAI and checking their availability with real-time WHOIS lookup.
 
+🌐 **[Try Web Demo](https://find-my-domain-web.vercel.app/demo)** | 📖 **[Full Documentation](https://find-my-domain-web.vercel.app/docs)** | 🏠 **[Website](https://find-my-domain-web.vercel.app/)**
+
 ---
 
 ## 🚀 Quick Start
