@@ -45,15 +45,15 @@ jobs:
 
       - name: Build packages
         run: |
-          pnpm run build:core
-          pnpm run build:cli
+          pnpm --filter @find-my-domain/core run build
+          pnpm --filter find-my-domain run build
 
       - name: Run quality checks
         run: |
           pnpm --filter @find-my-domain/core run typecheck
-          pnpm --filter @find-my-domain/cli run typecheck
-          pnpm --filter @find-my-domain/cli run lint
-          pnpm --filter @find-my-domain/cli run test
+          pnpm --filter find-my-domain run typecheck
+          pnpm --filter find-my-domain run lint
+          pnpm --filter find-my-domain run test
 
       - name: Verify build artifacts
         run: |
