@@ -152,60 +152,49 @@ export function DomainResults({ results }: DomainResultsProps) {
             <TabsContent value="available" className="space-y-2 mt-4">
               {available.length > 0 ? (
                 <ScrollArea className="h-[400px] pr-4">
-                  <div className="grid gap-2">
+                  <div className="space-y-1">
                     {available.map((result) => (
-                      <Card
+                      <div
                         key={result.domain}
-                        className="hover:bg-accent/50 transition-colors"
+                        className="flex items-center justify-between px-2 py-1.5 rounded-md hover:bg-accent/50 transition-colors border"
                       >
-                        <CardContent className="py-3">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Badge
-                                variant="default"
-                                className="bg-green-500 hover:bg-green-600"
+                        <div className="flex items-center gap-2">
+                          <span className="text-green-600">
+                            {getStatusIcon(result.status)}
+                          </span>
+                          <span className="font-mono text-sm">
+                            {result.domain}
+                          </span>
+                        </div>
+                        <div className="flex gap-0.5">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="h-7 w-7"
+                                onClick={() => copyToClipboard(result.domain)}
                               >
-                                {getStatusIcon(result.status)}
-                              </Badge>
-                              <span className="font-mono text-sm font-medium">
-                                {result.domain}
-                              </span>
-                            </div>
-                            <div className="flex gap-1">
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    onClick={() =>
-                                      copyToClipboard(result.domain)
-                                    }
-                                  >
-                                    <Copy className="h-4 w-4" />
-                                  </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  Copy to clipboard
-                                </TooltipContent>
-                              </Tooltip>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    onClick={() => openDomain(result.domain)}
-                                  >
-                                    <ExternalLink className="h-4 w-4" />
-                                  </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  Check on Namecheap
-                                </TooltipContent>
-                              </Tooltip>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
+                                <Copy className="h-3.5 w-3.5" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Copy</TooltipContent>
+                          </Tooltip>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="h-7 w-7"
+                                onClick={() => openDomain(result.domain)}
+                              >
+                                <ExternalLink className="h-3.5 w-3.5" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Check</TooltipContent>
+                          </Tooltip>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </ScrollArea>
@@ -219,60 +208,49 @@ export function DomainResults({ results }: DomainResultsProps) {
             <TabsContent value="sale" className="space-y-2 mt-4">
               {sale.length > 0 ? (
                 <ScrollArea className="h-[400px] pr-4">
-                  <div className="grid gap-2">
+                  <div className="space-y-1">
                     {sale.map((result) => (
-                      <Card
+                      <div
                         key={result.domain}
-                        className="hover:bg-accent/50 transition-colors"
+                        className="flex items-center justify-between px-2 py-1.5 rounded-md hover:bg-accent/50 transition-colors border"
                       >
-                        <CardContent className="py-3">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Badge
-                                variant="default"
-                                className="bg-yellow-500 hover:bg-yellow-600"
+                        <div className="flex items-center gap-2">
+                          <span className="text-yellow-600">
+                            {getStatusIcon(result.status)}
+                          </span>
+                          <span className="font-mono text-sm">
+                            {result.domain}
+                          </span>
+                        </div>
+                        <div className="flex gap-0.5">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="h-7 w-7"
+                                onClick={() => copyToClipboard(result.domain)}
                               >
-                                {getStatusIcon(result.status)}
-                              </Badge>
-                              <span className="font-mono text-sm font-medium">
-                                {result.domain}
-                              </span>
-                            </div>
-                            <div className="flex gap-1">
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    onClick={() =>
-                                      copyToClipboard(result.domain)
-                                    }
-                                  >
-                                    <Copy className="h-4 w-4" />
-                                  </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  Copy to clipboard
-                                </TooltipContent>
-                              </Tooltip>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    onClick={() => openDomain(result.domain)}
-                                  >
-                                    <ExternalLink className="h-4 w-4" />
-                                  </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  Check on Namecheap
-                                </TooltipContent>
-                              </Tooltip>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
+                                <Copy className="h-3.5 w-3.5" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Copy</TooltipContent>
+                          </Tooltip>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="h-7 w-7"
+                                onClick={() => openDomain(result.domain)}
+                              >
+                                <ExternalLink className="h-3.5 w-3.5" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Check</TooltipContent>
+                          </Tooltip>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </ScrollArea>
@@ -286,29 +264,29 @@ export function DomainResults({ results }: DomainResultsProps) {
             <TabsContent value="taken" className="space-y-2 mt-4">
               {taken.length > 0 ? (
                 <ScrollArea className="h-[400px] pr-4">
-                  <div className="grid gap-2">
+                  <div className="space-y-1">
                     {taken.map((result) => (
-                      <Card key={result.domain} className="opacity-60">
-                        <CardContent className="py-3">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Badge variant="destructive">
-                                {getStatusIcon(result.status)}
-                              </Badge>
-                              <span className="font-mono text-sm font-medium line-through">
-                                {result.domain}
-                              </span>
-                            </div>
-                            <Button
-                              size="icon"
-                              variant="ghost"
-                              onClick={() => copyToClipboard(result.domain)}
-                            >
-                              <Copy className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
+                      <div
+                        key={result.domain}
+                        className="flex items-center justify-between px-2 py-1.5 rounded-md opacity-60 border"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-red-600">
+                            {getStatusIcon(result.status)}
+                          </span>
+                          <span className="font-mono text-sm line-through">
+                            {result.domain}
+                          </span>
+                        </div>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-7 w-7"
+                          onClick={() => copyToClipboard(result.domain)}
+                        >
+                          <Copy className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
                     ))}
                   </div>
                 </ScrollArea>
