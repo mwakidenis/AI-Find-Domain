@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 export function Footer() {
   return (
     <footer className="border-t">
-      <div className="container py-12 md:py-16">
+      <div className="container mx-auto py-12 md:py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="space-y-3">
             <h3 className="text-lg font-semibold">Find My Domain</h3>

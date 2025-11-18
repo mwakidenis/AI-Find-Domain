@@ -20,7 +20,7 @@ find-my-domain --keywords tech --count 10`;
   };
 
   return (
-    <div className="mt-4 rounded-lg bg-card border p-3 shadow-sm group hover:shadow-md transition-shadow">
+    <div className="rounded-lg bg-card border p-3 shadow-sm group hover:shadow-md transition-shadow max-w-xl w-full">
       <div className="flex items-start gap-2">
         <Terminal className="h-4 w-4 text-muted-foreground mt-1 shrink-0" />
         <div className="flex-1 text-left">
@@ -51,8 +51,8 @@ find-my-domain --keywords tech --count 10`;
 
 export function CTA() {
   return (
-    <section className="container py-16 md:py-20">
-      <Card className="relative overflow-hidden">
+    <section className="container mx-auto py-16 md:py-20">
+      <Card className="relative overflow-hidden mx-auto max-w-4xl">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10" />
         <CardContent className="relative flex flex-col items-center justify-center gap-4 p-8 md:p-10 text-center">
           <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl">
@@ -63,7 +63,7 @@ export function CTA() {
             Free and open source.
           </p>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex flex-col gap-3 sm:flex-row justify-center">
             <Button asChild size="lg" className="gap-2">
               <Link href="/demo">
                 Try Interactive Demo
@@ -82,7 +82,9 @@ export function CTA() {
             </Button>
           </div>
 
-          <CTACommandCard />
+          <div className="flex justify-center w-full">
+            <CTACommandCard />
+          </div>
         </CardContent>
       </Card>
     </section>

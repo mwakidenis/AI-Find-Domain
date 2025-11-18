@@ -41,7 +41,7 @@ const stats = [
 
 export function Stats() {
   return (
-    <section className="container py-16 md:py-20">
+    <section className="container mx-auto py-16 md:py-20">
       <div className="mx-auto flex max-w-[56rem] flex-col items-center space-y-3 text-center mb-8">
         <Badge variant="outline" className="text-xs px-2.5 py-0.5">
           By The Numbers
@@ -93,7 +93,7 @@ export function Stats() {
                 their perfect domain names
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-center md:justify-end">
               <Badge variant="secondary" className="text-lg px-4 py-2">
                 ⭐ Open Source
               </Badge>

@@ -29,7 +29,7 @@ function CopyCommandCard() {
   };
 
   return (
-    <Card className="mt-6 rounded-lg border bg-card p-4 shadow-md max-w-3xl w-full group hover:shadow-lg transition-shadow">
+    <Card className="rounded-lg border bg-card p-4 shadow-md max-w-3xl w-full group hover:shadow-lg transition-shadow">
       <div className="flex items-start gap-3">
         <div className="flex-1 space-y-2">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -70,7 +70,7 @@ function CopyCommandCard() {
 
 export function Hero() {
   return (
-    <section className="container flex flex-col items-center justify-center space-y-6 py-16 md:py-24 lg:py-32">
+    <section className="container mx-auto flex flex-col items-center justify-center space-y-6 py-16 md:py-24 lg:py-32">
       <Badge variant="secondary" className="px-3 py-1 text-xs">
         <Sparkles className="mr-1.5 h-3 w-3" />
         AI-Powered Domain Discovery
@@ -113,7 +113,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="flex flex-col gap-3 sm:flex-row justify-center">
         <Button asChild size="default" className="gap-2">
           <Link href="/demo">
             <Sparkles className="h-4 w-4" />
@@ -139,10 +139,12 @@ export function Hero() {
         </Button>
       </div>
 
-      <CopyCommandCard />
+      <div className="flex justify-center w-full">
+        <CopyCommandCard />
+      </div>
 
-      <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3 text-center max-w-4xl w-full">
-        <div className="flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-muted/50 transition-colors">
+      <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3 text-center max-w-4xl w-full mx-auto">
+        <div className="flex flex-col items-center justify-start gap-2 p-4 rounded-lg hover:bg-muted/50 transition-colors">
           <div className="rounded-full bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-3">
             <Zap className="h-5 w-5 text-blue-500" />
           </div>
@@ -151,7 +153,7 @@ export function Hero() {
             Results in seconds with streaming mode
           </p>
         </div>
-        <div className="flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-muted/50 transition-colors">
+        <div className="flex flex-col items-center justify-start gap-2 p-4 rounded-lg hover:bg-muted/50 transition-colors">
           <div className="rounded-full bg-gradient-to-br from-purple-500/20 to-pink-600/20 p-3">
             <Sparkles className="h-5 w-5 text-purple-500" />
           </div>
@@ -160,7 +162,7 @@ export function Hero() {
             40+ OpenAI models for creative names
           </p>
         </div>
-        <div className="flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-muted/50 transition-colors">
+        <div className="flex flex-col items-center justify-start gap-2 p-4 rounded-lg hover:bg-muted/50 transition-colors">
           <div className="rounded-full bg-gradient-to-br from-green-500/20 to-emerald-600/20 p-3">
             <Terminal className="h-5 w-5 text-green-500" />
           </div>

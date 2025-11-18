@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, X, Plus } from "lucide-react";
+import { SignInButton } from "@clerk/nextjs";
 // Import only types and constants from core (browser-safe)
 const POPULAR_TLDS = [
   "com",
@@ -52,12 +53,16 @@ interface DomainGeneratorFormProps {
   }) => void;
   loading: boolean;
   disabled?: boolean;
+  isSignedIn?: boolean;
+  onSignInRequired?: () => void;
 }
 
 export function DomainGeneratorForm({
   onGenerate,
   loading,
   disabled = false,
+  isSignedIn = false,
+  onSignInRequired,
 }: DomainGeneratorFormProps) {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [keywordInput, setKeywordInput] = useState("");
@@ -110,6 +115,14 @@ export function DomainGeneratorForm({
 
     if (keywords.length === 0 && domains.length === 0) {
       toast.error("Please add at least one keyword or example domain");
+      return;
+    }
+
+    // Check if user is signed in - if not, trigger parent callback
+    if (!isSignedIn) {
+      if (onSignInRequired) {
+        onSignInRequired();
+      }
       return;
     }
 

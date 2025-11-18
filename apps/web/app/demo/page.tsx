@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
+import { useState, useEffect, useRef } from "react";
+import { useUser, SignInButton } from "@clerk/nextjs";
 import { Header } from "@/components/landing/header";
 import { Footer } from "@/components/landing/footer";
 import { DomainGeneratorForm } from "@/components/demo/domain-generator-form";
 import { DomainResults } from "@/components/demo/domain-results";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Info, Sparkles, AlertCircle, Shield } from "lucide-react";
+import { Info, Sparkles, AlertCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Card,
@@ -47,6 +47,7 @@ export default function DemoPage() {
     null,
   );
   const [loadingAttempts, setLoadingAttempts] = useState(true);
+  const signInButtonRef = useRef<HTMLButtonElement>(null);
 
   // Fetch remaining attempts when user is loaded
   useEffect(() => {
@@ -189,7 +190,7 @@ export default function DemoPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1 container py-8 md:py-12">
+      <main className="flex-1 container mx-auto py-8 md:py-12">
         <div className="mx-auto max-w-5xl space-y-6">
           <div className="space-y-3 text-center">
             <div className="flex items-center justify-center gap-3">
@@ -197,19 +198,11 @@ export default function DemoPage() {
                 <Sparkles className="mr-1.5 h-3 w-3" />
                 Interactive Playground
               </Badge>
-              {isLoaded && (
-                <div className="flex items-center gap-2">
-                  {isSignedIn ? (
-                    <UserButton afterSignOutUrl="/demo" />
-                  ) : (
-                    <SignInButton mode="modal">
-                      <Button size="sm" variant="outline">
-                        <Shield className="mr-2 h-3.5 w-3.5" />
-                        Sign In
-                      </Button>
-                    </SignInButton>
-                  )}
-                </div>
+              {/* Hidden sign-in button that we'll trigger programmatically */}
+              {isLoaded && !isSignedIn && (
+                <SignInButton mode="modal">
+                  <button ref={signInButtonRef} style={{ display: 'none' }} />
+                </SignInButton>
               )}
             </div>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -267,40 +260,28 @@ export default function DemoPage() {
             </TabsList>
 
             <TabsContent value="demo" className="space-y-6 mt-6">
-              {!isSignedIn && isLoaded && (
-                <Alert className="border-orange-200 bg-orange-50 dark:bg-orange-950/20">
-                  <Shield className="h-4 w-4 text-orange-600" />
-                  <AlertTitle className="text-orange-800 dark:text-orange-400">
-                    Sign In Required
-                  </AlertTitle>
-                  <AlertDescription className="text-orange-700 dark:text-orange-300">
-                    Please sign in to use the domain generator. Each user gets{" "}
-                    <strong>5 free generations</strong> to prevent abuse.
-                  </AlertDescription>
-                  <div className="mt-3">
-                    <SignInButton mode="modal">
-                      <Button size="sm" variant="default">
-                        Sign In to Continue
-                      </Button>
-                    </SignInButton>
-                  </div>
-                </Alert>
-              )}
-
-              {isSignedIn && (
-                <Alert>
-                  <Sparkles className="h-4 w-4" />
-                  <AlertTitle>Real AI-Powered Demo</AlertTitle>
-                  <AlertDescription>
-                    This demo uses <strong>real OpenAI API</strong> to generate
-                    domains and <strong>real WHOIS</strong> to check
-                    availability. Results may take 10-30 seconds depending on
-                    the number of domains. You have{" "}
-                    <strong>{remainingAttempts ?? 5} attempts</strong>{" "}
-                    remaining.
-                  </AlertDescription>
-                </Alert>
-              )}
+              <Alert>
+                <Sparkles className="h-4 w-4" />
+                <AlertTitle>Real AI-Powered Demo</AlertTitle>
+                <AlertDescription>
+                  This demo uses <strong>real OpenAI API</strong> to generate
+                  domains and <strong>real WHOIS</strong> to check
+                  availability. Results may take 10-30 seconds depending on
+                  the number of domains.
+                  {isSignedIn && remainingAttempts !== null && (
+                    <>
+                      {" "}You have{" "}
+                      <strong>{remainingAttempts} / 5 attempts</strong>{" "}
+                      remaining.
+                    </>
+                  )}
+                  {!isSignedIn && isLoaded && (
+                    <>
+                      {" "}<strong>Sign in to get 5 free generations!</strong>
+                    </>
+                  )}
+                </AlertDescription>
+              </Alert>
 
               {error && (
                 <Alert variant="destructive">
@@ -323,7 +304,14 @@ export default function DemoPage() {
                   <DomainGeneratorForm
                     onGenerate={handleGenerate}
                     loading={loading}
-                    disabled={!isSignedIn || remainingAttempts === 0}
+                    disabled={loading || (isSignedIn && remainingAttempts === 0)}
+                    isSignedIn={isSignedIn}
+                    onSignInRequired={() => {
+                      // Trigger the hidden Clerk sign-in button
+                      if (signInButtonRef.current) {
+                        signInButtonRef.current.click();
+                      }
+                    }}
                   />
                 </div>
                 <div>

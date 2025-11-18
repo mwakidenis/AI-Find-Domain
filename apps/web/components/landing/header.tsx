@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Github, Search, Menu } from "lucide-react";
+import { Github, Search, Menu, LogOut } from "lucide-react";
+import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import {
   Sheet,
   SheetContent,
@@ -18,9 +19,10 @@ import {
 } from "@/components/ui/navigation-menu";
 
 export function Header() {
+  const { isSignedIn, user, isLoaded } = useUser();
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container mx-auto flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <Search className="h-6 w-6" />
           <Link href="/" className="flex items-center space-x-2">
@@ -79,9 +81,33 @@ export function Header() {
               <span className="sr-only">GitHub</span>
             </Link>
           </Button>
-          <Button asChild className="hidden md:flex">
-            <Link href="/demo">Try Demo</Link>
-          </Button>
+          
+          {isLoaded && isSignedIn ? (
+            <>
+              <span className="hidden md:flex text-sm text-muted-foreground">
+                Hello, <span className="font-medium text-foreground ml-1">{user?.firstName || user?.username || 'User'}</span>
+              </span>
+              <SignOutButton>
+                <Button variant="outline" size="sm" className="hidden md:flex gap-2">
+                  <LogOut className="h-4 w-4" />
+                  Logout
+                </Button>
+              </SignOutButton>
+            </>
+          ) : (
+            <>
+              {isLoaded && (
+                <SignInButton mode="modal">
+                  <Button variant="outline" size="sm" className="hidden md:flex">
+                    Sign In
+                  </Button>
+                </SignInButton>
+              )}
+              <Button asChild className="hidden md:flex">
+                <Link href="/demo">Try Demo</Link>
+              </Button>
+            </>
+          )}
 
           {/* Mobile Navigation */}
           <Sheet>
@@ -116,9 +142,35 @@ export function Header() {
                 >
                   GitHub
                 </Link>
-                <Button asChild className="mt-4">
-                  <Link href="/demo">Try Demo</Link>
-                </Button>
+                
+                {isLoaded && isSignedIn ? (
+                  <>
+                    <div className="pt-4 border-t">
+                      <p className="text-sm text-muted-foreground mb-3">
+                        Hello, <span className="font-medium text-foreground">{user?.firstName || user?.username || 'User'}</span>
+                      </p>
+                      <SignOutButton>
+                        <Button variant="outline" className="w-full gap-2">
+                          <LogOut className="h-4 w-4" />
+                          Logout
+                        </Button>
+                      </SignOutButton>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {isLoaded && (
+                      <SignInButton mode="modal">
+                        <Button variant="outline" className="w-full">
+                          Sign In
+                        </Button>
+                      </SignInButton>
+                    )}
+                    <Button asChild>
+                      <Link href="/demo">Try Demo</Link>
+                    </Button>
+                  </>
+                )}
               </nav>
             </SheetContent>
           </Sheet>

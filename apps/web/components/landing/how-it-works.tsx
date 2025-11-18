@@ -51,54 +51,56 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="container py-16 md:py-20 bg-muted/30">
-      <div className="mx-auto flex max-w-[56rem] flex-col items-center space-y-3 text-center">
-        <Badge variant="outline" className="text-xs px-2.5 py-0.5">
-          Simple Process
-        </Badge>
-        <h2 className="text-2xl font-bold leading-tight sm:text-3xl md:text-4xl">
-          How It Works
-        </h2>
-        <p className="max-w-[85%] text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Four simple steps to find your perfect domain
-        </p>
-      </div>
+    <section id="how-it-works" className="w-full py-16 md:py-20 bg-muted/30">
+      <div className="container mx-auto">
+        <div className="mx-auto flex max-w-[56rem] flex-col items-center space-y-3 text-center">
+          <Badge variant="outline" className="text-xs px-2.5 py-0.5">
+            Simple Process
+          </Badge>
+          <h2 className="text-2xl font-bold leading-tight sm:text-3xl md:text-4xl">
+            How It Works
+          </h2>
+          <p className="max-w-[85%] text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Four simple steps to find your perfect domain
+          </p>
+        </div>
 
-      <div className="mx-auto mt-8 grid max-w-6xl gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {steps.map((step) => {
-          const Icon = step.icon;
-          return (
-            <Card
-              key={step.number}
-              className="relative overflow-hidden hover:shadow-md transition-all hover:-translate-y-0.5 duration-200"
-            >
-              <div className="absolute top-0 right-0 w-24 h-24 -mr-12 -mt-12 bg-gradient-to-br from-primary/10 to-transparent rounded-full" />
-              <CardHeader className="pb-3">
-                <div className="mb-3 flex items-center justify-between">
-                  <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 ${step.color}`}
-                  >
-                    <Icon className="h-5 w-5" />
+        <div className="mx-auto mt-8 grid max-w-6xl gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step) => {
+            const Icon = step.icon;
+            return (
+              <Card
+                key={step.number}
+                className="relative overflow-hidden hover:shadow-md transition-all hover:-translate-y-0.5 duration-200"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 -mr-12 -mt-12 bg-gradient-to-br from-primary/10 to-transparent rounded-full" />
+                <CardHeader className="pb-3">
+                  <div className="mb-3 flex items-center justify-between">
+                    <div
+                      className={`flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 ${step.color}`}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <Badge variant="secondary" className="text-sm font-bold">
+                      {step.number}
+                    </Badge>
                   </div>
-                  <Badge variant="secondary" className="text-sm font-bold">
-                    {step.number}
-                  </Badge>
-                </div>
-                <CardTitle className="text-base">{step.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2 pt-0">
-                <CardDescription className="text-xs leading-relaxed">
-                  {step.description}
-                </CardDescription>
-                <div className="rounded-md bg-muted/50 px-2 py-1.5">
-                  <code className="text-[10px] text-muted-foreground">
-                    {step.code}
-                  </code>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+                  <CardTitle className="text-base">{step.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2 pt-0">
+                  <CardDescription className="text-xs leading-relaxed">
+                    {step.description}
+                  </CardDescription>
+                  <div className="rounded-md bg-muted/50 px-2 py-1.5">
+                    <code className="text-[10px] text-muted-foreground">
+                      {step.code}
+                    </code>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
