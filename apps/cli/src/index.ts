@@ -638,3 +638,15 @@ export type {
   DomainStatusOptions,
   GenerateDomainNamesOptions,
 } from "@find-my-domain/core";
+
+// ============================================================================
+// Run main function if executed directly
+// ============================================================================
+
+// Check if this module is being run directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((error) => {
+    console.error("Fatal error:", error);
+    process.exit(1);
+  });
+}
