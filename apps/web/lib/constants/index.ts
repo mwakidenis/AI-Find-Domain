@@ -43,21 +43,7 @@ export const RUNTIME_CONFIG = {
 // SECURITY - BLOCKED DOMAINS
 // ============================================================================
 
-export const BLOCKED_DOMAINS = [
-  "localhost",
-  "127.0.0.1",
-  "0.0.0.0",
-  "192.168.",
-  "10.",
-  "172.16.",
-  "169.254.",
-  "metadata",
-  ".local",
-  ".internal",
-  ".private",
-  "example.com",
-  "test.com",
-] as const;
+export const BLOCKED_DOMAINS = [] as const;
 
 // ============================================================================
 // VALIDATION PATTERNS
