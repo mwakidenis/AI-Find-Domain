@@ -15,11 +15,11 @@
 
 This monorepo includes three packages:
 
-| Package | Description | Tech Stack |
-|---------|-------------|------------|
-| **[@find-my-domain/cli](apps/cli)** | Command-line tool for domain generation | Node.js, TypeScript, OpenAI |
-| **[@find-my-domain/web](apps/web)** | **100% REAL** web demo + showcase | Next.js 15, shadcn/ui, Tailwind, Real OpenAI + WHOIS |
-| **[@find-my-domain/core](packages/core)** | Shared types and utilities | TypeScript, Zod, AI SDK |
+| Package                                   | Description                             | Tech Stack                                           |
+| ----------------------------------------- | --------------------------------------- | ---------------------------------------------------- |
+| **[@find-my-domain/cli](apps/cli)**       | Command-line tool for domain generation | Node.js, TypeScript, OpenAI                          |
+| **[@find-my-domain/web](apps/web)**       | **100% REAL** web demo + showcase       | Next.js 15, shadcn/ui, Tailwind, Real OpenAI + WHOIS |
+| **[@find-my-domain/core](packages/core)** | Shared types and utilities              | TypeScript, Zod, AI SDK                              |
 
 ---
 
@@ -70,6 +70,7 @@ pnpm dev
 ```
 
 **The demo is 100% real** - it uses:
+
 - ✅ **Clerk authentication** for user sign-in
 - ✅ **Rate limiting** (5 free generations per user, no database!)
 - ✅ **Actual OpenAI API** to generate domains
@@ -175,11 +176,12 @@ The project uses **pnpm workspaces** for efficient dependency management:
 ```yaml
 # pnpm-workspace.yaml
 packages:
-  - 'apps/*'
-  - 'packages/*'
+  - "apps/*"
+  - "packages/*"
 ```
 
 **Dependency Graph:**
+
 ```
 @find-my-domain/core (no internal deps)
   ↑
@@ -192,6 +194,7 @@ packages:
 ## 🎯 Features
 
 ### CLI Tool
+
 - ✅ AI-powered domain generation (40+ OpenAI models)
 - ✅ Real-time WHOIS availability checking
 - ✅ Multiple TLD support (.com, .io, .dev, .ai, etc.)
@@ -200,6 +203,7 @@ packages:
 - ✅ Programmatic API for Node.js
 
 ### Web Showcase
+
 - ✅ Beautiful landing page with hero & features
 - ✅ **100% REAL interactive demo** (OpenAI + WHOIS)
 - ✅ Live progress tracking & toast notifications
@@ -210,6 +214,7 @@ packages:
 - ✅ 48 shadcn/ui components integrated
 
 ### Core Library
+
 - ✅ Shared TypeScript types
 - ✅ AI generation utilities
 - ✅ WHOIS checking utilities
@@ -221,6 +226,7 @@ packages:
 ## 📊 Tech Stack
 
 ### CLI & Core
+
 - **Runtime**: Node.js 22+
 - **Language**: TypeScript 5.9
 - **AI**: OpenAI SDK, Vercel AI SDK
@@ -229,6 +235,7 @@ packages:
 - **Testing**: Vitest
 
 ### Web App
+
 - **Framework**: Next.js 15 (App Router)
 - **UI Library**: React 19
 - **Styling**: Tailwind CSS
@@ -237,6 +244,7 @@ packages:
 - **Animations**: Framer Motion
 
 ### Tooling
+
 - **Package Manager**: pnpm (workspaces)
 - **Linting**: ESLint
 - **Formatting**: Prettier

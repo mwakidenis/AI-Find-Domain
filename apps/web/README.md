@@ -18,16 +18,19 @@ Next.js 15 web application featuring a **100% REAL interactive demo** with actua
 ### Setup
 
 1. **Install dependencies** (from monorepo root):
+
 ```bash
 pnpm install
 ```
 
 2. **Configure environment variables**:
+
 ```bash
 cd apps/web
 ```
 
 3. **Create `.env.local` with required keys**:
+
 ```env
 # OpenAI API key
 OPENAI_API_KEY=sk-your-actual-openai-key-here
@@ -38,6 +41,7 @@ CLERK_SECRET_KEY=sk_test_your-key-here
 ```
 
 **Get your keys:**
+
 - OpenAI API: https://platform.openai.com/api-keys
 - Clerk Auth: https://dashboard.clerk.com/
 
@@ -233,20 +237,10 @@ apps/web/
 
 ```css
 /* Light mode */
---background: white
---foreground: slate-900
---primary: slate-900
---secondary: slate-100
---accent: slate-100
---muted: slate-100
-
-/* Dark mode */
---background: slate-900
---foreground: slate-50
---primary: slate-50
---secondary: slate-800
---accent: slate-800
---muted: slate-800
+--background: white --foreground: slate-900 --primary: slate-900
+  --secondary: slate-100 --accent: slate-100 --muted: slate-100 /* Dark mode */
+  --background: slate-900 --foreground: slate-50 --primary: slate-50
+  --secondary: slate-800 --accent: slate-800 --muted: slate-800;
 ```
 
 ### Typography
@@ -259,6 +253,7 @@ apps/web/
 ### Spacing
 
 Using Tailwind's spacing scale:
+
 - **xs**: 0.5rem (8px)
 - **sm**: 0.75rem (12px)
 - **md**: 1rem (16px)
@@ -335,6 +330,7 @@ vercel
 ### Other Platforms
 
 **Netlify:**
+
 ```bash
 # Build command
 cd apps/web && pnpm build
@@ -344,6 +340,7 @@ apps/web/.next
 ```
 
 **Docker:**
+
 ```dockerfile
 FROM node:22-alpine
 WORKDIR /app
@@ -390,9 +387,7 @@ export default function PricingPage() {
   return (
     <div>
       <Header />
-      <main>
-        {/* Your content */}
-      </main>
+      <main>{/* Your content */}</main>
       <Footer />
     </div>
   );
@@ -480,6 +475,7 @@ pnpm playwright test
 ### Common Issues
 
 **"Module not found" errors:**
+
 ```bash
 # Rebuild from root
 cd ../..
@@ -488,12 +484,14 @@ pnpm build
 ```
 
 **Port already in use:**
+
 ```bash
 # Use different port
 pnpm dev -- -p 3001
 ```
 
 **shadcn components not found:**
+
 ```bash
 # Reinstall components
 pnpm dlx shadcn@latest init
@@ -517,4 +515,3 @@ MIT © [Dmitrii Selikhov](https://github.com/idimetrix)
 ---
 
 **Built with ❤️ using Next.js and shadcn/ui** 🚀
-

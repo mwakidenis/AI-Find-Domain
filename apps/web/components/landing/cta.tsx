@@ -25,9 +25,11 @@ find-my-domain --keywords tech --count 10`;
         <Terminal className="h-4 w-4 text-muted-foreground mt-1 shrink-0" />
         <div className="flex-1 text-left">
           <code className="text-xs sm:text-sm">
-            <span className="text-muted-foreground">$</span> pnpm install -g find-my-domain
+            <span className="text-muted-foreground">$</span> pnpm install -g
+            find-my-domain
             <br />
-            <span className="text-muted-foreground">$</span> find-my-domain --keywords tech --count 10
+            <span className="text-muted-foreground">$</span> find-my-domain
+            --keywords tech --count 10
           </code>
         </div>
         <Button
@@ -86,4 +88,3 @@ export function CTA() {
     </section>
   );
 }
-

@@ -9,6 +9,7 @@ The Find My Domain web app is **production-ready** and can be deployed to variou
 ## Prerequisites
 
 Before deployment, ensure you have:
+
 - ✅ OpenAI API Key
 - ✅ Node.js 22+ runtime environment
 - ✅ pnpm or npm installed
@@ -38,6 +39,7 @@ NEXT_PUBLIC_APP_URL=https://your-domain.com
 ### 1. Vercel (Recommended)
 
 **Why Vercel?**
+
 - Native Next.js support
 - Zero configuration
 - Edge functions for API routes
@@ -47,6 +49,7 @@ NEXT_PUBLIC_APP_URL=https://your-domain.com
 **Steps:**
 
 1. **Push to GitHub:**
+
 ```bash
 git add .
 git commit -m "Ready for deployment"
@@ -54,6 +57,7 @@ git push origin main
 ```
 
 2. **Import to Vercel:**
+
 - Go to https://vercel.com
 - Click "Import Project"
 - Select your GitHub repository
@@ -61,11 +65,13 @@ git push origin main
 - **Framework Preset:** Next.js
 
 3. **Configure Environment Variables:**
+
 - Go to Project Settings → Environment Variables
 - Add: `OPENAI_API_KEY` = `sk-your-key-here`
 - Apply to: Production, Preview, Development
 
 4. **Deploy:**
+
 - Click "Deploy"
 - Wait 2-3 minutes
 - Your app is live!
@@ -97,6 +103,7 @@ vercel --prod
 **Steps:**
 
 1. **Create `netlify.toml`:**
+
 ```toml
 [build]
   base = "apps/web"
@@ -112,6 +119,7 @@ vercel --prod
 ```
 
 2. **Connect Repository:**
+
 - Go to https://netlify.com
 - New site from Git
 - Connect your repository
@@ -120,10 +128,12 @@ vercel --prod
 - Publish directory: `.next`
 
 3. **Set Environment Variables:**
+
 - Site settings → Environment variables
 - Add `OPENAI_API_KEY`
 
 4. **Deploy:**
+
 - Trigger deploy
 - Site will be live in 3-5 minutes
 
@@ -198,7 +208,7 @@ docker run -p 3000:3000 \
 Create `docker-compose.yml`:
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   web:
@@ -230,6 +240,7 @@ docker-compose up -d
 #### AWS Amplify (Easiest)
 
 1. **Connect Repository:**
+
 - AWS Amplify Console
 - New app → Host web app
 - Connect GitHub repository
@@ -237,6 +248,7 @@ docker-compose up -d
 - Root directory: `apps/web`
 
 2. **Build Settings:**
+
 ```yaml
 version: 1
 frontend:
@@ -252,13 +264,14 @@ frontend:
   artifacts:
     baseDirectory: apps/web/.next
     files:
-      - '**/*'
+      - "**/*"
   cache:
     paths:
       - node_modules/**/*
 ```
 
 3. **Environment Variables:**
+
 - App settings → Environment variables
 - Add `OPENAI_API_KEY`
 
@@ -308,6 +321,7 @@ pm2 startup
 **Steps:**
 
 1. **Create `railway.json`:**
+
 ```json
 {
   "build": {
@@ -322,6 +336,7 @@ pm2 startup
 ```
 
 2. **Deploy:**
+
 - Go to https://railway.app
 - New Project → Deploy from GitHub
 - Select repository
@@ -335,6 +350,7 @@ pm2 startup
 **Steps:**
 
 1. **Create `render.yaml`:**
+
 ```yaml
 services:
   - type: web
@@ -352,6 +368,7 @@ services:
 ```
 
 2. **Deploy:**
+
 - Go to https://render.com
 - New → Web Service
 - Connect repository
@@ -416,6 +433,7 @@ curl -X POST https://your-domain.com/api/check-domain \
 ### Vercel Analytics
 
 Enable in Vercel dashboard:
+
 - Real-time traffic
 - Core Web Vitals
 - Edge function metrics
@@ -451,17 +469,17 @@ Add to `next.config.ts`:
 const nextConfig = {
   // ... existing config
   experimental: {
-    serverComponentsExternalPackages: ['@find-my-domain/core'],
+    serverComponentsExternalPackages: ["@find-my-domain/core"],
   },
   // Cache API responses
   async headers() {
     return [
       {
-        source: '/api/:path*',
+        source: "/api/:path*",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'no-store, max-age=0',
+            key: "Cache-Control",
+            value: "no-store, max-age=0",
           },
         ],
       },
@@ -498,8 +516,8 @@ Consider adding rate limiting for production:
 
 ```typescript
 // apps/web/middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   // Add rate limiting logic here
@@ -507,7 +525,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/api/:path*',
+  matcher: "/api/:path*",
 };
 ```
 
@@ -537,6 +555,7 @@ export const config = {
 ### "OpenAI API key is not configured"
 
 **Solution:** Environment variable not set
+
 ```bash
 # Verify environment variable in platform dashboard
 # Or test locally:
@@ -546,11 +565,13 @@ echo $OPENAI_API_KEY
 ### "Failed to generate domains"
 
 **Causes:**
+
 - Invalid API key
 - OpenAI rate limit
 - Network issues
 
 **Solution:**
+
 - Check API key validity
 - Check OpenAI dashboard for limits
 - Retry request
@@ -558,6 +579,7 @@ echo $OPENAI_API_KEY
 ### Slow Performance
 
 **Solutions:**
+
 - Enable CDN
 - Optimize images
 - Add caching headers
@@ -576,4 +598,3 @@ For deployment issues:
 ---
 
 **Your app is production-ready and will work flawlessly in any environment!** 🚀
-

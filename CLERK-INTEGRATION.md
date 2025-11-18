@@ -7,11 +7,13 @@ Clerk authentication has been successfully integrated into the Find My Domain we
 ## Features Implemented
 
 ### 1. **User Authentication**
+
 - ✅ Sign in/Sign up with Clerk (email, Google, GitHub, etc.)
 - ✅ User profile management via Clerk's UserButton
 - ✅ Protected routes (demo, API endpoints)
 
 ### 2. **Rate Limiting (No Database Required)**
+
 - ✅ 5 free domain generations per user
 - ✅ Attempt tracking stored in Clerk's `publicMetadata`
 - ✅ Real-time attempts counter on demo page
@@ -19,6 +21,7 @@ Clerk authentication has been successfully integrated into the Find My Domain we
 - ✅ Automatic decrementation on each generation
 
 ### 3. **Security**
+
 - ✅ Protected API routes require authentication
 - ✅ Middleware protection for sensitive endpoints
 - ✅ Server-side attempt validation
@@ -29,6 +32,7 @@ Clerk authentication has been successfully integrated into the Find My Domain we
 ### File Changes
 
 #### New Files
+
 1. **`apps/web/middleware.ts`**
    - Clerk middleware configuration
    - Protected route matching
@@ -39,6 +43,7 @@ Clerk authentication has been successfully integrated into the Find My Domain we
    - DELETE: Reset attempts (admin/testing)
 
 #### Modified Files
+
 1. **`apps/web/app/layout.tsx`**
    - Added `ClerkProvider` wrapper
 
@@ -93,19 +98,19 @@ sequenceDiagram
     User->>UI: Sign In
     UI->>Clerk: Authenticate
     Clerk-->>UI: User Session
-    
+
     UI->>API: GET /api/attempts
     API->>Clerk: Get User Metadata
     Clerk-->>API: { domainGenerationAttempts: 5 }
     API-->>UI: { remaining: 5 }
-    
+
     User->>UI: Generate Domains
     UI->>API: POST /api/generate
     API->>Clerk: Check Attempts
     API->>Clerk: Decrement (5 -> 4)
     API->>OpenAI: Generate Domains
     API-->>UI: { names: [...], remaining: 4 }
-    
+
     UI->>User: Show Results + "4 attempts left"
 ```
 
@@ -139,6 +144,7 @@ The following routes require authentication:
 ## User Experience
 
 ### Before Sign In
+
 1. User visits `/demo`
 2. Sees "Sign In Required" alert
 3. Clicks "Sign In" button
@@ -146,6 +152,7 @@ The following routes require authentication:
 5. User authenticates
 
 ### After Sign In
+
 1. User sees "Remaining Attempts: 5/5" with progress bar
 2. Form is enabled
 3. User generates domains
@@ -153,6 +160,7 @@ The following routes require authentication:
 5. Toast notification: "Generated X domain names!"
 
 ### When Out of Attempts
+
 1. Counter shows "0/5"
 2. Form is disabled
 3. Message: "No attempts left. Contact support."
@@ -205,11 +213,13 @@ OPENAI_API_KEY=sk-...                           # Your OpenAI key
 ## Cost Analysis
 
 ### Clerk Pricing
+
 - **Free Tier**: 10,000 monthly active users
 - **Pro**: $25/month for more features
 - **Enterprise**: Custom pricing
 
 ### With 5 Attempts/User
+
 - Free tier supports: 10,000 users × 5 = **50,000 generations/month**
 - Cost per generation: **$0** (within free tier)
 
@@ -225,7 +235,8 @@ OPENAI_API_KEY=sk-...                           # Your OpenAI key
 
 ### Attempts Not Updating
 
-**Solution**: 
+**Solution**:
+
 1. Check browser console for errors
 2. Verify API route is being called
 3. Check Clerk dashboard for user metadata
@@ -233,6 +244,7 @@ OPENAI_API_KEY=sk-...                           # Your OpenAI key
 ### Can't Sign In
 
 **Solution**:
+
 1. Verify `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` is set
 2. Check browser console for Clerk errors
 3. Ensure allowed domains are configured in Clerk dashboard
@@ -254,11 +266,10 @@ Possible improvements:
 ✅ **Secure** - Server-side validation + client-side UX  
 ✅ **Scalable** - Handles 10,000 users on free tier  
 ✅ **Professional** - Real auth with social logins  
-✅ **User Friendly** - Clear UI with progress tracking  
+✅ **User Friendly** - Clear UI with progress tracking
 
 ---
 
 **Author**: Dmitrii Selikhov  
 **Date**: 2025-11-18  
 **Version**: 1.4.1
-

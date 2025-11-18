@@ -96,9 +96,9 @@ If the `OPENAI_API_KEY` is not set, the demo will show an error message. If Cler
 ## Cost
 
 Using gpt-4o-mini (default model):
+
 - **Input**: $0.15 per 1M tokens
 - **Output**: $0.60 per 1M tokens
 - **Typical demo**: 10 domains = ~$0.001
 
 Very affordable for demo purposes!
-

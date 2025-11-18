@@ -3,8 +3,21 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Github, Search, Menu } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 
 export function Header() {
   return (
@@ -53,7 +66,12 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="icon" className="hidden md:flex">
+          <Button
+            asChild
+            variant="ghost"
+            size="icon"
+            className="hidden md:flex"
+          >
             <Link
               href="https://github.com/idimetrix/find-my-domain"
               target="_blank"

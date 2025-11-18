@@ -1,8 +1,19 @@
 import { Header } from "@/components/landing/header";
 import { Footer } from "@/components/landing/footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { CodeBlock } from "@/components/demo/code-block";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,7 +34,8 @@ export default function DocsPage() {
               Documentation
             </h1>
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
-              Everything you need to get started and master AI-powered domain generation
+              Everything you need to get started and master AI-powered domain
+              generation
             </p>
           </div>
 
@@ -70,7 +82,9 @@ export default function DocsPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">Option 1: Use with npx (No Installation)</h3>
+                    <h3 className="text-lg font-semibold">
+                      Option 1: Use with npx (No Installation)
+                    </h3>
                     <CodeBlock
                       code={`# Set your API key
 export OPENAI_API_KEY=sk-your-key-here
@@ -81,7 +95,9 @@ npx find-my-domain --keywords tech startup --count 10`}
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">Option 2: Install Globally</h3>
+                    <h3 className="text-lg font-semibold">
+                      Option 2: Install Globally
+                    </h3>
                     <CodeBlock
                       code={`# Install with pnpm
 pnpm install -g find-my-domain
@@ -95,7 +111,9 @@ yarn global add find-my-domain`}
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">Option 3: Install in Project</h3>
+                    <h3 className="text-lg font-semibold">
+                      Option 3: Install in Project
+                    </h3>
                     <CodeBlock
                       code={`# Install as dependency
 pnpm add find-my-domain
@@ -180,9 +198,12 @@ find-my-domain --domains stripe vercel --count 20`}
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">Configuration File</h3>
+                    <h3 className="text-lg font-semibold">
+                      Configuration File
+                    </h3>
                     <p className="text-sm text-muted-foreground">
-                      Create an <code>input.json</code> file for repeated searches:
+                      Create an <code>input.json</code> file for repeated
+                      searches:
                     </p>
                     <CodeBlock
                       code={`{
@@ -209,7 +230,9 @@ find-my-domain --domains stripe vercel --count 20`}
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">Generate Domain Names</h3>
+                    <h3 className="text-lg font-semibold">
+                      Generate Domain Names
+                    </h3>
                     <CodeBlock
                       code={`import { generateDomainNames } from 'find-my-domain';
 
@@ -225,7 +248,9 @@ console.log(domains); // ['techflow', 'startuplab', ...]`}
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">Check Domain Availability</h3>
+                    <h3 className="text-lg font-semibold">
+                      Check Domain Availability
+                    </h3>
                     <CodeBlock
                       code={`import { checkDomainStatus } from 'find-my-domain';
 
@@ -245,7 +270,9 @@ console.log(result);
                   </div>
 
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">Streaming Generation</h3>
+                    <h3 className="text-lg font-semibold">
+                      Streaming Generation
+                    </h3>
                     <CodeBlock
                       code={`import { generateDomainNamesStream, checkDomainStatus } from 'find-my-domain';
 
@@ -287,11 +314,14 @@ for await (const name of stream) {
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="startup">
                   <AccordionTrigger>
-                    <span className="font-semibold">Example 1: Find Domain for Startup</span>
+                    <span className="font-semibold">
+                      Example 1: Find Domain for Startup
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
-                      You&apos;re launching a new SaaS product and need a memorable domain:
+                      You&apos;re launching a new SaaS product and need a
+                      memorable domain:
                     </p>
                     <CodeBlock
                       code={`find-my-domain \\
@@ -302,14 +332,17 @@ for await (const name of stream) {
   --model gpt-4o`}
                     />
                     <p className="text-sm text-muted-foreground">
-                      Expected: 5-10 available domains with strong brand potential
+                      Expected: 5-10 available domains with strong brand
+                      potential
                     </p>
                   </AccordionContent>
                 </AccordionItem>
 
                 <AccordionItem value="devtool">
                   <AccordionTrigger>
-                    <span className="font-semibold">Example 2: Developer Tool Domain</span>
+                    <span className="font-semibold">
+                      Example 2: Developer Tool Domain
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
@@ -328,7 +361,9 @@ for await (const name of stream) {
 
                 <AccordionItem value="blog">
                   <AccordionTrigger>
-                    <span className="font-semibold">Example 3: Tech Blog Domain</span>
+                    <span className="font-semibold">
+                      Example 3: Tech Blog Domain
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
@@ -346,7 +381,9 @@ for await (const name of stream) {
 
                 <AccordionItem value="api">
                   <AccordionTrigger>
-                    <span className="font-semibold">Example 4: Programmatic Usage</span>
+                    <span className="font-semibold">
+                      Example 4: Programmatic Usage
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
@@ -392,41 +429,81 @@ async function findDomain() {
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="faq-1">
                   <AccordionTrigger>
-                    <span className="font-semibold">How much does it cost?</span>
+                    <span className="font-semibold">
+                      How much does it cost?
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
-                      Find My Domain is <strong>100% free and open source</strong> (MIT license). 
-                      You only need an OpenAI API key, which has its own pricing:
+                      Find My Domain is{" "}
+                      <strong>100% free and open source</strong> (MIT license).
+                      You only need an OpenAI API key, which has its own
+                      pricing:
                     </p>
                     <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground ml-4">
-                      <li><strong>gpt-4o-mini</strong>: $0.15 per 1M input tokens (very affordable)</li>
-                      <li><strong>gpt-4o</strong>: $2.50 per 1M input tokens</li>
-                      <li>Typical search: 10 domains = ~$0.001 with gpt-4o-mini</li>
+                      <li>
+                        <strong>gpt-4o-mini</strong>: $0.15 per 1M input tokens
+                        (very affordable)
+                      </li>
+                      <li>
+                        <strong>gpt-4o</strong>: $2.50 per 1M input tokens
+                      </li>
+                      <li>
+                        Typical search: 10 domains = ~$0.001 with gpt-4o-mini
+                      </li>
                     </ul>
                     <p className="text-sm text-muted-foreground">
-                      Visit <a href="https://openai.com/api/pricing/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OpenAI Pricing</a> for current rates.
+                      Visit{" "}
+                      <a
+                        href="https://openai.com/api/pricing/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        OpenAI Pricing
+                      </a>{" "}
+                      for current rates.
                     </p>
                   </AccordionContent>
                 </AccordionItem>
 
                 <AccordionItem value="faq-2">
                   <AccordionTrigger>
-                    <span className="font-semibold">Do I need an OpenAI API key?</span>
+                    <span className="font-semibold">
+                      Do I need an OpenAI API key?
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
-                      Yes, you need an OpenAI API key to use the domain generation feature. 
-                      WHOIS checking works without an API key.
+                      Yes, you need an OpenAI API key to use the domain
+                      generation feature. WHOIS checking works without an API
+                      key.
                     </p>
                     <div className="space-y-2">
-                      <p className="text-sm font-medium">How to get your API key:</p>
+                      <p className="text-sm font-medium">
+                        How to get your API key:
+                      </p>
                       <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground ml-4">
-                        <li>Sign up at <a href="https://platform.openai.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">platform.openai.com</a></li>
+                        <li>
+                          Sign up at{" "}
+                          <a
+                            href="https://platform.openai.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline"
+                          >
+                            platform.openai.com
+                          </a>
+                        </li>
                         <li>Navigate to API Keys section</li>
                         <li>Create a new secret key</li>
                         <li>Copy and save it securely</li>
-                        <li>Set it: <code className="bg-muted px-2 py-0.5 rounded">export OPENAI_API_KEY=sk-your-key</code></li>
+                        <li>
+                          Set it:{" "}
+                          <code className="bg-muted px-2 py-0.5 rounded">
+                            export OPENAI_API_KEY=sk-your-key
+                          </code>
+                        </li>
                       </ol>
                     </div>
                   </AccordionContent>
@@ -434,7 +511,9 @@ async function findDomain() {
 
                 <AccordionItem value="faq-3">
                   <AccordionTrigger>
-                    <span className="font-semibold">Which AI model should I use?</span>
+                    <span className="font-semibold">
+                      Which AI model should I use?
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
@@ -442,21 +521,28 @@ async function findDomain() {
                     </p>
                     <div className="space-y-3">
                       <div className="rounded-lg border p-3">
-                        <p className="font-medium text-sm mb-1">🚀 gpt-4o-mini (Recommended)</p>
+                        <p className="font-medium text-sm mb-1">
+                          🚀 gpt-4o-mini (Recommended)
+                        </p>
                         <p className="text-xs text-muted-foreground">
-                          Best balance of speed, cost, and quality. Perfect for most use cases.
+                          Best balance of speed, cost, and quality. Perfect for
+                          most use cases.
                         </p>
                       </div>
                       <div className="rounded-lg border p-3">
                         <p className="font-medium text-sm mb-1">⭐ gpt-4o</p>
                         <p className="text-xs text-muted-foreground">
-                          Higher quality, more creative names. Use for important projects.
+                          Higher quality, more creative names. Use for important
+                          projects.
                         </p>
                       </div>
                       <div className="rounded-lg border p-3">
-                        <p className="font-medium text-sm mb-1">💡 gpt-4-turbo</p>
+                        <p className="font-medium text-sm mb-1">
+                          💡 gpt-4-turbo
+                        </p>
                         <p className="text-xs text-muted-foreground">
-                          Premium quality. Best for finding that perfect, unique domain.
+                          Premium quality. Best for finding that perfect, unique
+                          domain.
                         </p>
                       </div>
                     </div>
@@ -465,31 +551,47 @@ async function findDomain() {
 
                 <AccordionItem value="faq-4">
                   <AccordionTrigger>
-                    <span className="font-semibold">How accurate is the WHOIS checking?</span>
+                    <span className="font-semibold">
+                      How accurate is the WHOIS checking?
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
-                      WHOIS checking is <strong>highly accurate</strong> (95%+) but not 100% guaranteed:
+                      WHOIS checking is <strong>highly accurate</strong> (95%+)
+                      but not 100% guaranteed:
                     </p>
                     <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground ml-4">
-                      <li><strong>Available</strong>: Domain is likely available for registration</li>
-                      <li><strong>Sale</strong>: Domain is registered but listed for sale</li>
-                      <li><strong>Taken</strong>: Domain is registered and not for sale</li>
+                      <li>
+                        <strong>Available</strong>: Domain is likely available
+                        for registration
+                      </li>
+                      <li>
+                        <strong>Sale</strong>: Domain is registered but listed
+                        for sale
+                      </li>
+                      <li>
+                        <strong>Taken</strong>: Domain is registered and not for
+                        sale
+                      </li>
                     </ul>
                     <p className="text-sm text-muted-foreground">
-                      <strong>Important:</strong> Always verify availability on your registrar before purchasing.
-                      WHOIS data can have a slight delay (~24-48 hours).
+                      <strong>Important:</strong> Always verify availability on
+                      your registrar before purchasing. WHOIS data can have a
+                      slight delay (~24-48 hours).
                     </p>
                   </AccordionContent>
                 </AccordionItem>
 
                 <AccordionItem value="faq-5">
                   <AccordionTrigger>
-                    <span className="font-semibold">Can I use this in my own project?</span>
+                    <span className="font-semibold">
+                      Can I use this in my own project?
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
-                      Yes! Find My Domain is MIT licensed and can be integrated into your projects:
+                      Yes! Find My Domain is MIT licensed and can be integrated
+                      into your projects:
                     </p>
                     <CodeBlock
                       code={`// Install as dependency
@@ -506,26 +608,54 @@ const names = await generateDomainNames({
 });`}
                     />
                     <p className="text-sm text-muted-foreground">
-                      Full TypeScript support included. See the <a href="#api" className="text-primary hover:underline">API tab</a> for more examples.
+                      Full TypeScript support included. See the{" "}
+                      <a href="#api" className="text-primary hover:underline">
+                        API tab
+                      </a>{" "}
+                      for more examples.
                     </p>
                   </AccordionContent>
                 </AccordionItem>
 
                 <AccordionItem value="faq-6">
                   <AccordionTrigger>
-                    <span className="font-semibold">What TLDs are supported?</span>
+                    <span className="font-semibold">
+                      What TLDs are supported?
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
                       We support 15+ popular TLDs, with more being added:
                     </p>
                     <div className="flex flex-wrap gap-2">
-                      {[".com", ".io", ".dev", ".ai", ".app", ".net", ".org", ".co", ".tech", ".sh", ".xyz", ".me", ".so", ".gg", ".fm"].map((tld) => (
-                        <Badge key={tld} variant="secondary">{tld}</Badge>
+                      {[
+                        ".com",
+                        ".io",
+                        ".dev",
+                        ".ai",
+                        ".app",
+                        ".net",
+                        ".org",
+                        ".co",
+                        ".tech",
+                        ".sh",
+                        ".xyz",
+                        ".me",
+                        ".so",
+                        ".gg",
+                        ".fm",
+                      ].map((tld) => (
+                        <Badge key={tld} variant="secondary">
+                          {tld}
+                        </Badge>
                       ))}
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      You can check any TLD by specifying it with the <code className="bg-muted px-2 py-0.5 rounded">--tlds</code> flag.
+                      You can check any TLD by specifying it with the{" "}
+                      <code className="bg-muted px-2 py-0.5 rounded">
+                        --tlds
+                      </code>{" "}
+                      flag.
                     </p>
                   </AccordionContent>
                 </AccordionItem>
@@ -539,25 +669,54 @@ const names = await generateDomainNames({
                       Yes, your data is private:
                     </p>
                     <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground ml-4">
-                      <li><strong>CLI runs locally</strong> on your machine</li>
-                      <li><strong>OpenAI API</strong>: Your prompts are sent to OpenAI&apos;s API (see their <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">privacy policy</a>)</li>
-                      <li><strong>WHOIS lookups</strong>: Anonymous public queries</li>
-                      <li><strong>No tracking</strong>: We don&apos;t collect any analytics or usage data</li>
-                      <li><strong>Open source</strong>: You can audit the code yourself</li>
+                      <li>
+                        <strong>CLI runs locally</strong> on your machine
+                      </li>
+                      <li>
+                        <strong>OpenAI API</strong>: Your prompts are sent to
+                        OpenAI&apos;s API (see their{" "}
+                        <a
+                          href="https://openai.com/policies/privacy-policy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline"
+                        >
+                          privacy policy
+                        </a>
+                        )
+                      </li>
+                      <li>
+                        <strong>WHOIS lookups</strong>: Anonymous public queries
+                      </li>
+                      <li>
+                        <strong>No tracking</strong>: We don&apos;t collect any
+                        analytics or usage data
+                      </li>
+                      <li>
+                        <strong>Open source</strong>: You can audit the code
+                        yourself
+                      </li>
                     </ul>
                   </AccordionContent>
                 </AccordionItem>
 
                 <AccordionItem value="faq-8">
                   <AccordionTrigger>
-                    <span className="font-semibold">I found a bug or have a feature request</span>
+                    <span className="font-semibold">
+                      I found a bug or have a feature request
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
                       We welcome contributions and feedback!
                     </p>
                     <div className="space-y-2">
-                      <Button asChild variant="outline" size="sm" className="w-full">
+                      <Button
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="w-full"
+                      >
                         <a
                           href="https://github.com/idimetrix/find-my-domain/issues"
                           target="_blank"
@@ -566,7 +725,12 @@ const names = await generateDomainNames({
                           Report an Issue on GitHub
                         </a>
                       </Button>
-                      <Button asChild variant="outline" size="sm" className="w-full">
+                      <Button
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="w-full"
+                      >
                         <a
                           href="https://github.com/idimetrix/find-my-domain/pulls"
                           target="_blank"
@@ -590,15 +754,20 @@ const names = await generateDomainNames({
 
                 <AccordionItem value="faq-9">
                   <AccordionTrigger>
-                    <span className="font-semibold">Can I run this in CI/CD or Docker?</span>
+                    <span className="font-semibold">
+                      Can I run this in CI/CD or Docker?
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
-                      Absolutely! Find My Domain works great in automated environments:
+                      Absolutely! Find My Domain works great in automated
+                      environments:
                     </p>
                     <div className="space-y-3">
                       <div>
-                        <p className="text-sm font-medium mb-2">Docker Example:</p>
+                        <p className="text-sm font-medium mb-2">
+                          Docker Example:
+                        </p>
                         <CodeBlock
                           code={`FROM node:22-alpine
 WORKDIR /app
@@ -608,7 +777,9 @@ CMD ["find-my-domain", "--keywords", "tech", "--count", "10"]`}
                         />
                       </div>
                       <div>
-                        <p className="text-sm font-medium mb-2">GitHub Actions Example:</p>
+                        <p className="text-sm font-medium mb-2">
+                          GitHub Actions Example:
+                        </p>
                         <CodeBlock
                           code={`- name: Find Domain
   run: |
@@ -624,7 +795,9 @@ CMD ["find-my-domain", "--keywords", "tech", "--count", "10"]`}
 
                 <AccordionItem value="faq-10">
                   <AccordionTrigger>
-                    <span className="font-semibold">How do I update to the latest version?</span>
+                    <span className="font-semibold">
+                      How do I update to the latest version?
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
@@ -641,7 +814,10 @@ npm update -g find-my-domain
 npx find-my-domain@latest --keywords tech --count 10`}
                     />
                     <p className="text-sm text-muted-foreground">
-                      Check your current version: <code className="bg-muted px-2 py-0.5 rounded">find-my-domain --version</code>
+                      Check your current version:{" "}
+                      <code className="bg-muted px-2 py-0.5 rounded">
+                        find-my-domain --version
+                      </code>
                     </p>
                   </AccordionContent>
                 </AccordionItem>
@@ -655,8 +831,8 @@ npx find-my-domain@latest --keywords tech --count 10`}
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
-                Check out the full documentation on GitHub for more examples, troubleshooting,
-                and advanced usage.
+                Check out the full documentation on GitHub for more examples,
+                troubleshooting, and advanced usage.
               </p>
               <div className="flex gap-4">
                 <a
@@ -684,4 +860,3 @@ npx find-my-domain@latest --keywords tech --count 10`}
     </div>
   );
 }
-

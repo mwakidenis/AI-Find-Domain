@@ -37,13 +37,13 @@ export const AVAILABLE_MODELS = [
   "gpt-4o-2024-05-13",
   "gpt-4o-mini-2024-07-18",
   "chatgpt-4o-latest",
-  
+
   // GPT-4 Family
   "gpt-4",
   "gpt-4-turbo",
   "gpt-4-turbo-2024-04-09",
   "gpt-4-0613",
-  
+
   // O-Series (Reasoning)
   "o1",
   "o1-2024-12-17",
@@ -51,7 +51,7 @@ export const AVAILABLE_MODELS = [
   "o3-mini",
   "o3-2025-04-16",
   "o3-mini-2025-01-31",
-  
+
   // GPT-3.5 (Budget)
   "gpt-3.5-turbo",
   "gpt-3.5-turbo-1106",
@@ -66,4 +66,3 @@ export const STATUS = {
   CHECKING: "🔍",
   ERROR: "⚠️",
 } as const;
-

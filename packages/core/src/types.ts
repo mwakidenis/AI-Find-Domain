@@ -79,4 +79,3 @@ export interface CliArguments {
   input?: string;
   help?: boolean;
 }
-

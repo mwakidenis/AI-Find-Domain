@@ -15,7 +15,8 @@ const steps = [
     number: 1,
     icon: Terminal,
     title: "Install CLI Tool",
-    description: "Install globally with pnpm, npm, or use npx for instant execution without installation.",
+    description:
+      "Install globally with pnpm, npm, or use npx for instant execution without installation.",
     code: "npx find-my-domain",
     color: "text-blue-500",
   },
@@ -23,7 +24,8 @@ const steps = [
     number: 2,
     icon: Sparkles,
     title: "AI Generation",
-    description: "Provide keywords or example domains. Our AI analyzes patterns and generates creative, brandable names.",
+    description:
+      "Provide keywords or example domains. Our AI analyzes patterns and generates creative, brandable names.",
     code: "--keywords tech startup",
     color: "text-purple-500",
   },
@@ -31,7 +33,8 @@ const steps = [
     number: 3,
     icon: Search,
     title: "WHOIS Check",
-    description: "Automatically checks domain availability across multiple TLDs using real-time WHOIS lookup.",
+    description:
+      "Automatically checks domain availability across multiple TLDs using real-time WHOIS lookup.",
     code: "--tlds com io dev",
     color: "text-green-500",
   },
@@ -39,7 +42,8 @@ const steps = [
     number: 4,
     icon: Download,
     title: "Export Results",
-    description: "Get structured JSON output with availability status, timestamps, and detailed statistics.",
+    description:
+      "Get structured JSON output with availability status, timestamps, and detailed statistics.",
     code: "output/results.json",
     color: "text-orange-500",
   },
@@ -71,7 +75,9 @@ export function HowItWorks() {
               <div className="absolute top-0 right-0 w-24 h-24 -mr-12 -mt-12 bg-gradient-to-br from-primary/10 to-transparent rounded-full" />
               <CardHeader className="pb-3">
                 <div className="mb-3 flex items-center justify-between">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 ${step.color}`}>
+                  <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 ${step.color}`}
+                  >
                     <Icon className="h-5 w-5" />
                   </div>
                   <Badge variant="secondary" className="text-sm font-bold">
@@ -97,4 +103,3 @@ export function HowItWorks() {
     </section>
   );
 }
-

@@ -34,6 +34,7 @@ Click "Try Interactive Demo" or go to: http://localhost:3000/demo
 ### 3. Test Generation
 
 **Input:**
+
 - Keywords: `tech`, `startup`
 - TLDs: `com`, `io` (select both)
 - Count: 5 (use slider)
@@ -41,6 +42,7 @@ Click "Try Interactive Demo" or go to: http://localhost:3000/demo
 **Click:** "Generate Domains"
 
 **Expected:**
+
 ```
 ⏳ "Generating domain names with AI..."
 ✓  "Generated 5 domain names!" (toast notification)
@@ -58,6 +60,7 @@ Click "Try Interactive Demo" or go to: http://localhost:3000/demo
 ### Test 1: Keywords Only
 
 **Input:**
+
 ```
 Keywords: ai, machine learning, ml
 TLDs: com, io, dev
@@ -65,6 +68,7 @@ Count: 10
 ```
 
 **Expected:**
+
 - 10 creative AI-related domain names
 - 30 total domains checked (10 × 3 TLDs)
 - Results in 15-20 seconds
@@ -73,6 +77,7 @@ Count: 10
 ### Test 2: Example Domains Only
 
 **Input:**
+
 ```
 Example Domains: stripe, vercel, notion
 TLDs: com, io
@@ -80,6 +85,7 @@ Count: 8
 ```
 
 **Expected:**
+
 - 8 domain names inspired by the examples
 - 16 total domains checked (8 × 2 TLDs)
 - Names similar in style to examples
@@ -88,6 +94,7 @@ Count: 8
 ### Test 3: Combined (Keywords + Examples)
 
 **Input:**
+
 ```
 Keywords: fast, secure, cloud
 Example Domains: aws, azure, gcp
@@ -96,6 +103,7 @@ Count: 12
 ```
 
 **Expected:**
+
 - 12 creative names mixing keywords and inspiration
 - 48 total domains checked (12 × 4 TLDs)
 - Professional cloud-related names
@@ -104,6 +112,7 @@ Count: 12
 ### Test 4: Single TLD
 
 **Input:**
+
 ```
 Keywords: startup, founder, entrepreneur
 TLDs: com (only)
@@ -111,6 +120,7 @@ Count: 15
 ```
 
 **Expected:**
+
 - 15 startup-related names
 - 15 total domains checked
 - Results in 10-12 seconds
@@ -119,6 +129,7 @@ Count: 15
 ### Test 5: Maximum Count
 
 **Input:**
+
 ```
 Keywords: innovative, disruptive, tech
 TLDs: com, io
@@ -126,6 +137,7 @@ Count: 20 (maximum)
 ```
 
 **Expected:**
+
 - 20 creative domain names
 - 40 total domains checked
 - Results in 25-35 seconds
@@ -138,12 +150,14 @@ Count: 20 (maximum)
 ### Test 6: No API Key
 
 **Steps:**
+
 1. Stop dev server
 2. Remove or comment out `OPENAI_API_KEY` from `.env.local`
 3. Restart dev server
 4. Try to generate domains
 
 **Expected:**
+
 ```
 ❌ Alert: "OpenAI API key is not configured.
            Set OPENAI_API_KEY environment variable."
@@ -155,13 +169,16 @@ Count: 20 (maximum)
 **Try these:**
 
 **No keywords or domains:**
+
 - Expected: Error message before API call
 
 **Count too low/high:**
+
 - Minimum: 1 (enforced by slider)
 - Maximum: 20 (enforced by slider)
 
 **No TLDs selected:**
+
 - Expected: Form validation error
 
 ---
@@ -182,6 +199,7 @@ curl -X POST http://localhost:3000/api/generate \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -212,6 +230,7 @@ curl -X POST http://localhost:3000/api/check-domain \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "success": true,
@@ -224,7 +243,7 @@ curl -X POST http://localhost:3000/api/check-domain \
       "duration": 234,
       "createdDate": "1995-08-14",
       "expiryDate": "2025-08-13"
-    },
+    }
     // ... more results
   ],
   "total": 3
@@ -239,14 +258,15 @@ curl -X POST http://localhost:3000/api/check-domain \
 
 **Test different counts:**
 
-| Count | TLDs | Expected Time | Notes |
-|-------|------|---------------|-------|
-| 5 | 1 | 8-10s | Fastest |
-| 10 | 2 | 12-15s | Typical use |
-| 15 | 3 | 18-25s | Heavy use |
-| 20 | 2 | 20-30s | Maximum |
+| Count | TLDs | Expected Time | Notes       |
+| ----- | ---- | ------------- | ----------- |
+| 5     | 1    | 8-10s         | Fastest     |
+| 10    | 2    | 12-15s        | Typical use |
+| 15    | 3    | 18-25s        | Heavy use   |
+| 20    | 2    | 20-30s        | Maximum     |
 
 **Factors affecting time:**
+
 - OpenAI API response: 2-5s
 - WHOIS checks: 0.5s per domain (with 200ms delay)
 - Network latency: 1-3s
@@ -269,6 +289,7 @@ time curl -X POST http://localhost:3000/api/generate \
 ### Test All Interactive Elements
 
 **✅ Copy Buttons:**
+
 - Hero section command
 - CTA section commands
 - Demo page code blocks
@@ -276,24 +297,28 @@ time curl -X POST http://localhost:3000/api/generate \
 - All should show toast notification on copy
 
 **✅ Toast Notifications:**
+
 - Success on domain generation
 - Success on copy
 - Error on failures
 - Should auto-dismiss after 2-3 seconds
 
 **✅ Progress Messages:**
+
 - "Generating domain names with AI..."
 - "Generated X names! Checking availability..."
 - "Checking availability for X domains..."
 - Should update in real-time
 
 **✅ Loading States:**
+
 - Form disabled while loading
 - Skeleton UI on results area
 - Button shows loading spinner
 - Progress indicators visible
 
 **✅ Results Display:**
+
 - Tabs (Available/Sale/Taken)
 - Correct counts in tab headers
 - Progress bars showing percentages
@@ -328,6 +353,7 @@ time curl -X POST http://localhost:3000/api/generate \
 ### Test with Mobile Devices
 
 **iOS Safari:**
+
 ```
 - Open http://your-local-ip:3000/demo
 - Test form submission
@@ -336,6 +362,7 @@ time curl -X POST http://localhost:3000/api/generate \
 ```
 
 **Android Chrome:**
+
 ```
 - Same tests as iOS
 - Check keyboard behavior
@@ -358,15 +385,15 @@ import DemoPage from '@/app/demo/page';
 describe('Demo Page', () => {
   it('should generate real domains', async () => {
     render(<DemoPage />);
-    
+
     // Fill form
     const keywordInput = screen.getByLabelText(/keywords/i);
     await userEvent.type(keywordInput, 'tech{enter}');
-    
+
     // Submit
     const generateButton = screen.getByRole('button', { name: /generate/i });
     await userEvent.click(generateButton);
-    
+
     // Wait for results
     await waitFor(() => {
       expect(screen.getByText(/available/i)).toBeInTheDocument();
@@ -376,6 +403,7 @@ describe('Demo Page', () => {
 ```
 
 **Run tests:**
+
 ```bash
 cd apps/web
 pnpm add -D @testing-library/react @testing-library/user-event
@@ -414,12 +442,14 @@ pnpm test
 ### Before Deployment
 
 1. **Build locally:**
+
 ```bash
 cd apps/web
 pnpm build
 ```
 
 2. **Test production build:**
+
 ```bash
 pnpm start
 # Visit http://localhost:3000
@@ -427,6 +457,7 @@ pnpm start
 ```
 
 3. **Check bundle size:**
+
 ```bash
 pnpm add -D @next/bundle-analyzer
 ANALYZE=true pnpm build
@@ -450,6 +481,7 @@ ANALYZE=true pnpm build
 ### Test Fails: "OpenAI API key not configured"
 
 **Solution:**
+
 ```bash
 # Check .env.local exists
 ls -la apps/web/.env.local
@@ -464,6 +496,7 @@ cat apps/web/.env.local
 ### Test Fails: "Network error"
 
 **Solution:**
+
 ```bash
 # Check dev server is running
 curl http://localhost:3000/api/generate
@@ -475,11 +508,13 @@ curl http://localhost:3000/api/generate
 ### Test Slow: Takes too long
 
 **Expected times:**
+
 - Generation: 2-5 seconds
 - WHOIS check: 0.5s per domain
 - Total (10 domains, 2 TLDs): ~12-15 seconds
 
 **If slower:**
+
 - Check network speed
 - Check OpenAI API status
 - Try fewer domains/TLDs
@@ -491,6 +526,7 @@ curl http://localhost:3000/api/generate
 ### Set Up Monitoring
 
 **Use Vercel Analytics** (after deployment):
+
 - Track demo usage
 - Monitor API performance
 - Check error rates
@@ -499,11 +535,13 @@ curl http://localhost:3000/api/generate
 ### Set Up Alerts
 
 **OpenAI Usage:**
+
 - Monitor in OpenAI dashboard
 - Set spending limits
 - Get alerts at thresholds
 
 **Application Health:**
+
 - Uptime monitoring (UptimeRobot, Pingdom)
 - Error tracking (Sentry)
 - Performance monitoring (Web Vitals)
@@ -535,4 +573,3 @@ Before considering demo "production-ready":
 **The demo is 100% real, 100% functional, and production-ready!** 🚀
 
 All tests should pass with actual OpenAI generation and real WHOIS checking!
-

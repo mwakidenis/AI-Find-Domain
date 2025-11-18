@@ -9,7 +9,13 @@ import { DomainResults } from "@/components/demo/domain-results";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info, Sparkles, AlertCircle, Shield } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,7 +35,9 @@ export default function DemoPage() {
   const [activeTab, setActiveTab] = useState("demo");
   const [error, setError] = useState<string | null>(null);
   const [generatingStatus, setGeneratingStatus] = useState<string>("");
-  const [remainingAttempts, setRemainingAttempts] = useState<number | null>(null);
+  const [remainingAttempts, setRemainingAttempts] = useState<number | null>(
+    null,
+  );
   const [loadingAttempts, setLoadingAttempts] = useState(true);
 
   // Fetch remaining attempts when user is loaded
@@ -87,17 +95,19 @@ export default function DemoPage() {
       }
 
       const { names, remaining } = await generateResponse.json();
-      
+
       // Update remaining attempts from the response
       if (typeof remaining === "number") {
         setRemainingAttempts(remaining);
       }
-      
+
       if (!names || names.length === 0) {
         throw new Error("No domain names were generated");
       }
 
-      setGeneratingStatus(`Generated ${names.length} names! Checking availability...`);
+      setGeneratingStatus(
+        `Generated ${names.length} names! Checking availability...`,
+      );
       toast.success(`Generated ${names.length} domain names!`);
 
       // Step 2: Create full domain names with TLDs
@@ -108,7 +118,9 @@ export default function DemoPage() {
         }
       }
 
-      setGeneratingStatus(`Checking availability for ${fullDomains.length} domains...`);
+      setGeneratingStatus(
+        `Checking availability for ${fullDomains.length} domains...`,
+      );
 
       // Step 3: Check domain availability with WHOIS
       const checkResponse = await fetch("/api/check-domain", {
@@ -123,27 +135,38 @@ export default function DemoPage() {
 
       if (!checkResponse.ok) {
         const errorData = await checkResponse.json();
-        throw new Error(errorData.error || "Failed to check domain availability");
+        throw new Error(
+          errorData.error || "Failed to check domain availability",
+        );
       }
 
       const { results: domainResults } = await checkResponse.json();
 
       // Step 4: Transform results to our format
-      const transformedResults: DomainResult[] = domainResults.map((result: any) => ({
-        domain: result.domain,
-        status: result.available ? "available" : result.sale ? "sale" : "taken",
-      }));
+      const transformedResults: DomainResult[] = domainResults.map(
+        (result: any) => ({
+          domain: result.domain,
+          status: result.available
+            ? "available"
+            : result.sale
+              ? "sale"
+              : "taken",
+        }),
+      );
 
       setResults(transformedResults);
       setGeneratingStatus("");
-      
-      const availableCount = transformedResults.filter(r => r.status === "available").length;
+
+      const availableCount = transformedResults.filter(
+        (r) => r.status === "available",
+      ).length;
       toast.success(`Found ${availableCount} available domains!`, {
         icon: "🎉",
         duration: 3000,
       });
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Unknown error occurred";
+      const errorMessage =
+        err instanceof Error ? err.message : "Unknown error occurred";
       setError(errorMessage);
       setGeneratingStatus("");
       toast.error(errorMessage, {
@@ -188,10 +211,11 @@ export default function DemoPage() {
               </span>
             </h1>
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
-              Experience 100% real AI-driven domain generation with actual OpenAI and WHOIS checking.
-              Results typically arrive in 10-20 seconds.
+              Experience 100% real AI-driven domain generation with actual
+              OpenAI and WHOIS checking. Results typically arrive in 10-20
+              seconds.
             </p>
-            
+
             {/* Attempts Counter */}
             {isSignedIn && !loadingAttempts && remainingAttempts !== null && (
               <Card className="max-w-md mx-auto border-2">
@@ -199,9 +223,14 @@ export default function DemoPage() {
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
                       <span className="font-medium">Remaining Attempts</span>
-                      <span className="text-lg font-bold">{remainingAttempts} / 5</span>
+                      <span className="text-lg font-bold">
+                        {remainingAttempts} / 5
+                      </span>
                     </div>
-                    <Progress value={(remainingAttempts / 5) * 100} className="h-2" />
+                    <Progress
+                      value={(remainingAttempts / 5) * 100}
+                      className="h-2"
+                    />
                     <p className="text-xs text-muted-foreground text-center">
                       {remainingAttempts === 0
                         ? "No attempts left. Contact support to get more."
@@ -213,7 +242,11 @@ export default function DemoPage() {
             )}
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="demo" className="gap-2">
                 <Sparkles className="h-4 w-4" />
@@ -229,9 +262,12 @@ export default function DemoPage() {
               {!isSignedIn && isLoaded && (
                 <Alert className="border-orange-200 bg-orange-50 dark:bg-orange-950/20">
                   <Shield className="h-4 w-4 text-orange-600" />
-                  <AlertTitle className="text-orange-800 dark:text-orange-400">Sign In Required</AlertTitle>
+                  <AlertTitle className="text-orange-800 dark:text-orange-400">
+                    Sign In Required
+                  </AlertTitle>
                   <AlertDescription className="text-orange-700 dark:text-orange-300">
-                    Please sign in to use the domain generator. Each user gets <strong>5 free generations</strong> to prevent abuse.
+                    Please sign in to use the domain generator. Each user gets{" "}
+                    <strong>5 free generations</strong> to prevent abuse.
                   </AlertDescription>
                   <div className="mt-3">
                     <SignInButton mode="modal">
@@ -248,8 +284,12 @@ export default function DemoPage() {
                   <Sparkles className="h-4 w-4" />
                   <AlertTitle>Real AI-Powered Demo</AlertTitle>
                   <AlertDescription>
-                    This demo uses <strong>real OpenAI API</strong> to generate domains and <strong>real WHOIS</strong> to check availability.
-                    Results may take 10-30 seconds depending on the number of domains. You have <strong>{remainingAttempts ?? 5} attempts</strong> remaining.
+                    This demo uses <strong>real OpenAI API</strong> to generate
+                    domains and <strong>real WHOIS</strong> to check
+                    availability. Results may take 10-30 seconds depending on
+                    the number of domains. You have{" "}
+                    <strong>{remainingAttempts ?? 5} attempts</strong>{" "}
+                    remaining.
                   </AlertDescription>
                 </Alert>
               )}
@@ -272,8 +312,8 @@ export default function DemoPage() {
 
               <div className="grid gap-6 lg:grid-cols-2">
                 <div>
-                  <DomainGeneratorForm 
-                    onGenerate={handleGenerate} 
+                  <DomainGeneratorForm
+                    onGenerate={handleGenerate}
                     loading={loading}
                     disabled={!isSignedIn || remainingAttempts === 0}
                   />
@@ -314,21 +354,27 @@ export default function DemoPage() {
                     This Demo is 100% Real!
                   </CardTitle>
                   <CardDescription>
-                    This demo uses <strong>actual OpenAI API</strong> for generation and <strong>real WHOIS</strong> for checking.
-                    Install the CLI tool for even more features like custom models, streaming, and batch processing.
+                    This demo uses <strong>actual OpenAI API</strong> for
+                    generation and <strong>real WHOIS</strong> for checking.
+                    Install the CLI tool for even more features like custom
+                    models, streaming, and batch processing.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-2">
-                    <h3 className="text-sm font-semibold">Quick Start (No Installation)</h3>
+                    <h3 className="text-sm font-semibold">
+                      Quick Start (No Installation)
+                    </h3>
                     <CodeBlock
                       code={`# Use npx - instant execution!
 npx find-my-domain --keywords tech startup --count 10`}
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
-                    <h3 className="text-sm font-semibold">Global Installation</h3>
+                    <h3 className="text-sm font-semibold">
+                      Global Installation
+                    </h3>
                     <CodeBlock
                       code={`# Install globally
 pnpm install -g find-my-domain
@@ -371,42 +417,54 @@ find-my-domain --keywords tech --tlds com io --count 20`}
                       <span className="text-green-500 text-xl">✓</span>
                       <div>
                         <p className="font-medium text-sm">Real-time WHOIS</p>
-                        <p className="text-xs text-muted-foreground">Instant availability checking</p>
+                        <p className="text-xs text-muted-foreground">
+                          Instant availability checking
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3 rounded-lg border p-3">
                       <span className="text-green-500 text-xl">✓</span>
                       <div>
                         <p className="font-medium text-sm">40+ AI Models</p>
-                        <p className="text-xs text-muted-foreground">All OpenAI models supported</p>
+                        <p className="text-xs text-muted-foreground">
+                          All OpenAI models supported
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3 rounded-lg border p-3">
                       <span className="text-green-500 text-xl">✓</span>
                       <div>
                         <p className="font-medium text-sm">Streaming Mode</p>
-                        <p className="text-xs text-muted-foreground">See results as they generate</p>
+                        <p className="text-xs text-muted-foreground">
+                          See results as they generate
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3 rounded-lg border p-3">
                       <span className="text-green-500 text-xl">✓</span>
                       <div>
                         <p className="font-medium text-sm">15+ TLDs</p>
-                        <p className="text-xs text-muted-foreground">.com, .io, .dev, and more</p>
+                        <p className="text-xs text-muted-foreground">
+                          .com, .io, .dev, and more
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3 rounded-lg border p-3">
                       <span className="text-green-500 text-xl">✓</span>
                       <div>
                         <p className="font-medium text-sm">Node.js API</p>
-                        <p className="text-xs text-muted-foreground">Full TypeScript support</p>
+                        <p className="text-xs text-muted-foreground">
+                          Full TypeScript support
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3 rounded-lg border p-3">
                       <span className="text-green-500 text-xl">✓</span>
                       <div>
                         <p className="font-medium text-sm">JSON Export</p>
-                        <p className="text-xs text-muted-foreground">Structured output files</p>
+                        <p className="text-xs text-muted-foreground">
+                          Structured output files
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -420,7 +478,9 @@ find-my-domain --keywords tech --tlds com io --count 20`}
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5">🚀</Badge>
+                      <Badge variant="secondary" className="mt-0.5">
+                        🚀
+                      </Badge>
                       <div>
                         <p className="text-sm font-medium">Startup Launch</p>
                         <p className="text-xs text-muted-foreground">
@@ -429,16 +489,22 @@ find-my-domain --keywords tech --tlds com io --count 20`}
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5">💻</Badge>
+                      <Badge variant="secondary" className="mt-0.5">
+                        💻
+                      </Badge>
                       <div>
-                        <p className="text-sm font-medium">Developer Projects</p>
+                        <p className="text-sm font-medium">
+                          Developer Projects
+                        </p>
                         <p className="text-xs text-muted-foreground">
                           Technical names for open source tools and libraries
                         </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5">🎨</Badge>
+                      <Badge variant="secondary" className="mt-0.5">
+                        🎨
+                      </Badge>
                       <div>
                         <p className="text-sm font-medium">Personal Branding</p>
                         <p className="text-xs text-muted-foreground">
@@ -447,7 +513,9 @@ find-my-domain --keywords tech --tlds com io --count 20`}
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5">🛍️</Badge>
+                      <Badge variant="secondary" className="mt-0.5">
+                        🛍️
+                      </Badge>
                       <div>
                         <p className="text-sm font-medium">E-commerce</p>
                         <p className="text-xs text-muted-foreground">
@@ -466,4 +534,3 @@ find-my-domain --keywords tech --tlds com io --count 20`}
     </div>
   );
 }
-

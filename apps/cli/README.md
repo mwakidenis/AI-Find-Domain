@@ -70,27 +70,27 @@ find-my-domain \
 
 #### Core Options
 
-| Option | Alias | Type | Description | Example |
-|--------|-------|------|-------------|---------|
-| `--api-key` | `-a` | string | OpenAI API key | `--api-key sk-xxx` |
-| `--keywords` | `-k` | array | Keywords to use | `--keywords tech startup` |
-| `--domains` | | array | Example domains | `--domains stripe vercel` |
-| `--count` | `-c` | number | Number to generate | `--count 25` |
-| `--model` | `-m` | string | OpenAI model | `--model gpt-4o` |
-| `--tlds` | `-t` | array | TLDs to check | `--tlds com io dev` |
+| Option       | Alias | Type   | Description        | Example                   |
+| ------------ | ----- | ------ | ------------------ | ------------------------- |
+| `--api-key`  | `-a`  | string | OpenAI API key     | `--api-key sk-xxx`        |
+| `--keywords` | `-k`  | array  | Keywords to use    | `--keywords tech startup` |
+| `--domains`  |       | array  | Example domains    | `--domains stripe vercel` |
+| `--count`    | `-c`  | number | Number to generate | `--count 25`              |
+| `--model`    | `-m`  | string | OpenAI model       | `--model gpt-4o`          |
+| `--tlds`     | `-t`  | array  | TLDs to check      | `--tlds com io dev`       |
 
 #### Advanced Options
 
-| Option | Type | Description | Default |
-|--------|------|-------------|---------|
-| `--stream` | boolean | Enable streaming mode | `true` |
-| `--no-stream` | flag | Disable streaming | - |
-| `--save` | boolean | Save results to file | `true` |
-| `--no-save` | flag | Don't save results | - |
-| `--directory` | string | Output directory | `output` |
-| `--prompt` | string | Custom prompt inline | - |
-| `--prompt-file` | string | Custom prompt file | - |
-| `--help` | `-h` | Show help | - |
+| Option          | Type    | Description           | Default  |
+| --------------- | ------- | --------------------- | -------- |
+| `--stream`      | boolean | Enable streaming mode | `true`   |
+| `--no-stream`   | flag    | Disable streaming     | -        |
+| `--save`        | boolean | Save results to file  | `true`   |
+| `--no-save`     | flag    | Don't save results    | -        |
+| `--directory`   | string  | Output directory      | `output` |
+| `--prompt`      | string  | Custom prompt inline  | -        |
+| `--prompt-file` | string  | Custom prompt file    | -        |
+| `--help`        | `-h`    | Show help             | -        |
 
 ---
 
@@ -99,6 +99,7 @@ find-my-domain \
 ### Custom Prompts
 
 **Inline prompt:**
+
 ```bash
 find-my-domain \
   --prompt "Generate {COUNT} short domain names for {KEYWORDS}" \
@@ -107,6 +108,7 @@ find-my-domain \
 ```
 
 **Prompt file:**
+
 ```bash
 # Create custom prompt
 cat > my-prompt.txt << 'EOF'
@@ -124,6 +126,7 @@ find-my-domain \
 ### Configuration File
 
 **Create `input.json`:**
+
 ```json
 {
   "directory": "output",
@@ -136,6 +139,7 @@ find-my-domain \
 ```
 
 **Run with config:**
+
 ```bash
 find-my-domain --input input.json
 ```
@@ -143,12 +147,14 @@ find-my-domain --input input.json
 ### Streaming vs Batch Mode
 
 **Streaming (default) - Get results as they're generated:**
+
 ```bash
 find-my-domain --keywords tech --count 10 --tlds com io
 # See results in 2-3 seconds per domain
 ```
 
 **Batch mode - Generate all first, then check:**
+
 ```bash
 find-my-domain --keywords tech --count 10 --tlds com io --no-stream
 # Wait for all names, then check sequentially
@@ -198,11 +204,7 @@ Results are saved to `output/output.json`:
     "count": 10,
     "model": "gpt-4o-mini"
   },
-  "generated": [
-    "techflow",
-    "rapidhub",
-    "cloudly"
-  ],
+  "generated": ["techflow", "rapidhub", "cloudly"],
   "results": {
     "available": ["techflow.com", "rapidhub.io"],
     "sale": ["cloudly.com"],
@@ -223,27 +225,31 @@ Results are saved to `output/output.json`:
 
 ### Recommended Models
 
-| Model | Speed | Cost | Quality | Best For |
-|-------|-------|------|---------|----------|
-| `gpt-4o-mini` | ⚡⚡⚡ | $ | ⭐⭐⭐ | Testing, high volume |
-| `gpt-4o` | ⚡⚡ | $$ | ⭐⭐⭐⭐⭐ | Production, quality |
-| `gpt-4-turbo` | ⚡⚡ | $$$ | ⭐⭐⭐⭐⭐ | Premium, best quality |
+| Model         | Speed  | Cost | Quality    | Best For              |
+| ------------- | ------ | ---- | ---------- | --------------------- |
+| `gpt-4o-mini` | ⚡⚡⚡ | $    | ⭐⭐⭐     | Testing, high volume  |
+| `gpt-4o`      | ⚡⚡   | $$   | ⭐⭐⭐⭐⭐ | Production, quality   |
+| `gpt-4-turbo` | ⚡⚡   | $$$  | ⭐⭐⭐⭐⭐ | Premium, best quality |
 
 ### All Available Models
 
 **GPT-4o Family:**
+
 - `gpt-4o`, `gpt-4o-mini`
 - `gpt-4o-2024-11-20`, `gpt-4o-2024-08-06`
 - `chatgpt-4o-latest`
 
 **GPT-4 Family:**
+
 - `gpt-4`, `gpt-4-turbo`
 - `gpt-4-turbo-2024-04-09`
 
 **O-Series (Reasoning):**
+
 - `o1`, `o3`, `o3-mini`
 
 **GPT-3.5 (Budget):**
+
 - `gpt-3.5-turbo`
 
 ---
@@ -253,11 +259,7 @@ Results are saved to `output/output.json`:
 Use as a library in your Node.js projects:
 
 ```typescript
-import {
-  generateDomainNames,
-  checkDomainStatus,
-  wait,
-} from "find-my-domain";
+import { generateDomainNames, checkDomainStatus, wait } from "find-my-domain";
 
 // Generate domains
 const names = await generateDomainNames({
@@ -365,6 +367,7 @@ apps/cli/
 ### Common Issues
 
 **"OPENAI_API_KEY is required"**
+
 ```bash
 # Make sure API key is set
 export OPENAI_API_KEY=sk-your-key
@@ -373,6 +376,7 @@ echo "OPENAI_API_KEY=sk-your-key" > .env
 ```
 
 **"WHOIS rate limiting"**
+
 ```bash
 # Check fewer TLDs
 find-my-domain --tlds com --count 10
@@ -381,6 +385,7 @@ find-my-domain --tlds com --count 10
 ```
 
 **"Module not found" errors**
+
 ```bash
 # Rebuild from root
 cd ../..
@@ -405,4 +410,3 @@ MIT © [Dmitrii Selikhov](https://github.com/idimetrix)
 ---
 
 **Happy domain hunting!** 🚀
-

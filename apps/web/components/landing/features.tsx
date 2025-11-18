@@ -96,7 +96,9 @@ export function Features() {
                 <CardTitle className="text-base">{feature.title}</CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
-                <CardDescription className="text-xs leading-relaxed">{feature.description}</CardDescription>
+                <CardDescription className="text-xs leading-relaxed">
+                  {feature.description}
+                </CardDescription>
               </CardContent>
             </Card>
           );
@@ -105,4 +107,3 @@ export function Features() {
     </section>
   );
 }
-

@@ -52,14 +52,14 @@ import type {
   // Configuration
   InputConfig,
   CliArguments,
-  
+
   // Domain Status
   DomainStatusResult,
   DomainStatusOptions,
-  
+
   // AI Generation
   GenerateDomainNamesOptions,
-  
+
   // Output
   OutputResult,
 } from "@find-my-domain/core";
@@ -71,17 +71,17 @@ Configuration for domain generation:
 
 ```typescript
 interface InputConfig {
-  directory?: string;        // Output directory (default: "output")
-  tlds?: string[];          // TLDs to check (default: ["com"])
-  domains?: string[];       // Example domains for inspiration
-  keywords?: string[];      // Keywords to incorporate
-  count?: number;           // Number of domains to generate
-  model?: string;           // OpenAI model to use
-  apiKey?: string;          // OpenAI API key
-  prompt?: string;          // Custom prompt template
-  promptFile?: string;      // Path to prompt file
-  save?: boolean;           // Save results to file (default: true)
-  stream?: boolean;         // Enable streaming (default: true)
+  directory?: string; // Output directory (default: "output")
+  tlds?: string[]; // TLDs to check (default: ["com"])
+  domains?: string[]; // Example domains for inspiration
+  keywords?: string[]; // Keywords to incorporate
+  count?: number; // Number of domains to generate
+  model?: string; // OpenAI model to use
+  apiKey?: string; // OpenAI API key
+  prompt?: string; // Custom prompt template
+  promptFile?: string; // Path to prompt file
+  save?: boolean; // Save results to file (default: true)
+  stream?: boolean; // Enable streaming (default: true)
 }
 ```
 
@@ -91,14 +91,14 @@ Result from WHOIS lookup:
 
 ```typescript
 interface DomainStatusResult {
-  ok: boolean;              // Was the check successful?
-  domain: string;           // Full domain name
-  available: boolean;       // Is it available?
-  sale: boolean;            // Is it for sale?
-  duration: number;         // Check duration (ms)
-  createdDate?: string;     // Registration date
-  updatedDate?: string;     // Last update date
-  expiryDate?: string;      // Expiration date
+  ok: boolean; // Was the check successful?
+  domain: string; // Full domain name
+  available: boolean; // Is it available?
+  sale: boolean; // Is it for sale?
+  duration: number; // Check duration (ms)
+  createdDate?: string; // Registration date
+  updatedDate?: string; // Last update date
+  expiryDate?: string; // Expiration date
 }
 ```
 
@@ -108,12 +108,12 @@ Options for AI generation:
 
 ```typescript
 interface GenerateDomainNamesOptions {
-  domains?: string[];       // Example domains
-  keywords?: string[];      // Keywords to use
-  count: number;           // Number to generate
-  apiKey: string;          // OpenAI API key
-  model: string;           // Model ID
-  customPrompt?: string;   // Custom prompt
+  domains?: string[]; // Example domains
+  keywords?: string[]; // Keywords to use
+  count: number; // Number to generate
+  apiKey: string; // OpenAI API key
+  model: string; // Model ID
+  customPrompt?: string; // Custom prompt
 }
 ```
 
@@ -123,10 +123,10 @@ interface GenerateDomainNamesOptions {
 
 ```typescript
 import {
-  DEFAULT_CONFIG,     // Default configuration values
-  POPULAR_TLDS,      // Array of popular TLDs
-  AVAILABLE_MODELS,  // List of available AI models
-  STATUS,            // Status indicators (✅, 💰, ❌)
+  DEFAULT_CONFIG, // Default configuration values
+  POPULAR_TLDS, // Array of popular TLDs
+  AVAILABLE_MODELS, // List of available AI models
+  STATUS, // Status indicators (✅, 💰, ❌)
 } from "@find-my-domain/core";
 ```
 
@@ -147,9 +147,21 @@ const DEFAULT_CONFIG = {
 
 ```typescript
 const POPULAR_TLDS = [
-  "com", "io", "dev", "ai", "app",
-  "net", "org", "co", "tech", "sh",
-  "xyz", "me", "so", "gg", "fm"
+  "com",
+  "io",
+  "dev",
+  "ai",
+  "app",
+  "net",
+  "org",
+  "co",
+  "tech",
+  "sh",
+  "xyz",
+  "me",
+  "so",
+  "gg",
+  "fm",
 ] as const;
 ```
 
@@ -158,14 +170,19 @@ const POPULAR_TLDS = [
 ```typescript
 const AVAILABLE_MODELS = [
   // GPT-4o Family
-  "gpt-4o", "gpt-4o-mini", "chatgpt-4o-latest",
-  
+  "gpt-4o",
+  "gpt-4o-mini",
+  "chatgpt-4o-latest",
+
   // GPT-4 Family
-  "gpt-4", "gpt-4-turbo",
-  
+  "gpt-4",
+  "gpt-4-turbo",
+
   // O-Series
-  "o1", "o3", "o3-mini",
-  
+  "o1",
+  "o3",
+  "o3-mini",
+
   // GPT-3.5
   "gpt-3.5-turbo",
 ] as const;
@@ -236,14 +253,15 @@ console.log(result);
 ```
 
 **With options:**
+
 ```typescript
 const result = await checkDomainStatus(
   "example.com",
-  undefined,  // whoisOptions
+  undefined, // whoisOptions
   {
-    attempts: 3,    // Max retry attempts
-    delay: 2000,    // Delay between retries (ms)
-  }
+    attempts: 3, // Max retry attempts
+    delay: 2000, // Delay between retries (ms)
+  },
 );
 ```
 
@@ -258,14 +276,14 @@ import {
   getElapsed,
   getTotalElapsed,
   formatTime,
-  
+
   // Logging
   log,
   success,
   error,
   warn,
   info,
-  
+
   // Formatting
   spacer,
   separator,
@@ -287,12 +305,12 @@ success("Generated domains", "generation");
 // Output: ✅ Generated domains (2.34s)
 
 // Format time
-const time = formatTime(2.5);  // "2.50s"
+const time = formatTime(2.5); // "2.50s"
 
 // Add spacing
-spacer();  // Empty line
-separator();  // ==============================
-banner("RESULTS");  // Formatted title
+spacer(); // Empty line
+separator(); // ==============================
+banner("RESULTS"); // Formatted title
 ```
 
 ---
@@ -312,7 +330,7 @@ await wait(1000);
 // Rate limiting example
 for (const domain of domains) {
   await checkDomain(domain);
-  await wait(500);  // Wait between checks
+  await wait(500); // Wait between checks
 }
 ```
 
@@ -394,10 +412,10 @@ import {
 
 async function findDomains() {
   banner("DOMAIN SEARCH");
-  
+
   // Start timing
   startTimer("total");
-  
+
   try {
     // Generate names
     const names = await generateDomainNames({
@@ -406,25 +424,24 @@ async function findDomains() {
       apiKey: process.env.OPENAI_API_KEY!,
       model: "gpt-4o-mini",
     });
-    
+
     success(`Generated ${names.length} domain names`, "total");
-    
+
     // Check availability
     const available = [];
     for (const name of names) {
       const result = await checkDomainStatus(`${name}.com`);
-      
+
       if (result.available) {
         available.push(result.domain);
         console.log(`✅ ${result.domain}`);
       }
-      
-      await wait(500);  // Rate limiting
+
+      await wait(500); // Rate limiting
     }
-    
+
     success(`Found ${available.length} available domains`, "total");
     return available;
-    
   } catch (err) {
     error(`Search failed: ${err}`);
     throw err;
@@ -451,10 +468,10 @@ async function streamingSearch() {
     apiKey: process.env.OPENAI_API_KEY!,
     model: "gpt-4o-mini",
   });
-  
+
   for await (const name of stream) {
     log("✨", `Generated: ${name}`);
-    
+
     const result = await checkDomainStatus(`${name}.com`);
     const status = result.available ? "✅ Available" : "❌ Taken";
     log("🔍", `${name}.com - ${status}`);
@@ -469,10 +486,12 @@ async function streamingSearch() {
 ### Node.js Only
 
 This package includes **Node.js-specific** modules:
+
 - `fs` (file system) - used in AI utilities
 - `net` (networking) - used in WHOIS utilities
 
 **For Browser/Web:**
+
 - ✅ Import types only
 - ❌ Cannot use utility functions directly
 - ✅ Use API routes to call utilities server-side
@@ -516,4 +535,3 @@ MIT © [Dmitrii Selikhov](https://github.com/idimetrix)
 ---
 
 **Core utilities powering Find My Domain** 🚀
-

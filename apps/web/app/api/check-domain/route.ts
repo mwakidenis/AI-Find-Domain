@@ -14,7 +14,9 @@ interface CheckMultipleDomainsRequest {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = (await request.json()) as CheckDomainRequest | CheckMultipleDomainsRequest;
+    const body = (await request.json()) as
+      | CheckDomainRequest
+      | CheckMultipleDomainsRequest;
 
     // Handle single domain check
     if ("domain" in body) {
@@ -23,7 +25,7 @@ export async function POST(request: NextRequest) {
       if (!domain) {
         return NextResponse.json(
           { error: "Domain is required" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -42,14 +44,14 @@ export async function POST(request: NextRequest) {
       if (!domains || domains.length === 0) {
         return NextResponse.json(
           { error: "Domains array is required" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
       if (domains.length > 50) {
         return NextResponse.json(
           { error: "Maximum 50 domains can be checked at once" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -85,7 +87,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       { error: "Invalid request format" },
-      { status: 400 }
+      { status: 400 },
     );
   } catch (error) {
     console.error("Error checking domain:", error);
@@ -94,8 +96,7 @@ export async function POST(request: NextRequest) {
         error: "Failed to check domain availability",
         details: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-

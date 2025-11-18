@@ -63,15 +63,15 @@ export function Stats() {
               className="relative overflow-hidden hover:shadow-md transition-all hover:-translate-y-0.5 duration-200"
             >
               <CardContent className="flex flex-col items-center justify-center p-6 text-center">
-                <div className={`mb-3 flex h-12 w-12 items-center justify-center rounded-full ${stat.bgColor}`}>
+                <div
+                  className={`mb-3 flex h-12 w-12 items-center justify-center rounded-full ${stat.bgColor}`}
+                >
                   <Icon className={`h-6 w-6 ${stat.color}`} />
                 </div>
                 <div className="mb-1 text-3xl font-bold tracking-tight">
                   {stat.value}
                 </div>
-                <div className="mb-1 text-base font-semibold">
-                  {stat.label}
-                </div>
+                <div className="mb-1 text-base font-semibold">{stat.label}</div>
                 <div className="text-xs text-muted-foreground">
                   {stat.description}
                 </div>
@@ -89,7 +89,8 @@ export function Stats() {
                 Trusted by Developers Worldwide
               </h3>
               <p className="text-muted-foreground">
-                Join hundreds of developers using Find My Domain to discover their perfect domain names
+                Join hundreds of developers using Find My Domain to discover
+                their perfect domain names
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -103,4 +104,3 @@ export function Stats() {
     </section>
   );
 }
-

@@ -1,15 +1,32 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle2, DollarSign, XCircle, Copy, ExternalLink } from "lucide-react";
+import {
+  CheckCircle2,
+  DollarSign,
+  XCircle,
+  Copy,
+  ExternalLink,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface DomainResult {
   domain: string;
@@ -39,7 +56,10 @@ export function DomainResults({ results }: DomainResultsProps) {
   };
 
   const openDomain = (domain: string) => {
-    window.open(`https://www.namecheap.com/domains/registration/results/?domain=${domain}`, '_blank');
+    window.open(
+      `https://www.namecheap.com/domains/registration/results/?domain=${domain}`,
+      "_blank",
+    );
   };
 
   const getStatusIcon = (status: "available" | "sale" | "taken"): string => {
@@ -61,8 +81,8 @@ export function DomainResults({ results }: DomainResultsProps) {
         <CardHeader>
           <CardTitle>Results</CardTitle>
           <CardDescription>
-            Found {available.length} available, {sale.length} for sale, and {taken.length} taken
-            domains
+            Found {available.length} available, {sale.length} for sale, and{" "}
+            {taken.length} taken domains
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -74,7 +94,9 @@ export function DomainResults({ results }: DomainResultsProps) {
                   <CheckCircle2 className="h-5 w-5 text-green-600" />
                   <div>
                     <div className="text-2xl font-bold">{available.length}</div>
-                    <div className="text-xs text-muted-foreground">Available</div>
+                    <div className="text-xs text-muted-foreground">
+                      Available
+                    </div>
                   </div>
                 </div>
                 <Progress value={availablePercent} className="mt-2 h-2" />
@@ -86,7 +108,9 @@ export function DomainResults({ results }: DomainResultsProps) {
                   <DollarSign className="h-5 w-5 text-yellow-600" />
                   <div>
                     <div className="text-2xl font-bold">{sale.length}</div>
-                    <div className="text-xs text-muted-foreground">For Sale</div>
+                    <div className="text-xs text-muted-foreground">
+                      For Sale
+                    </div>
                   </div>
                 </div>
                 <Progress value={salePercent} className="mt-2 h-2" />
@@ -130,14 +154,22 @@ export function DomainResults({ results }: DomainResultsProps) {
                 <ScrollArea className="h-[400px] pr-4">
                   <div className="grid gap-2">
                     {available.map((result) => (
-                      <Card key={result.domain} className="hover:bg-accent/50 transition-colors">
+                      <Card
+                        key={result.domain}
+                        className="hover:bg-accent/50 transition-colors"
+                      >
                         <CardContent className="py-3">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <Badge variant="default" className="bg-green-500 hover:bg-green-600">
+                              <Badge
+                                variant="default"
+                                className="bg-green-500 hover:bg-green-600"
+                              >
                                 {getStatusIcon(result.status)}
                               </Badge>
-                              <span className="font-mono text-sm font-medium">{result.domain}</span>
+                              <span className="font-mono text-sm font-medium">
+                                {result.domain}
+                              </span>
                             </div>
                             <div className="flex gap-1">
                               <Tooltip>
@@ -145,12 +177,16 @@ export function DomainResults({ results }: DomainResultsProps) {
                                   <Button
                                     size="icon"
                                     variant="ghost"
-                                    onClick={() => copyToClipboard(result.domain)}
+                                    onClick={() =>
+                                      copyToClipboard(result.domain)
+                                    }
                                   >
                                     <Copy className="h-4 w-4" />
                                   </Button>
                                 </TooltipTrigger>
-                                <TooltipContent>Copy to clipboard</TooltipContent>
+                                <TooltipContent>
+                                  Copy to clipboard
+                                </TooltipContent>
                               </Tooltip>
                               <Tooltip>
                                 <TooltipTrigger asChild>
@@ -162,7 +198,9 @@ export function DomainResults({ results }: DomainResultsProps) {
                                     <ExternalLink className="h-4 w-4" />
                                   </Button>
                                 </TooltipTrigger>
-                                <TooltipContent>Check on Namecheap</TooltipContent>
+                                <TooltipContent>
+                                  Check on Namecheap
+                                </TooltipContent>
                               </Tooltip>
                             </div>
                           </div>
@@ -183,14 +221,22 @@ export function DomainResults({ results }: DomainResultsProps) {
                 <ScrollArea className="h-[400px] pr-4">
                   <div className="grid gap-2">
                     {sale.map((result) => (
-                      <Card key={result.domain} className="hover:bg-accent/50 transition-colors">
+                      <Card
+                        key={result.domain}
+                        className="hover:bg-accent/50 transition-colors"
+                      >
                         <CardContent className="py-3">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <Badge variant="default" className="bg-yellow-500 hover:bg-yellow-600">
+                              <Badge
+                                variant="default"
+                                className="bg-yellow-500 hover:bg-yellow-600"
+                              >
                                 {getStatusIcon(result.status)}
                               </Badge>
-                              <span className="font-mono text-sm font-medium">{result.domain}</span>
+                              <span className="font-mono text-sm font-medium">
+                                {result.domain}
+                              </span>
                             </div>
                             <div className="flex gap-1">
                               <Tooltip>
@@ -198,12 +244,16 @@ export function DomainResults({ results }: DomainResultsProps) {
                                   <Button
                                     size="icon"
                                     variant="ghost"
-                                    onClick={() => copyToClipboard(result.domain)}
+                                    onClick={() =>
+                                      copyToClipboard(result.domain)
+                                    }
                                   >
                                     <Copy className="h-4 w-4" />
                                   </Button>
                                 </TooltipTrigger>
-                                <TooltipContent>Copy to clipboard</TooltipContent>
+                                <TooltipContent>
+                                  Copy to clipboard
+                                </TooltipContent>
                               </Tooltip>
                               <Tooltip>
                                 <TooltipTrigger asChild>
@@ -215,7 +265,9 @@ export function DomainResults({ results }: DomainResultsProps) {
                                     <ExternalLink className="h-4 w-4" />
                                   </Button>
                                 </TooltipTrigger>
-                                <TooltipContent>Check on Namecheap</TooltipContent>
+                                <TooltipContent>
+                                  Check on Namecheap
+                                </TooltipContent>
                               </Tooltip>
                             </div>
                           </div>

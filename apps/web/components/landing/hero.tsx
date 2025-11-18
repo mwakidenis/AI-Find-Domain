@@ -5,12 +5,21 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Terminal, Zap, Github, Check, Copy } from "lucide-react";
+import {
+  ArrowRight,
+  Sparkles,
+  Terminal,
+  Zap,
+  Github,
+  Check,
+  Copy,
+} from "lucide-react";
 import { toast } from "sonner";
 
 function CopyCommandCard() {
   const [copied, setCopied] = useState(false);
-  const command = "npx find-my-domain --keywords tech startup --count 10 --tlds com io dev";
+  const command =
+    "npx find-my-domain --keywords tech startup --count 10 --tlds com io dev";
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(command);
@@ -25,7 +34,9 @@ function CopyCommandCard() {
         <div className="flex-1 space-y-2">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Terminal className="h-3.5 w-3.5" />
-            <span className="font-medium">Quick Start - No Installation Required</span>
+            <span className="font-medium">
+              Quick Start - No Installation Required
+            </span>
           </div>
           <div className="rounded-md bg-muted/50 px-3 py-2 border">
             <code className="text-xs sm:text-sm">
@@ -77,9 +88,9 @@ export function Hero() {
         </h1>
 
         <p className="max-w-[42rem] leading-relaxed text-muted-foreground sm:text-lg sm:leading-7">
-          Generate creative, memorable domain names using OpenAI and check
-          their real-time availability across multiple TLDs. Perfect for
-          startups, developers, and entrepreneurs.
+          Generate creative, memorable domain names using OpenAI and check their
+          real-time availability across multiple TLDs. Perfect for startups,
+          developers, and entrepreneurs.
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
@@ -162,4 +173,3 @@ export function Hero() {
     </section>
   );
 }
-

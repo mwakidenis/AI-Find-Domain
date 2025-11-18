@@ -154,6 +154,7 @@ This document verifies that the Find My Domain web app demo is **100% REAL and 1
 **File:** `apps/web/app/api/generate/route.ts`
 
 **Verification:**
+
 ```typescript
 // ✅ Imports real generateDomainNames from core
 import { generateDomainNames } from "@find-my-domain/core";
@@ -185,6 +186,7 @@ return NextResponse.json({
 **File:** `apps/web/app/api/check-domain/route.ts`
 
 **Verification:**
+
 ```typescript
 // ✅ Imports real checkDomainStatus from core
 import { checkDomainStatus } from "@find-my-domain/core";
@@ -215,6 +217,7 @@ return NextResponse.json({
 **File:** `apps/web/app/demo/page.tsx`
 
 **Verification:**
+
 ```typescript
 // ✅ Real API call to generate
 const generateResponse = await fetch("/api/generate", {
@@ -255,6 +258,7 @@ setResults(transformedResults);
 ### Manual Testing
 
 **Test 1: Generate with Keywords**
+
 ```
 Input: keywords=["tech", "startup"], tlds=["com", "io"], count=10
 Result: ✅ Generated 10 real domain names
@@ -263,6 +267,7 @@ Available: 3 domains
 ```
 
 **Test 2: Generate with Examples**
+
 ```
 Input: domains=["stripe", "vercel"], tlds=["com"], count=5
 Result: ✅ Generated 5 similar domain names
@@ -271,6 +276,7 @@ Available: 2 domains
 ```
 
 **Test 3: Mixed Input**
+
 ```
 Input: keywords=["ai"], domains=["openai"], tlds=["com", "io", "dev"], count=8
 Result: ✅ Generated 8 AI-related domains
@@ -281,6 +287,7 @@ Available: 4 domains
 ### API Testing
 
 **Test 1: Generation API**
+
 ```bash
 curl -X POST http://localhost:3000/api/generate \
   -H "Content-Type: application/json" \
@@ -292,6 +299,7 @@ Time: 3.2 seconds
 ```
 
 **Test 2: Check API**
+
 ```bash
 curl -X POST http://localhost:3000/api/check-domain \
   -H "Content-Type: application/json" \
@@ -305,6 +313,7 @@ Time: 1.8 seconds
 ### Error Testing
 
 **Test 1: No API Key**
+
 ```
 Result: ✅ Error message displayed
 Message: "OpenAI API key is not configured"
@@ -312,6 +321,7 @@ User guidance: "Set OPENAI_API_KEY environment variable"
 ```
 
 **Test 2: Invalid Input**
+
 ```
 Result: ✅ Validation error
 Message: "Please provide either keywords or example domains"
@@ -319,6 +329,7 @@ Form prevents submission
 ```
 
 **Test 3: Network Error**
+
 ```
 Result: ✅ Error handled gracefully
 Toast notification displayed
@@ -331,30 +342,30 @@ Helpful error message shown
 
 ### Generation Time
 
-| Count | TLDs | Avg Time | Status |
-|-------|------|----------|--------|
-| 5 | 1 | 8-10s | ✅ Fast |
-| 10 | 2 | 12-15s | ✅ Good |
-| 15 | 3 | 18-25s | ✅ Acceptable |
-| 20 | 2 | 20-30s | ✅ Max |
+| Count | TLDs | Avg Time | Status        |
+| ----- | ---- | -------- | ------------- |
+| 5     | 1    | 8-10s    | ✅ Fast       |
+| 10    | 2    | 12-15s   | ✅ Good       |
+| 15    | 3    | 18-25s   | ✅ Acceptable |
+| 20    | 2    | 20-30s   | ✅ Max        |
 
 ### Cost Analysis
 
-| Operation | Model | Cost/Request | Cost/1000 |
-|-----------|-------|--------------|-----------|
-| Generate 10 | gpt-4o-mini | $0.00001 | $0.01 |
-| WHOIS check | N/A | Free | Free |
-| **Total** | - | **$0.00001** | **$0.01** |
+| Operation   | Model       | Cost/Request | Cost/1000 |
+| ----------- | ----------- | ------------ | --------- |
+| Generate 10 | gpt-4o-mini | $0.00001     | $0.01     |
+| WHOIS check | N/A         | Free         | Free      |
+| **Total**   | -           | **$0.00001** | **$0.01** |
 
 **Conclusion:** Extremely affordable!
 
 ### Bundle Size
 
-| Route | Size | First Load | Status |
-|-------|------|------------|--------|
-| / | 7.42 KB | 150 KB | ✅ Optimal |
-| /demo | 16.7 KB | 174 KB | ✅ Good |
-| /docs | 3.62 KB | 161 KB | ✅ Excellent |
+| Route | Size    | First Load | Status       |
+| ----- | ------- | ---------- | ------------ |
+| /     | 7.42 KB | 150 KB     | ✅ Optimal   |
+| /demo | 16.7 KB | 174 KB     | ✅ Good      |
+| /docs | 3.62 KB | 161 KB     | ✅ Excellent |
 
 ---
 
@@ -453,4 +464,3 @@ Result: ✅ All imports use real core functions
 ---
 
 **This demo is REAL, FUNCTIONAL, and ready for users!**
-

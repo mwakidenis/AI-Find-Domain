@@ -70,6 +70,7 @@ POST /api/generate
 ```
 
 **OpenAI Processing:**
+
 - Uses the core package's `generateDomainNames()`
 - Sends prompt to OpenAI API
 - Returns creative domain names
@@ -101,8 +102,10 @@ Client-side processing:
 
 ```typescript
 const fullDomains = [
-  "techflow.com", "techflow.io",
-  "rapidhub.com", "rapidhub.io",
+  "techflow.com",
+  "techflow.io",
+  "rapidhub.com",
+  "rapidhub.io",
   // ... (10 names × 2 TLDs = 20 domains)
 ];
 ```
@@ -125,6 +128,7 @@ POST /api/check-domain
 ```
 
 **WHOIS Processing:**
+
 - Uses the core package's `checkDomainStatus()`
 - Queries WHOIS servers for each domain
 - 200ms delay between requests (rate limiting)
@@ -187,6 +191,7 @@ Client transforms and displays:
 **File:** `apps/web/app/api/generate/route.ts`
 
 **Features:**
+
 - ✅ Validates OpenAI API key
 - ✅ Validates input (keywords/domains, count 1-100)
 - ✅ Calls `generateDomainNames()` from core package
@@ -194,6 +199,7 @@ Client transforms and displays:
 - ✅ Error handling with details
 
 **Environment:**
+
 - Runtime: `nodejs`
 - Dynamic: `force-dynamic`
 
@@ -202,6 +208,7 @@ Client transforms and displays:
 **File:** `apps/web/app/api/check-domain/route.ts`
 
 **Features:**
+
 - ✅ Handles single or multiple domains
 - ✅ Maximum 50 domains per request
 - ✅ 200ms delay between WHOIS checks (rate limiting)
@@ -210,6 +217,7 @@ Client transforms and displays:
 - ✅ Returns detailed results
 
 **Environment:**
+
 - Runtime: `nodejs`
 - Dynamic: `force-dynamic`
 
@@ -220,29 +228,34 @@ Client transforms and displays:
 ### Progress States
 
 **1. Idle:**
+
 ```
 Form ready → [Generate Domains] button enabled
 ```
 
 **2. Generating:**
+
 ```
 "Generating domain names with AI..."
 [Loading spinner]
 ```
 
 **3. Generated:**
+
 ```
 Toast: "✓ Generated 10 domain names!"
 "Generated 10 names! Checking availability..."
 ```
 
 **4. Checking:**
+
 ```
 "Checking availability for 20 domains..."
 [Progress animation]
 ```
 
 **5. Complete:**
+
 ```
 Toast: "🎉 Found 5 available domains!"
 Results displayed in tabs
@@ -251,18 +264,21 @@ Results displayed in tabs
 ### Error Handling
 
 **No API Key:**
+
 ```
 Alert: "OpenAI API key is not configured.
         Set OPENAI_API_KEY environment variable."
 ```
 
 **Generation Failed:**
+
 ```
 Alert: "Failed to generate domain names"
 Toast: "Error: [specific error message]"
 ```
 
 **WHOIS Failed:**
+
 ```
 Individual domain marked as error
 Continues checking remaining domains
@@ -296,6 +312,7 @@ Using **gpt-4o-mini** (default):
 - Output: $0.60 per 1M tokens
 
 **Typical Demo Usage:**
+
 - Prompt: ~100 tokens
 - Output: ~50 tokens
 - **Cost per demo:** ~$0.00001 ($0.01 per 1000 demos)
@@ -334,12 +351,14 @@ Using **gpt-4o-mini** (default):
 ### Manual Testing
 
 1. **Set up environment:**
+
    ```bash
    cp .env.example .env.local
    # Add your OPENAI_API_KEY
    ```
 
 2. **Start dev server:**
+
    ```bash
    pnpm dev
    ```
@@ -370,6 +389,7 @@ Using **gpt-4o-mini** (default):
 ### "Failed to generate domain names"
 
 **Causes:**
+
 - Invalid API key
 - OpenAI API down
 - Rate limit exceeded
@@ -380,6 +400,7 @@ Using **gpt-4o-mini** (default):
 ### "Failed to check domain availability"
 
 **Causes:**
+
 - WHOIS rate limiting
 - Network issues
 - Invalid domain format
@@ -404,4 +425,3 @@ Potential improvements:
 ---
 
 **The demo is production-ready and fully functional!** 🚀
-

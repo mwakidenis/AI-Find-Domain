@@ -24,7 +24,8 @@ const useCases = [
   {
     icon: Rocket,
     title: "Startups & SaaS",
-    description: "Find memorable, brandable domains for your next big idea. Generate names that resonate with your target market.",
+    description:
+      "Find memorable, brandable domains for your next big idea. Generate names that resonate with your target market.",
     examples: ["stripe", "vercel", "notion"],
     color: "text-blue-500",
     bgColor: "bg-blue-500/10",
@@ -32,7 +33,8 @@ const useCases = [
   {
     icon: Code2,
     title: "Developer Tools",
-    description: "Create technical, descriptive names for your open source projects, libraries, or development platforms.",
+    description:
+      "Create technical, descriptive names for your open source projects, libraries, or development platforms.",
     examples: ["github", "gitlab", "docker"],
     color: "text-purple-500",
     bgColor: "bg-purple-500/10",
@@ -40,7 +42,8 @@ const useCases = [
   {
     icon: Briefcase,
     title: "Agency & Consulting",
-    description: "Establish professional online presence with domains that reflect your expertise and services.",
+    description:
+      "Establish professional online presence with domains that reflect your expertise and services.",
     examples: ["acme", "summit", "nexus"],
     color: "text-green-500",
     bgColor: "bg-green-500/10",
@@ -48,7 +51,8 @@ const useCases = [
   {
     icon: ShoppingCart,
     title: "E-commerce Stores",
-    description: "Discover catchy, memorable names that customers will remember and return to for shopping.",
+    description:
+      "Discover catchy, memorable names that customers will remember and return to for shopping.",
     examples: ["shopify", "etsy", "amazon"],
     color: "text-orange-500",
     bgColor: "bg-orange-500/10",
@@ -56,7 +60,8 @@ const useCases = [
   {
     icon: Heart,
     title: "Personal Brands",
-    description: "Build your personal brand with unique domains for portfolios, blogs, or professional websites.",
+    description:
+      "Build your personal brand with unique domains for portfolios, blogs, or professional websites.",
     examples: ["johndoe", "mystudio", "mywork"],
     color: "text-pink-500",
     bgColor: "bg-pink-500/10",
@@ -64,7 +69,8 @@ const useCases = [
   {
     icon: GraduationCap,
     title: "Educational Projects",
-    description: "Create clear, educational domain names for courses, tutorials, or learning platforms.",
+    description:
+      "Create clear, educational domain names for courses, tutorials, or learning platforms.",
     examples: ["academy", "learn", "courses"],
     color: "text-cyan-500",
     bgColor: "bg-cyan-500/10",
@@ -82,8 +88,8 @@ export function UseCases() {
           Perfect For Every Project
         </h2>
         <p className="max-w-[85%] text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Whether you&apos;re building a startup, side project, or personal brand,
-          Find My Domain helps you discover the perfect name
+          Whether you&apos;re building a startup, side project, or personal
+          brand, Find My Domain helps you discover the perfect name
         </p>
       </div>
 
@@ -96,7 +102,9 @@ export function UseCases() {
               className="relative overflow-hidden hover:shadow-md transition-all hover:-translate-y-0.5 duration-200"
             >
               <CardHeader className="pb-3">
-                <div className={`mb-3 flex h-10 w-10 items-center justify-center rounded-lg ${useCase.bgColor}`}>
+                <div
+                  className={`mb-3 flex h-10 w-10 items-center justify-center rounded-lg ${useCase.bgColor}`}
+                >
                   <Icon className={`h-5 w-5 ${useCase.color}`} />
                 </div>
                 <CardTitle className="text-base">{useCase.title}</CardTitle>
@@ -107,7 +115,11 @@ export function UseCases() {
                 </CardDescription>
                 <div className="flex flex-wrap gap-1.5">
                   {useCase.examples.map((example) => (
-                    <Badge key={example} variant="secondary" className="text-[10px] px-2 py-0.5">
+                    <Badge
+                      key={example}
+                      variant="secondary"
+                      className="text-[10px] px-2 py-0.5"
+                    >
                       {example}
                     </Badge>
                   ))}
@@ -125,8 +137,8 @@ export function UseCases() {
               Ready to Find Your Perfect Domain?
             </h3>
             <p className="text-muted-foreground max-w-lg">
-              Try our interactive demo or install the CLI tool to start generating
-              AI-powered domain names right now
+              Try our interactive demo or install the CLI tool to start
+              generating AI-powered domain names right now
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" className="gap-2">
@@ -136,9 +148,7 @@ export function UseCases() {
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href="/docs">
-                  View Documentation
-                </Link>
+                <Link href="/docs">View Documentation</Link>
               </Button>
             </div>
           </CardContent>
@@ -147,4 +157,3 @@ export function UseCases() {
     </section>
   );
 }
-

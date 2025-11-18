@@ -4,19 +4,49 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, X, Plus } from "lucide-react";
 // Import only types and constants from core (browser-safe)
 const POPULAR_TLDS = [
-  "com", "io", "dev", "ai", "app", "net", "org", "co", "tech", "sh",
-  "xyz", "me", "so", "gg", "fm"
+  "com",
+  "io",
+  "dev",
+  "ai",
+  "app",
+  "net",
+  "org",
+  "co",
+  "tech",
+  "sh",
+  "xyz",
+  "me",
+  "so",
+  "gg",
+  "fm",
 ] as const;
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 
@@ -31,7 +61,11 @@ interface DomainGeneratorFormProps {
   disabled?: boolean;
 }
 
-export function DomainGeneratorForm({ onGenerate, loading, disabled = false }: DomainGeneratorFormProps) {
+export function DomainGeneratorForm({
+  onGenerate,
+  loading,
+  disabled = false,
+}: DomainGeneratorFormProps) {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [keywordInput, setKeywordInput] = useState("");
   const [domains, setDomains] = useState<string[]>([]);
@@ -80,7 +114,7 @@ export function DomainGeneratorForm({ onGenerate, loading, disabled = false }: D
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (keywords.length === 0 && domains.length === 0) {
       toast.error("Please add at least one keyword or example domain");
       return;
@@ -92,7 +126,7 @@ export function DomainGeneratorForm({ onGenerate, loading, disabled = false }: D
       tlds: selectedTlds,
       count: count[0],
     });
-    
+
     toast.success("Generating domains...");
   };
 
@@ -105,7 +139,8 @@ export function DomainGeneratorForm({ onGenerate, loading, disabled = false }: D
             Domain Generator
           </CardTitle>
           <CardDescription>
-            Configure your domain generation settings. This demo uses <strong>real OpenAI + WHOIS</strong>.
+            Configure your domain generation settings. This demo uses{" "}
+            <strong>real OpenAI + WHOIS</strong>.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -121,7 +156,9 @@ export function DomainGeneratorForm({ onGenerate, loading, disabled = false }: D
                     </Badge>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Keywords will be incorporated into generated domain names</p>
+                    <p>
+                      Keywords will be incorporated into generated domain names
+                    </p>
                   </TooltipContent>
                 </Tooltip>
               </div>
@@ -138,7 +175,12 @@ export function DomainGeneratorForm({ onGenerate, loading, disabled = false }: D
                     }
                   }}
                 />
-                <Button type="button" onClick={handleAddKeyword} variant="secondary" size="icon">
+                <Button
+                  type="button"
+                  onClick={handleAddKeyword}
+                  variant="secondary"
+                  size="icon"
+                >
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
@@ -146,7 +188,11 @@ export function DomainGeneratorForm({ onGenerate, loading, disabled = false }: D
                 <ScrollArea className="h-20 rounded-md border p-2">
                   <div className="flex flex-wrap gap-2">
                     {keywords.map((keyword) => (
-                      <Badge key={keyword} variant="secondary" className="gap-1">
+                      <Badge
+                        key={keyword}
+                        variant="secondary"
+                        className="gap-1"
+                      >
                         {keyword}
                         <button
                           type="button"
@@ -192,7 +238,12 @@ export function DomainGeneratorForm({ onGenerate, loading, disabled = false }: D
                     }
                   }}
                 />
-                <Button type="button" onClick={handleAddDomain} variant="secondary" size="icon">
+                <Button
+                  type="button"
+                  onClick={handleAddDomain}
+                  variant="secondary"
+                  size="icon"
+                >
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
@@ -226,7 +277,9 @@ export function DomainGeneratorForm({ onGenerate, loading, disabled = false }: D
                   {POPULAR_TLDS.slice(0, 15).map((tld) => (
                     <Badge
                       key={tld}
-                      variant={selectedTlds.includes(tld) ? "default" : "outline"}
+                      variant={
+                        selectedTlds.includes(tld) ? "default" : "outline"
+                      }
                       className="cursor-pointer"
                       onClick={() => toggleTld(tld)}
                     >
@@ -276,7 +329,11 @@ export function DomainGeneratorForm({ onGenerate, loading, disabled = false }: D
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading || disabled || selectedTlds.length === 0}>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loading || disabled || selectedTlds.length === 0}
+            >
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

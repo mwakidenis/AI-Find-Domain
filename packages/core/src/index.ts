@@ -20,10 +20,7 @@ export {
 } from "./constants.js";
 
 // Export AI utilities
-export {
-  generateDomainNames,
-  generateDomainNamesStream,
-} from "./utils/ai.js";
+export { generateDomainNames, generateDomainNamesStream } from "./utils/ai.js";
 
 // Export WHOIS utilities
 export { checkDomainStatus } from "./utils/whois.js";
