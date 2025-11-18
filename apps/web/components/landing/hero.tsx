@@ -79,7 +79,7 @@ export function Hero() {
       <div className="flex max-w-[48rem] flex-col items-center gap-3 text-center">
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-5xl">
           Find Your Perfect{" "}
-          <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-orange-400 bg-clip-text text-transparent dark:from-purple-400 dark:via-pink-400 dark:to-orange-400">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#a855f7] via-[#ec4899] to-[#f97316] dark:from-[#c084fc] dark:via-[#f472b6] dark:to-[#fb923c]">
             Domain Name
           </span>{" "}
           with AI
