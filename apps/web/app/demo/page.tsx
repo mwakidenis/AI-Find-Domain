@@ -6,72 +6,26 @@ import { Footer } from "@/components/landing/footer";
 import { DomainGeneratorForm } from "@/components/demo/domain-generator-form";
 import { DomainResults } from "@/components/demo/domain-results";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Info, Sparkles } from "lucide-react";
+import { Info, Sparkles, AlertCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CodeBlock } from "@/components/demo/code-block";
+import { toast } from "sonner";
 
 interface DomainResult {
   domain: string;
   status: "available" | "sale" | "taken";
 }
 
-// Mock domain generation for demo purposes
-const generateMockDomains = (config: {
-  keywords: string[];
-  domains: string[];
-  tlds: string[];
-  count: number;
-}): DomainResult[] => {
-  const prefixes = [
-    "swift", "rapid", "quick", "fast", "smart", "bright", "tech", "dev", 
-    "cloud", "cyber", "digital", "next", "future", "modern", "pro"
-  ];
-  
-  const suffixes = [
-    "hub", "lab", "space", "flow", "wave", "sync", "link", "base",
-    "zone", "spot", "point", "edge", "core", "nest", "grid"
-  ];
-
-  const results: DomainResult[] = [];
-  const generated = new Set<string>();
-
-  // Use keywords if provided
-  const sources = config.keywords.length > 0 ? config.keywords : prefixes;
-
-  for (let i = 0; i < config.count; i++) {
-    const prefix = sources[Math.floor(Math.random() * sources.length)];
-    const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
-    const name = `${prefix}${suffix}`;
-
-    // Generate for each TLD
-    config.tlds.forEach((tld) => {
-      const domain = `${name}.${tld}`;
-      if (!generated.has(domain)) {
-        generated.add(domain);
-        
-        // Random status with realistic distribution
-        const rand = Math.random();
-        let status: "available" | "sale" | "taken";
-        if (rand < 0.3) status = "available";
-        else if (rand < 0.4) status = "sale";
-        else status = "taken";
-
-        results.push({ domain, status });
-      }
-    });
-  }
-
-  return results.slice(0, config.count * config.tlds.length);
-};
-
 export default function DemoPage() {
   const [results, setResults] = useState<DomainResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("demo");
+  const [error, setError] = useState<string | null>(null);
+  const [generatingStatus, setGeneratingStatus] = useState<string>("");
 
   const handleGenerate = async (config: {
     keywords: string[];
@@ -81,13 +35,91 @@ export default function DemoPage() {
   }) => {
     setLoading(true);
     setResults([]);
+    setError(null);
+    setGeneratingStatus("Generating domain names with AI...");
 
-    // Simulate API delay with progressive loading
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      // Step 1: Generate domain names using OpenAI
+      const generateResponse = await fetch("/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          keywords: config.keywords,
+          domains: config.domains,
+          count: config.count,
+          model: "gpt-4o-mini",
+        }),
+      });
 
-    const mockResults = generateMockDomains(config);
-    setResults(mockResults);
-    setLoading(false);
+      if (!generateResponse.ok) {
+        const errorData = await generateResponse.json();
+        throw new Error(errorData.error || "Failed to generate domain names");
+      }
+
+      const { names } = await generateResponse.json();
+      
+      if (!names || names.length === 0) {
+        throw new Error("No domain names were generated");
+      }
+
+      setGeneratingStatus(`Generated ${names.length} names! Checking availability...`);
+      toast.success(`Generated ${names.length} domain names!`);
+
+      // Step 2: Create full domain names with TLDs
+      const fullDomains: string[] = [];
+      for (const name of names) {
+        for (const tld of config.tlds) {
+          fullDomains.push(`${name}.${tld}`);
+        }
+      }
+
+      setGeneratingStatus(`Checking availability for ${fullDomains.length} domains...`);
+
+      // Step 3: Check domain availability with WHOIS
+      const checkResponse = await fetch("/api/check-domain", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          domains: fullDomains,
+        }),
+      });
+
+      if (!checkResponse.ok) {
+        const errorData = await checkResponse.json();
+        throw new Error(errorData.error || "Failed to check domain availability");
+      }
+
+      const { results: domainResults } = await checkResponse.json();
+
+      // Step 4: Transform results to our format
+      const transformedResults: DomainResult[] = domainResults.map((result: any) => ({
+        domain: result.domain,
+        status: result.available ? "available" : result.sale ? "sale" : "taken",
+      }));
+
+      setResults(transformedResults);
+      setGeneratingStatus("");
+      
+      const availableCount = transformedResults.filter(r => r.status === "available").length;
+      toast.success(`Found ${availableCount} available domains!`, {
+        icon: "🎉",
+        duration: 3000,
+      });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error occurred";
+      setError(errorMessage);
+      setGeneratingStatus("");
+      toast.error(errorMessage, {
+        duration: 5000,
+      });
+      console.error("Error generating domains:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -124,17 +156,33 @@ export default function DemoPage() {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="demo" className="space-y-8 mt-6">
+            <TabsContent value="demo" className="space-y-6 mt-6">
               <Alert>
-                <Info className="h-4 w-4" />
-                <AlertTitle>Mock Data Demo</AlertTitle>
+                <Sparkles className="h-4 w-4" />
+                <AlertTitle>Real AI-Powered Demo</AlertTitle>
                 <AlertDescription>
-                  This demo uses mock data for demonstration purposes. Install the CLI tool to
-                  check real domain availability with OpenAI integration.
+                  This demo uses <strong>real OpenAI API</strong> to generate domains and <strong>real WHOIS</strong> to check availability.
+                  Results may take 10-30 seconds depending on the number of domains.
                 </AlertDescription>
               </Alert>
 
-              <div className="grid gap-8 lg:grid-cols-2">
+              {error && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+
+              {generatingStatus && (
+                <Alert>
+                  <Info className="h-4 w-4 animate-pulse" />
+                  <AlertTitle>Processing</AlertTitle>
+                  <AlertDescription>{generatingStatus}</AlertDescription>
+                </Alert>
+              )}
+
+              <div className="grid gap-6 lg:grid-cols-2">
                 <div>
                   <DomainGeneratorForm onGenerate={handleGenerate} loading={loading} />
                 </div>
@@ -167,14 +215,15 @@ export default function DemoPage() {
             </TabsContent>
 
             <TabsContent value="info" className="space-y-6 mt-6">
-              <Card className="border-2 border-primary/20">
+              <Card className="border-2 border-green-500/20 bg-green-500/5">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Sparkles className="h-5 w-5 text-primary" />
-                    Ready for the real thing?
+                    <Sparkles className="h-5 w-5 text-green-500" />
+                    This Demo is 100% Real!
                   </CardTitle>
                   <CardDescription>
-                    Install the CLI tool to access the full power of AI-generated domains with real WHOIS checking
+                    This demo uses <strong>actual OpenAI API</strong> for generation and <strong>real WHOIS</strong> for checking.
+                    Install the CLI tool for even more features like custom models, streaming, and batch processing.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">

@@ -2,7 +2,7 @@
 
 > **Beautiful Web Showcase for Find My Domain**
 
-Next.js 15 web application featuring an interactive demo, comprehensive documentation, and stunning UI built with shadcn/ui.
+Next.js 15 web application featuring a **100% REAL interactive demo** with actual OpenAI generation and WHOIS checking, comprehensive documentation, and stunning UI built with shadcn/ui.
 
 ---
 
@@ -12,6 +12,27 @@ Next.js 15 web application featuring an interactive demo, comprehensive document
 
 - Node.js 22+
 - pnpm 10+
+- **OpenAI API Key** (for the real demo)
+
+### Setup
+
+1. **Install dependencies** (from monorepo root):
+```bash
+pnpm install
+```
+
+2. **Configure environment variables**:
+```bash
+cd apps/web
+cp .env.example .env.local
+```
+
+3. **Add your OpenAI API key** to `.env.local`:
+```env
+OPENAI_API_KEY=sk-your-actual-openai-key-here
+```
+
+Get your API key at: https://platform.openai.com/api-keys
 
 ### Development
 
@@ -25,6 +46,23 @@ pnpm dev
 ```
 
 Visit **http://localhost:3000**
+
+---
+
+## ⚡ Real Interactive Demo
+
+The `/demo` page features a **100% real, fully functional** demo that:
+
+- ✅ **Generates actual domain names** using OpenAI API (gpt-4o-mini)
+- ✅ **Checks real availability** via WHOIS lookup
+- ✅ **Shows live progress** during generation and checking
+- ✅ **Returns actual results** - not mock data!
+- ✅ **Displays toast notifications** for better UX
+- ✅ **Handles errors gracefully** with helpful messages
+
+**Without API Key:** The demo will show an error message guiding users to set up the environment variable or use the CLI tool.
+
+**Cost:** Very affordable! Using gpt-4o-mini, generating 10 domains costs ~$0.001
 
 ### Building
 
@@ -96,15 +134,21 @@ apps/web/
 - **Call-to-Action** - Install instructions and GitHub link
 - **Footer** - Links, social media, copyright
 
-### Demo Page (`/demo`)
+### Demo Page (`/demo`) - 100% REAL & FUNCTIONAL
 
 - **Interactive Form**
   - Keywords input with tags
   - Example domains input
   - TLD selector (15 popular TLDs)
-  - Domain count slider
-  - Stream mode toggle
+  - Domain count slider (1-20 domains)
   - Form validation
+  - Loading states with progress messages
+
+- **Real API Integration**
+  - `/api/generate` - OpenAI domain generation
+  - `/api/check-domain` - WHOIS availability checking
+  - Error handling and retry logic
+  - Rate limiting (200ms between WHOIS checks)
 
 - **Results Display**
   - Tabbed interface (Available/Sale/Taken)
@@ -113,10 +157,18 @@ apps/web/
   - Copy to clipboard
   - Open in Namecheap
   - Scroll areas for long lists
-  - Loading states with skeletons
+  - Real-time status updates
+  - Toast notifications
+
+- **Live Progress**
+  - "Generating domain names with AI..."
+  - "Generated X names! Checking availability..."
+  - "Checking availability for X domains..."
+  - Success/error toasts with icons
 
 - **Info Tab**
-  - Installation instructions
+  - Highlights that demo is 100% real
+  - Installation instructions with copy buttons
   - Feature list
   - CLI usage examples
 
