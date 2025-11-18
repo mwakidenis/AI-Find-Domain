@@ -8,6 +8,11 @@
     "email": "selikhov.dmitrey@gmail.com",
     "url": "https://www.linkedin.com/in/dimetrix"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/idimetrix/find-my-domain"
+  },
+  "license": "MIT",
   "keywords": [
     "domain",
     "domain-name",
