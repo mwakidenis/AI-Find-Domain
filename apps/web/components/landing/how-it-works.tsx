@@ -51,21 +51,21 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="w-full py-16 md:py-20 bg-muted/30">
-      <div className="container mx-auto">
-        <div className="mx-auto flex max-w-[56rem] flex-col items-center space-y-3 text-center">
-          <Badge variant="outline" className="text-xs px-2.5 py-0.5">
+    <section id="how-it-works" className="w-full py-12 md:py-16 bg-muted/30">
+      <div className="container mx-auto px-4">
+        <div className="mx-auto flex max-w-[48rem] flex-col items-center space-y-2 text-center">
+          <Badge variant="outline" className="text-xs px-2 py-0.5">
             Simple Process
           </Badge>
-          <h2 className="text-2xl font-bold leading-tight sm:text-3xl md:text-4xl">
+          <h2 className="text-2xl font-bold leading-tight sm:text-3xl">
             How It Works
           </h2>
-          <p className="max-w-[85%] text-sm leading-relaxed text-muted-foreground sm:text-base">
+          <p className="max-w-[85%] text-xs leading-relaxed text-muted-foreground sm:text-sm">
             Four simple steps to find your perfect domain
           </p>
         </div>
 
-        <div className="mx-auto mt-8 grid max-w-6xl gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto mt-6 grid max-w-5xl gap-3 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((step) => {
             const Icon = step.icon;
             return (
@@ -73,25 +73,25 @@ export function HowItWorks() {
                 key={step.number}
                 className="relative overflow-hidden hover:shadow-md transition-all hover:-translate-y-0.5 duration-200"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 -mr-12 -mt-12 bg-gradient-to-br from-primary/10 to-transparent rounded-full" />
-                <CardHeader className="pb-3">
-                  <div className="mb-3 flex items-center justify-between">
+                <div className="absolute top-0 right-0 w-20 h-20 -mr-10 -mt-10 bg-gradient-to-br from-primary/10 to-transparent rounded-full" />
+                <CardHeader className="pb-2">
+                  <div className="mb-2 flex items-center justify-between">
                     <div
-                      className={`flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 ${step.color}`}
+                      className={`flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 ${step.color}`}
                     >
-                      <Icon className="h-5 w-5" />
+                      <Icon className="h-4 w-4" />
                     </div>
-                    <Badge variant="secondary" className="text-sm font-bold">
+                    <Badge variant="secondary" className="text-xs font-bold px-2 py-0.5">
                       {step.number}
                     </Badge>
                   </div>
-                  <CardTitle className="text-base">{step.title}</CardTitle>
+                  <CardTitle className="text-sm">{step.title}</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-2 pt-0">
+                <CardContent className="space-y-1.5 pt-0">
                   <CardDescription className="text-xs leading-relaxed">
                     {step.description}
                   </CardDescription>
-                  <div className="rounded-md bg-muted/50 px-2 py-1.5">
+                  <div className="rounded-md bg-muted/50 px-2 py-1">
                     <code className="text-[10px] text-muted-foreground">
                       {step.code}
                     </code>

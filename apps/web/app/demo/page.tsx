@@ -190,12 +190,12 @@ export default function DemoPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1 container mx-auto py-8 md:py-12">
-        <div className="mx-auto max-w-5xl space-y-6">
-          <div className="space-y-3 text-center">
-            <div className="flex items-center justify-center gap-3">
-              <Badge variant="outline" className="text-xs px-2.5 py-0.5">
-                <Sparkles className="mr-1.5 h-3 w-3" />
+      <main className="flex-1 container mx-auto py-6 md:py-8 px-4">
+        <div className="mx-auto max-w-5xl space-y-4">
+          <div className="space-y-2 text-center">
+            <div className="flex items-center justify-center gap-2">
+              <Badge variant="outline" className="text-xs px-2 py-0.5">
+                <Sparkles className="mr-1 h-3 w-3" />
                 Interactive Playground
               </Badge>
               {/* Hidden sign-in button that we'll trigger programmatically */}
@@ -205,37 +205,36 @@ export default function DemoPage() {
                 </SignInButton>
               )}
             </div>
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
               Try{" "}
               <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 Find My Domain
               </span>
             </h1>
-            <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
+            <p className="text-muted-foreground text-xs sm:text-sm max-w-xl mx-auto">
               Experience 100% real AI-driven domain generation with actual
-              OpenAI and WHOIS checking. Results typically arrive in 10-20
-              seconds.
+              OpenAI and WHOIS checking.
             </p>
 
             {/* Attempts Counter */}
             {isSignedIn && !loadingAttempts && remainingAttempts !== null && (
-              <Card className="max-w-md mx-auto border-2">
-                <CardContent className="pt-4 pb-4">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
+              <Card className="max-w-sm mx-auto">
+                <CardContent className="pt-3 pb-3">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between text-xs">
                       <span className="font-medium">Remaining Attempts</span>
-                      <span className="text-lg font-bold">
+                      <span className="text-sm font-bold">
                         {remainingAttempts} / 5
                       </span>
                     </div>
                     <Progress
                       value={(remainingAttempts / 5) * 100}
-                      className="h-2"
+                      className="h-1.5"
                     />
                     <p className="text-xs text-muted-foreground text-center">
                       {remainingAttempts === 0
                         ? "No attempts left. Contact support to get more."
-                        : `You can generate domains ${remainingAttempts} more time${remainingAttempts !== 1 ? "s" : ""}.`}
+                        : `${remainingAttempts} generation${remainingAttempts !== 1 ? "s" : ""} remaining`}
                     </p>
                   </div>
                 </CardContent>
@@ -249,25 +248,24 @@ export default function DemoPage() {
             className="w-full"
           >
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="demo" className="gap-2">
-                <Sparkles className="h-4 w-4" />
-                Interactive Demo
+              <TabsTrigger value="demo" className="gap-1.5 text-sm">
+                <Sparkles className="h-3.5 w-3.5" />
+                Demo
               </TabsTrigger>
-              <TabsTrigger value="info" className="gap-2">
-                <Info className="h-4 w-4" />
-                Information
+              <TabsTrigger value="info" className="gap-1.5 text-sm">
+                <Info className="h-3.5 w-3.5" />
+                Info
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="demo" className="space-y-6 mt-6">
+            <TabsContent value="demo" className="space-y-4 mt-4">
               <Alert>
                 <Sparkles className="h-4 w-4" />
-                <AlertTitle>Real AI-Powered Demo</AlertTitle>
-                <AlertDescription>
+                <AlertTitle className="text-sm">Real AI-Powered Demo</AlertTitle>
+                <AlertDescription className="text-xs">
                   This demo uses <strong>real OpenAI API</strong> to generate
                   domains and <strong>real WHOIS</strong> to check
-                  availability. Results may take 10-30 seconds depending on
-                  the number of domains.
+                  availability.
                   {isSignedIn && remainingAttempts !== null && (
                     <>
                       {" "}You have{" "}
@@ -286,20 +284,20 @@ export default function DemoPage() {
               {error && (
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Error</AlertTitle>
-                  <AlertDescription>{error}</AlertDescription>
+                  <AlertTitle className="text-sm">Error</AlertTitle>
+                  <AlertDescription className="text-xs">{error}</AlertDescription>
                 </Alert>
               )}
 
               {generatingStatus && (
                 <Alert>
                   <Info className="h-4 w-4 animate-pulse" />
-                  <AlertTitle>Processing</AlertTitle>
-                  <AlertDescription>{generatingStatus}</AlertDescription>
+                  <AlertTitle className="text-sm">Processing</AlertTitle>
+                  <AlertDescription className="text-xs">{generatingStatus}</AlertDescription>
                 </Alert>
               )}
 
-              <div className="grid gap-6 lg:grid-cols-2">
+              <div className="grid gap-4 lg:grid-cols-2">
                 <div>
                   <DomainGeneratorForm
                     onGenerate={handleGenerate}
@@ -317,21 +315,21 @@ export default function DemoPage() {
                 <div>
                   {loading ? (
                     <Card>
-                      <CardHeader>
-                        <Skeleton className="h-6 w-32" />
-                        <Skeleton className="h-4 w-48" />
+                      <CardHeader className="pb-3">
+                        <Skeleton className="h-5 w-32" />
+                        <Skeleton className="h-3 w-48" />
                       </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="grid grid-cols-3 gap-4">
-                          <Skeleton className="h-24 w-full" />
-                          <Skeleton className="h-24 w-full" />
-                          <Skeleton className="h-24 w-full" />
+                      <CardContent className="space-y-3">
+                        <div className="grid grid-cols-3 gap-3">
+                          <Skeleton className="h-20 w-full" />
+                          <Skeleton className="h-20 w-full" />
+                          <Skeleton className="h-20 w-full" />
                         </div>
                         <Skeleton className="h-px w-full" />
                         <div className="space-y-2">
-                          <Skeleton className="h-16 w-full" />
-                          <Skeleton className="h-16 w-full" />
-                          <Skeleton className="h-16 w-full" />
+                          <Skeleton className="h-14 w-full" />
+                          <Skeleton className="h-14 w-full" />
+                          <Skeleton className="h-14 w-full" />
                         </div>
                       </CardContent>
                     </Card>
@@ -342,23 +340,21 @@ export default function DemoPage() {
               </div>
             </TabsContent>
 
-            <TabsContent value="info" className="space-y-6 mt-6">
+            <TabsContent value="info" className="space-y-4 mt-4">
               <Card className="border-2 border-green-500/20 bg-green-500/5">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Sparkles className="h-5 w-5 text-green-500" />
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <Sparkles className="h-4 w-4 text-green-500" />
                     This Demo is 100% Real!
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-xs">
                     This demo uses <strong>actual OpenAI API</strong> for
                     generation and <strong>real WHOIS</strong> for checking.
-                    Install the CLI tool for even more features like custom
-                    models, streaming, and batch processing.
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="space-y-2">
-                    <h3 className="text-sm font-semibold">
+                <CardContent className="space-y-4">
+                  <div className="space-y-1.5">
+                    <h3 className="text-xs font-semibold">
                       Quick Start (No Installation)
                     </h3>
                     <CodeBlock
@@ -367,8 +363,8 @@ npx find-my-domain --keywords tech startup --count 10`}
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <h3 className="text-sm font-semibold">
+                  <div className="space-y-1.5">
+                    <h3 className="text-xs font-semibold">
                       Global Installation
                     </h3>
                     <CodeBlock
@@ -383,17 +379,17 @@ find-my-domain --keywords tech --tlds com io --count 20`}
                     />
                   </div>
 
-                  <div className="flex gap-3">
-                    <Button asChild variant="default" className="flex-1">
-                      <a href="/docs">View Full Documentation</a>
+                  <div className="flex gap-2">
+                    <Button asChild variant="default" size="sm" className="flex-1">
+                      <a href="/docs">Docs</a>
                     </Button>
-                    <Button asChild variant="outline" className="flex-1">
+                    <Button asChild variant="outline" size="sm" className="flex-1">
                       <a
                         href="https://github.com/idimetrix/find-my-domain"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        GitHub Repository
+                        GitHub
                       </a>
                     </Button>
                   </div>
@@ -401,65 +397,65 @@ find-my-domain --keywords tech --tlds com io --count 20`}
               </Card>
 
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Info className="h-5 w-5" />
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <Info className="h-4 w-4" />
                     Key Features
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="flex items-start gap-3 rounded-lg border p-3">
-                      <span className="text-green-500 text-xl">✓</span>
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <div className="flex items-start gap-2 rounded-lg border p-2.5">
+                      <span className="text-green-500 text-base">✓</span>
                       <div>
-                        <p className="font-medium text-sm">Real-time WHOIS</p>
+                        <p className="font-medium text-xs">Real-time WHOIS</p>
                         <p className="text-xs text-muted-foreground">
-                          Instant availability checking
+                          Instant availability
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3 rounded-lg border p-3">
-                      <span className="text-green-500 text-xl">✓</span>
+                    <div className="flex items-start gap-2 rounded-lg border p-2.5">
+                      <span className="text-green-500 text-base">✓</span>
                       <div>
-                        <p className="font-medium text-sm">40+ AI Models</p>
+                        <p className="font-medium text-xs">40+ AI Models</p>
                         <p className="text-xs text-muted-foreground">
-                          All OpenAI models supported
+                          All OpenAI models
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3 rounded-lg border p-3">
-                      <span className="text-green-500 text-xl">✓</span>
+                    <div className="flex items-start gap-2 rounded-lg border p-2.5">
+                      <span className="text-green-500 text-base">✓</span>
                       <div>
-                        <p className="font-medium text-sm">Streaming Mode</p>
+                        <p className="font-medium text-xs">Streaming Mode</p>
                         <p className="text-xs text-muted-foreground">
-                          See results as they generate
+                          Real-time results
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3 rounded-lg border p-3">
-                      <span className="text-green-500 text-xl">✓</span>
+                    <div className="flex items-start gap-2 rounded-lg border p-2.5">
+                      <span className="text-green-500 text-base">✓</span>
                       <div>
-                        <p className="font-medium text-sm">15+ TLDs</p>
+                        <p className="font-medium text-xs">15+ TLDs</p>
                         <p className="text-xs text-muted-foreground">
-                          .com, .io, .dev, and more
+                          .com, .io, .dev, more
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3 rounded-lg border p-3">
-                      <span className="text-green-500 text-xl">✓</span>
+                    <div className="flex items-start gap-2 rounded-lg border p-2.5">
+                      <span className="text-green-500 text-base">✓</span>
                       <div>
-                        <p className="font-medium text-sm">Node.js API</p>
+                        <p className="font-medium text-xs">Node.js API</p>
                         <p className="text-xs text-muted-foreground">
-                          Full TypeScript support
+                          TypeScript support
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3 rounded-lg border p-3">
-                      <span className="text-green-500 text-xl">✓</span>
+                    <div className="flex items-start gap-2 rounded-lg border p-2.5">
+                      <span className="text-green-500 text-base">✓</span>
                       <div>
-                        <p className="font-medium text-sm">JSON Export</p>
+                        <p className="font-medium text-xs">JSON Export</p>
                         <p className="text-xs text-muted-foreground">
-                          Structured output files
+                          Structured output
                         </p>
                       </div>
                     </div>
@@ -468,54 +464,52 @@ find-my-domain --keywords tech --tlds com io --count 20`}
               </Card>
 
               <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-200/50">
-                <CardHeader>
-                  <CardTitle className="text-lg">Popular Use Cases</CardTitle>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">Popular Use Cases</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
+                  <div className="space-y-2.5">
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5">
+                      <Badge variant="secondary" className="mt-0.5 text-xs px-2 py-0.5">
                         🚀
                       </Badge>
                       <div>
-                        <p className="text-sm font-medium">Startup Launch</p>
+                        <p className="text-xs font-medium">Startup Launch</p>
                         <p className="text-xs text-muted-foreground">
-                          Find brandable domains for your new SaaS or product
+                          Find brandable domains for your SaaS or product
                         </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5">
+                      <Badge variant="secondary" className="mt-0.5 text-xs px-2 py-0.5">
                         💻
                       </Badge>
                       <div>
-                        <p className="text-sm font-medium">
-                          Developer Projects
-                        </p>
+                        <p className="text-xs font-medium">Developer Projects</p>
                         <p className="text-xs text-muted-foreground">
-                          Technical names for open source tools and libraries
+                          Names for open source tools and libraries
                         </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5">
+                      <Badge variant="secondary" className="mt-0.5 text-xs px-2 py-0.5">
                         🎨
                       </Badge>
                       <div>
-                        <p className="text-sm font-medium">Personal Branding</p>
+                        <p className="text-xs font-medium">Personal Branding</p>
                         <p className="text-xs text-muted-foreground">
-                          Portfolio, blog, or professional website domains
+                          Portfolio, blog, or professional website
                         </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <Badge variant="secondary" className="mt-0.5">
+                      <Badge variant="secondary" className="mt-0.5 text-xs px-2 py-0.5">
                         🛍️
                       </Badge>
                       <div>
-                        <p className="text-sm font-medium">E-commerce</p>
+                        <p className="text-xs font-medium">E-commerce</p>
                         <p className="text-xs text-muted-foreground">
-                          Memorable shop names that customers will remember
+                          Memorable shop names customers remember
                         </p>
                       </div>
                     </div>

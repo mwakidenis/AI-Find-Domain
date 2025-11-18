@@ -51,33 +51,33 @@ find-my-domain --keywords tech --count 10`;
 
 export function CTA() {
   return (
-    <section className="container mx-auto py-16 md:py-20">
-      <Card className="relative overflow-hidden mx-auto max-w-4xl">
+    <section className="container mx-auto py-12 md:py-16 px-4">
+      <Card className="relative overflow-hidden mx-auto max-w-3xl">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10" />
-        <CardContent className="relative flex flex-col items-center justify-center gap-4 p-8 md:p-10 text-center">
-          <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl">
+        <CardContent className="relative flex flex-col items-center justify-center gap-3 p-6 md:p-8 text-center">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
             Ready to Find Your Domain?
           </h2>
-          <p className="max-w-[500px] text-sm text-muted-foreground sm:text-base">
+          <p className="max-w-md text-xs text-muted-foreground sm:text-sm">
             Install now and start generating creative domain names in seconds.
             Free and open source.
           </p>
 
-          <div className="flex flex-col gap-3 sm:flex-row justify-center">
-            <Button asChild size="lg" className="gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row justify-center">
+            <Button asChild size="default" className="gap-2">
               <Link href="/demo">
-                Try Interactive Demo
+                Try Demo
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="gap-2">
+            <Button asChild variant="outline" size="default" className="gap-2">
               <Link
                 href="https://github.com/idimetrix/find-my-domain"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Github className="h-4 w-4" />
-                View on GitHub
+                GitHub
               </Link>
             </Button>
           </div>

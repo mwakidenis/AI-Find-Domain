@@ -41,20 +41,20 @@ const stats = [
 
 export function Stats() {
   return (
-    <section className="container mx-auto py-16 md:py-20">
-      <div className="mx-auto flex max-w-[56rem] flex-col items-center space-y-3 text-center mb-8">
-        <Badge variant="outline" className="text-xs px-2.5 py-0.5">
+    <section className="container mx-auto py-12 md:py-16 px-4">
+      <div className="mx-auto flex max-w-[48rem] flex-col items-center space-y-2 text-center mb-6">
+        <Badge variant="outline" className="text-xs px-2 py-0.5">
           By The Numbers
         </Badge>
-        <h2 className="text-2xl font-bold leading-tight sm:text-3xl md:text-4xl">
+        <h2 className="text-2xl font-bold leading-tight sm:text-3xl">
           Powerful Yet Simple
         </h2>
-        <p className="max-w-[85%] text-sm leading-relaxed text-muted-foreground sm:text-base">
+        <p className="max-w-[85%] text-xs leading-relaxed text-muted-foreground sm:text-sm">
           Built with modern technology for performance
         </p>
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-5xl gap-3 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
@@ -62,16 +62,16 @@ export function Stats() {
               key={stat.label}
               className="relative overflow-hidden hover:shadow-md transition-all hover:-translate-y-0.5 duration-200"
             >
-              <CardContent className="flex flex-col items-center justify-center p-6 text-center">
+              <CardContent className="flex flex-col items-center justify-center p-5 text-center">
                 <div
-                  className={`mb-3 flex h-12 w-12 items-center justify-center rounded-full ${stat.bgColor}`}
+                  className={`mb-2 flex h-10 w-10 items-center justify-center rounded-full ${stat.bgColor}`}
                 >
-                  <Icon className={`h-6 w-6 ${stat.color}`} />
+                  <Icon className={`h-5 w-5 ${stat.color}`} />
                 </div>
-                <div className="mb-1 text-3xl font-bold tracking-tight">
+                <div className="mb-0.5 text-2xl font-bold tracking-tight">
                   {stat.value}
                 </div>
-                <div className="mb-1 text-base font-semibold">{stat.label}</div>
+                <div className="mb-0.5 text-sm font-semibold">{stat.label}</div>
                 <div className="text-xs text-muted-foreground">
                   {stat.description}
                 </div>
@@ -81,20 +81,20 @@ export function Stats() {
         })}
       </div>
 
-      <div className="mt-16 mx-auto max-w-4xl">
+      <div className="mt-12 mx-auto max-w-4xl">
         <Card className="bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10 border-none">
-          <CardContent className="flex flex-col md:flex-row items-center justify-between gap-6 p-8">
+          <CardContent className="flex flex-col md:flex-row items-center justify-between gap-4 p-6">
             <div className="flex-1 text-center md:text-left">
-              <h3 className="text-2xl font-bold mb-2">
+              <h3 className="text-lg font-bold mb-1">
                 Trusted by Developers Worldwide
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 Join hundreds of developers using Find My Domain to discover
                 their perfect domain names
               </p>
             </div>
             <div className="flex items-center gap-2 justify-center md:justify-end">
-              <Badge variant="secondary" className="text-lg px-4 py-2">
+              <Badge variant="secondary" className="text-sm px-3 py-1.5">
                 ⭐ Open Source
               </Badge>
             </div>

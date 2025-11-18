@@ -71,17 +71,17 @@ const features = [
 
 export function Features() {
   return (
-    <section id="features" className="container mx-auto py-16 md:py-20">
-      <div className="mx-auto flex max-w-[56rem] flex-col items-center space-y-3 text-center">
-        <h2 className="text-2xl font-bold leading-tight sm:text-3xl md:text-4xl">
+    <section id="features" className="container mx-auto py-12 md:py-16 px-4">
+      <div className="mx-auto flex max-w-[48rem] flex-col items-center space-y-2 text-center">
+        <h2 className="text-2xl font-bold leading-tight sm:text-3xl">
           Features
         </h2>
-        <p className="max-w-[85%] text-sm leading-relaxed text-muted-foreground sm:text-base">
+        <p className="max-w-[85%] text-xs leading-relaxed text-muted-foreground sm:text-sm">
           Everything you need to find the perfect domain name
         </p>
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-4 py-8 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-5xl gap-3 py-6 md:grid-cols-2 lg:grid-cols-4">
         {features.map((feature) => {
           const Icon = feature.icon;
           return (
@@ -89,11 +89,11 @@ export function Features() {
               key={feature.title}
               className="relative overflow-hidden hover:shadow-md transition-all hover:-translate-y-0.5 duration-200"
             >
-              <CardHeader className="pb-3">
-                <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                  <Icon className="h-5 w-5 text-primary" />
+              <CardHeader className="pb-2">
+                <div className="mb-1.5 flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
+                  <Icon className="h-4 w-4 text-primary" />
                 </div>
-                <CardTitle className="text-base">{feature.title}</CardTitle>
+                <CardTitle className="text-sm">{feature.title}</CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
                 <CardDescription className="text-xs leading-relaxed">

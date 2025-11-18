@@ -1,166 +1,170 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 export function Footer() {
   return (
-    <footer className="border-t">
-      <div className="container mx-auto py-12 md:py-16">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          <div className="space-y-3">
-            <h3 className="text-lg font-semibold">Find My Domain</h3>
-            <p className="text-sm text-muted-foreground">
+    <footer className="border-t bg-muted/30">
+      <div className="container mx-auto py-8 px-4">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4 mb-6">
+          <div className="col-span-2 md:col-span-1 space-y-3">
+            <h3 className="text-sm font-semibold">Find My Domain</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">
               AI-powered domain name generator with real-time availability
               checking.
             </p>
-            <div className="flex gap-4">
-              <Link
-                href="https://github.com/idimetrix/find-my-domain"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground"
+            <div className="flex gap-2">
+              <Button
+                asChild
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
               >
-                <Github className="h-5 w-5" />
-                <span className="sr-only">GitHub</span>
-              </Link>
-              <Link
-                href="https://www.linkedin.com/in/dimetrix"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground"
+                <Link
+                  href="https://github.com/idimetrix/find-my-domain"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Github className="h-4 w-4" />
+                  <span className="sr-only">GitHub</span>
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
               >
-                <Linkedin className="h-5 w-5" />
-                <span className="sr-only">LinkedIn</span>
-              </Link>
-              <Link
-                href="mailto:selikhov.dmitrey@gmail.com"
-                className="text-muted-foreground hover:text-foreground"
+                <Link
+                  href="https://www.linkedin.com/in/dimetrix"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Linkedin className="h-4 w-4" />
+                  <span className="sr-only">LinkedIn</span>
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
               >
-                <Mail className="h-5 w-5" />
-                <span className="sr-only">Email</span>
-              </Link>
+                <Link href="mailto:selikhov.dmitrey@gmail.com">
+                  <Mail className="h-4 w-4" />
+                  <span className="sr-only">Email</span>
+                </Link>
+              </Button>
             </div>
           </div>
 
           <div className="space-y-3">
             <h3 className="text-sm font-semibold">Product</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  href="/demo"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  Demo
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/docs"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  Documentation
-                </Link>
-              </li>
-              <li>
+            <nav className="flex flex-col gap-2">
+              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
+                <Link href="/demo">Demo</Link>
+              </Button>
+              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
+                <Link href="/docs">Documentation</Link>
+              </Button>
+              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
                 <Link
                   href="https://github.com/idimetrix/find-my-domain"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground"
                 >
                   GitHub
                 </Link>
-              </li>
-            </ul>
+              </Button>
+            </nav>
           </div>
 
           <div className="space-y-3">
             <h3 className="text-sm font-semibold">Resources</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
+            <nav className="flex flex-col gap-2">
+              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
                 <Link
                   href="https://github.com/idimetrix/find-my-domain#-quick-start"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground"
                 >
                   Quick Start
                 </Link>
-              </li>
-              <li>
+              </Button>
+              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
                 <Link
                   href="https://github.com/idimetrix/find-my-domain#-usage-guide"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground"
                 >
                   Usage Guide
                 </Link>
-              </li>
-              <li>
+              </Button>
+              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
                 <Link
                   href="https://github.com/idimetrix/find-my-domain/issues"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground"
                 >
                   Issues
                 </Link>
-              </li>
-            </ul>
+              </Button>
+            </nav>
           </div>
 
           <div className="space-y-3">
             <h3 className="text-sm font-semibold">Legal</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
+            <nav className="flex flex-col gap-2">
+              <Button asChild variant="link" className="h-auto p-0 justify-start text-xs text-muted-foreground">
                 <Link
                   href="https://github.com/idimetrix/find-my-domain/blob/main/LICENSE"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground"
                 >
                   MIT License
                 </Link>
-              </li>
-            </ul>
+              </Button>
+            </nav>
           </div>
         </div>
 
-        <Separator className="my-8" />
+        <Separator className="my-6" />
 
-        <div className="flex flex-col items-center justify-between gap-4 text-sm text-muted-foreground md:flex-row">
+        <div className="flex flex-col items-center justify-between gap-3 text-xs text-muted-foreground sm:flex-row">
           <p>
             © 2025{" "}
-            <Link
-              href="https://www.linkedin.com/in/dimetrix"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground"
-            >
-              Dmitrii Selikhov
-            </Link>
-            . All rights reserved.
+            <Button asChild variant="link" className="h-auto p-0 text-xs">
+              <Link
+                href="https://www.linkedin.com/in/dimetrix"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Dmitrii Selikhov
+              </Link>
+            </Button>
           </p>
           <p>
             Built with{" "}
-            <Link
-              href="https://nextjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground"
-            >
-              Next.js
-            </Link>{" "}
-            and{" "}
-            <Link
-              href="https://ui.shadcn.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground"
-            >
-              shadcn/ui
-            </Link>
+            <Button asChild variant="link" className="h-auto p-0 text-xs">
+              <Link
+                href="https://nextjs.org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Next.js
+              </Link>
+            </Button>
+            {" "}and{" "}
+            <Button asChild variant="link" className="h-auto p-0 text-xs">
+              <Link
+                href="https://ui.shadcn.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                shadcn/ui
+              </Link>
+            </Button>
           </p>
         </div>
       </div>
