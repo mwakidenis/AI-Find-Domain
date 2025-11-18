@@ -4,11 +4,25 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { checkDomainStatus } from "./utils/whois.js";
-import type { DomainStatusResult } from "./utils/whois.js";
-import { generateDomainNames, generateDomainNamesStream } from "./utils/ai.js";
-import { wait } from "./utils/wait.js";
-import * as logger from "./utils/logger.js";
+import {
+  checkDomainStatus,
+  generateDomainNames,
+  generateDomainNamesStream,
+  wait,
+  startTimer,
+  getElapsed,
+  getTotalElapsed,
+  formatTime,
+  log,
+  success,
+  error,
+  warn,
+  info,
+  spacer,
+  separator,
+  banner,
+} from "@find-my-domain/core";
+import type { DomainStatusResult } from "@find-my-domain/core";
 
 // Get package version
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -614,20 +628,35 @@ export async function main(): Promise<void> {
 // Exports
 // ============================================================================
 
-// Re-export utilities from ai.ts and whois.ts
-export { generateDomainNames, generateDomainNamesStream } from "./utils/ai.js";
-export { checkDomainStatus } from "./utils/whois.js";
-export type { DomainStatusResult, DomainStatusOptions } from "./utils/whois.js";
-export type { GenerateDomainNamesOptions } from "./utils/ai.js";
-
 // Export types
 export type { InputConfig, OutputResult };
 
 // Export useful functions for library usage
 export { checkDomainsBatch, checkDomainsStreaming };
 
-// Export utility functions
-export { wait } from "./utils/wait.js";
+// Re-export all core utilities from @find-my-domain/core
+export {
+  checkDomainStatus,
+  generateDomainNames,
+  generateDomainNamesStream,
+  wait,
+  startTimer,
+  getElapsed,
+  getTotalElapsed,
+  formatTime,
+  log,
+  success,
+  error,
+  warn,
+  info,
+  spacer,
+  separator,
+  banner,
+} from "@find-my-domain/core";
 
-// Export logger utilities (for advanced users)
-export * as logger from "./utils/logger.js";
+// Re-export types from core
+export type {
+  DomainStatusResult,
+  DomainStatusOptions,
+  GenerateDomainNamesOptions,
+} from "@find-my-domain/core";

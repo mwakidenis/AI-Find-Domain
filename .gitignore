@@ -3,47 +3,50 @@ node_modules/
 .pnp
 .pnp.js
 
-# Testing
-coverage/
-*.lcov
-.nyc_output
-
-# Production
+# Build outputs
 dist/
 build/
-*.tsbuildinfo
+.next/
+out/
 
-# Misc
-.DS_Store
-*.pem
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Environment
+# Environment variables
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# IDE
+# Configuration files (user-specific)
+input.json
+prompt.txt
+
+# Output files
+output/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage/
+.nyc_output
+
+# IDEs
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
-.project
-.classpath
-.settings/
+.DS_Store
 
-# OS
-Thumbs.db
+# Misc
+*.tsbuildinfo
+.turbo
 
-# Domain search results
-output/
-output.json
-input.json
-prompt.txt
+# Debug
+.vercel

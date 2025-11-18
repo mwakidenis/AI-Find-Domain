@@ -1,97 +1,41 @@
 {
   "name": "find-my-domain",
   "version": "1.4.1",
-  "description": "AI-powered domain name generator with real-time WHOIS availability checking",
+  "description": "AI-powered domain name generator with real-time WHOIS availability checking - Monorepo",
+  "private": true,
   "packageManager": "pnpm@10.22.0",
   "author": {
     "name": "Dmitrii Selikhov",
     "email": "selikhov.dmitrey@gmail.com",
     "url": "https://www.linkedin.com/in/dimetrix"
   },
-  "keywords": [
-    "domain",
-    "domain-name",
-    "domain-search",
-    "domain-generator",
-    "whois",
-    "ai",
-    "openai",
-    "gpt",
-    "domain-availability",
-    "domain-checker",
-    "typescript",
-    "cli"
-  ],
-  "bin": {
-    "find-my-domain": "bin/cli.js"
-  },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "sideEffects": false,
-  "files": [
-    "dist/",
-    "src/",
-    "bin/"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/idimetrix/find-my-domain.git"
   },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/idimetrix/find-my-domain/issues",
-    "email": "selikhov.dmitrey@gmail.com"
-  },
-  "homepage": "https://github.com/idimetrix/find-my-domain#readme",
-  "funding": {
-    "type": "individual",
-    "url": "https://github.com/sponsors/idimetrix"
-  },
-  "preferGlobal": true,
   "scripts": {
-    "start": "tsx src/index.ts",
-    "dev": "tsx src/index.ts",
-    "find": "tsx src/index.ts",
-    "test": "vitest run",
-    "test:run": "vitest run",
-    "test:watch": "vitest watch",
-    "build": "vite build",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit",
-    "deploy": "pnpm publish"
-  },
-  "dependencies": {
-    "@ai-sdk/openai": "^2.0.68",
-    "ai": "^5.0.93",
-    "dotenv": "^17.2.3",
-    "whoiser": "^2.0.0-beta.9",
-    "yargs": "^18.0.0",
-    "zod": "^4.1.12"
+    "dev": "pnpm --filter @find-my-domain/web dev",
+    "dev:cli": "pnpm --filter @find-my-domain/cli dev",
+    "dev:all": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "build:web": "pnpm --filter @find-my-domain/web build",
+    "build:cli": "pnpm --filter @find-my-domain/cli build",
+    "build:core": "pnpm --filter @find-my-domain/core build",
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r lint:fix",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "clean": "pnpm -r clean",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@types/node": "^24.10.1",
-    "@types/yargs": "^17.0.35",
-    "eslint": "^9.39.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "globals": "^16.5.0",
     "prettier": "^3.6.2",
-    "tsx": "^4.20.6",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.47.0",
-    "vite": "^7.2.2",
-    "vite-plugin-dts": "^4.5.4",
-    "vitest": "^4.0.10"
+    "typescript": "^5.9.3"
   },
   "engines": {
-    "node": ">=22"
-  },
-  "publishConfig": {
-    "access": "public"
+    "node": ">=22",
+    "pnpm": ">=10"
   }
 }
