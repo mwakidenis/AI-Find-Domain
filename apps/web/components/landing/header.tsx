@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Github, Search, Menu, LogOut, User } from "lucide-react";
+import { Github, Search, Menu, LogOut } from "lucide-react";
 import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import {
   Sheet,
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -70,6 +71,8 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
+          
           {isLoaded && isSignedIn ? (
             <>
               <div className="hidden md:flex items-center gap-2">
@@ -135,6 +138,15 @@ export function Header() {
                     </Link>
                   </Button>
                 </nav>
+                
+                <Separator />
+                
+                <div className="px-2">
+                  <p className="text-xs text-muted-foreground mb-2">Theme</p>
+                  <div className="flex justify-start">
+                    <ThemeToggle />
+                  </div>
+                </div>
                 
                 <Separator />
                 

@@ -207,7 +207,7 @@ export default function DemoPage() {
             </div>
             <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
               Try{" "}
-              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent dark:from-purple-400 dark:to-pink-400">
                 Find My Domain
               </span>
             </h1>
