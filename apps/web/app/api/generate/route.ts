@@ -10,11 +10,10 @@ import {
 import { getAuthUser } from "@/lib/auth";
 import {
   MAX_ATTEMPTS,
-  MAX_DOMAINS_GENERATE,
+  MAX_DOMAINS,
   MAX_KEYWORDS,
   MAX_KEYWORD_LENGTH,
   MAX_DOMAIN_PART_LENGTH,
-  MAX_DOMAINS_EXAMPLE,
   MIN_DOMAINS,
   MIN_KEYWORD_LENGTH,
   RATE_LIMIT_DELAY_MS,
@@ -49,10 +48,10 @@ const Schema = z
           .max(MAX_DOMAIN_PART_LENGTH)
           .regex(REGEX.DOMAIN_PART),
       )
-      .max(MAX_DOMAINS_EXAMPLE)
+      .max(MAX_DOMAINS)
       .optional()
       .default([]),
-    count: z.number().int().min(MIN_DOMAINS).max(MAX_DOMAINS_GENERATE),
+    count: z.number().int().min(MIN_DOMAINS).max(MAX_DOMAINS),
   })
   .refine((d) => d.keywords.length || d.domains.length, {
     message: "Provide keywords or domains",

@@ -8,7 +8,7 @@ import {
   ApiError,
 } from "@/lib/errors";
 import {
-  MAX_DOMAINS_CHECK,
+  MAX_DOMAINS,
   MAX_DOMAIN_LENGTH,
   MIN_DOMAIN_LENGTH,
   BLOCKED_DOMAINS,
@@ -42,7 +42,7 @@ const DomainSchema = z
 
 const SingleSchema = z.object({ domain: DomainSchema });
 const MultiSchema = z
-  .object({ domains: z.array(DomainSchema).min(1).max(MAX_DOMAINS_CHECK) })
+  .object({ domains: z.array(DomainSchema).min(1).max(MAX_DOMAINS) })
   .refine((d) => new Set(d.domains).size === d.domains.length, {
     message: "Duplicates detected",
     path: ["domains"],
