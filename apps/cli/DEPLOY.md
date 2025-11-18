@@ -28,13 +28,15 @@ Before initiating a deployment, ensure the following requirements are met:
 
 ### Step 1: Version Management
 
-Update the package version in `package.json` according to semantic versioning principles:
+Update the package version in `apps/cli/package.json` according to semantic versioning principles:
 
 ```json
 {
   "version": "<MAJOR>.<MINOR>.<PATCH>"
 }
 ```
+
+**Important**: Also update the root `package.json` version to match for consistency.
 
 **Semantic Versioning Guidelines:**
 
@@ -62,7 +64,8 @@ All validation steps must complete successfully before proceeding.
 Commit the version update and synchronize with the remote repository:
 
 ```bash
-git add package.json
+# Update both root and CLI package versions
+git add package.json apps/cli/package.json
 git commit -m "chore: bump version to <VERSION>"
 git push origin main
 ```
@@ -108,7 +111,8 @@ Monitor the deployment progress through GitHub Actions:
 gh run watch
 ```
 
-Alternatively, view the workflow execution in the GitHub Actions dashboard.
+Alternatively, view the workflow execution in the GitHub Actions dashboard at:
+https://github.com/idimetrix/find-my-domain/actions
 
 ### Step 7: Publication Verification
 

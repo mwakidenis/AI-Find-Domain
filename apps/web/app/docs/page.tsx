@@ -648,7 +648,7 @@ const names = await generateDomainNames({
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
-                      We support 15+ popular TLDs, with more being added:
+                      We support 25+ popular TLDs, with more being added:
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {[

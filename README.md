@@ -197,7 +197,7 @@ packages:
 
 - ✅ AI-powered domain generation (40+ OpenAI models)
 - ✅ Real-time WHOIS availability checking
-- ✅ Multiple TLD support (.com, .io, .dev, .ai, etc.)
+- ✅ Multiple TLD support (25+ TLDs: .com, .io, .dev, .ai, etc.)
 - ✅ Streaming and batch modes
 - ✅ JSON export with statistics
 - ✅ Programmatic API for Node.js

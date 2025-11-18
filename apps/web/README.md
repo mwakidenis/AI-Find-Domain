@@ -153,8 +153,8 @@ apps/web/
 - **Interactive Form**
   - Keywords input with tags
   - Example domains input
-  - TLD selector (15 popular TLDs)
-  - Domain count slider (1-20 domains)
+  - TLD selector (25 popular TLDs)
+  - Domain count slider (1-25 domains)
   - Form validation
   - Loading states with progress messages
 

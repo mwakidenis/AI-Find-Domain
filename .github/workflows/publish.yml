@@ -20,7 +20,7 @@ jobs:
 
       - name: Verify release tag matches package.json version
         run: |
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          PACKAGE_VERSION=$(node -p "require('./apps/cli/package.json').version")
           RELEASE_TAG=${GITHUB_REF#refs/tags/}
           echo "Package version: $PACKAGE_VERSION"
           echo "Release tag: $RELEASE_TAG"
@@ -54,17 +54,18 @@ jobs:
 
       - name: Verify build artifacts
         run: |
-          if [ ! -d "dist" ]; then
-            echo "❌ Error: dist directory not found"
+          if [ ! -d "apps/cli/dist" ]; then
+            echo "❌ Error: apps/cli/dist directory not found"
             exit 1
           fi
-          if [ ! -f "dist/index.js" ]; then
-            echo "❌ Error: dist/index.js not found"
+          if [ ! -f "apps/cli/dist/index.js" ]; then
+            echo "❌ Error: apps/cli/dist/index.js not found"
             exit 1
           fi
           echo "✅ Build artifacts verified"
 
-      - name: Publish to npm
+      - name: Publish CLI to npm
+        working-directory: ./apps/cli
         run: pnpm publish --provenance --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -75,6 +76,6 @@ jobs:
           echo "## 🎉 Successfully Published to npm" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Package**: find-my-domain" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: $(node -p "require('./package.json').version")" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: $(node -p "require('./apps/cli/package.json').version")" >> $GITHUB_STEP_SUMMARY
           echo "- **Registry**: https://www.npmjs.com/package/find-my-domain" >> $GITHUB_STEP_SUMMARY
 

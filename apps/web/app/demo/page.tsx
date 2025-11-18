@@ -456,7 +456,7 @@ find-my-domain --keywords tech --tlds com io --count 20`}
                     <div className="flex items-start gap-2 rounded-lg border p-2.5">
                       <span className="text-green-500 text-base">✓</span>
                       <div>
-                        <p className="font-medium text-xs">15+ TLDs</p>
+                        <p className="font-medium text-xs">25+ TLDs</p>
                         <p className="text-xs text-muted-foreground">
                           .com, .io, .dev, more
                         </p>

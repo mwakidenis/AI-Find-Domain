@@ -41,7 +41,7 @@ const features = [
     icon: Globe,
     title: "Multiple TLD Support",
     description:
-      "Check availability across 15+ popular TLDs simultaneously to find the perfect extension for your brand.",
+      "Check availability across 25+ popular TLDs simultaneously to find the perfect extension for your brand.",
   },
   {
     icon: Zap,

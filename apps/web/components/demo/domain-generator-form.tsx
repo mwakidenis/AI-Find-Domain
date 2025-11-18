@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, X, Plus } from "lucide-react";
-import { SignInButton } from "@clerk/nextjs";
 // Import only types and constants from core (browser-safe)
 const POPULAR_TLDS = [
   "com",
