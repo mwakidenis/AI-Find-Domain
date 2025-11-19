@@ -187,10 +187,55 @@ The automated deployment workflow executes the following stages:
 
 **Resolution:** Verify a GitHub Release was created, not merely a Git tag. Releases are the designated trigger mechanism.
 
+## Configuration for Testing
+
+When testing the package locally or in CI/CD, the CLI supports **3 configuration methods**:
+
+### Method 1: Environment Variables (Recommended for CI)
+
+```bash
+export OPENAI_API_KEY=sk-xxx
+export FMD_KEYWORDS=tech,startup
+export FMD_COUNT=20
+export FMD_TLDS=com,io
+npx find-my-domain
+```
+
+### Method 2: CLI Arguments
+
+```bash
+npx find-my-domain \
+  --api-key sk-xxx \
+  --keywords tech startup \
+  --count 20 \
+  --tlds com io
+```
+
+### Method 3: Config File
+
+```bash
+cat > input.json << EOF
+{
+  "keywords": ["tech", "startup"],
+  "count": 20,
+  "tlds": ["com", "io"]
+}
+EOF
+
+OPENAI_API_KEY=sk-xxx npx find-my-domain --input input.json
+```
+
+**Configuration Priority:** CLI args > input.json > ENV vars > defaults
+
+📚 **Full Configuration Guide:** [README.md](./README.md#-configuration)
+
+---
+
 ## References
 
 - **Workflow Definition:** `.github/workflows/publish.yml`
 - **Package Configuration:** `package.json`
+- **Configuration Guide:** [README.md](./README.md#-configuration)
 - **npm Registry:** https://www.npmjs.com/package/find-my-domain
 - **Repository Releases:** https://github.com/idimetrix/find-my-domain/releases
 - **Actions Dashboard:** https://github.com/idimetrix/find-my-domain/actions

@@ -212,36 +212,73 @@ function loadConfig(cliArgs: ReturnType<typeof parseCliArgs>) {
     }
   }
 
-  // Merge configurations: defaults < file < CLI args
+  // Helper to parse environment variables
+  const getEnvArray = (key: string): string[] | undefined => {
+    const value = process.env[key];
+    return value ? value.split(",").map((s) => s.trim()) : undefined;
+  };
+
+  const getEnvNumber = (key: string): number | undefined => {
+    const value = process.env[key];
+    return value ? parseInt(value, 10) : undefined;
+  };
+
+  const getEnvBoolean = (key: string): boolean | undefined => {
+    const value = process.env[key];
+    return value ? value.toLowerCase() === "true" : undefined;
+  };
+
+  // Merge configurations: defaults < .env < file < CLI args
   const config = {
     directory:
       (cliArgs.directory as string) ??
       fileConfig.directory ??
+      process.env.FMD_DIRECTORY ??
       DEFAULT_CONFIG.directory,
-    tlds: (cliArgs.tlds as string[]) ?? fileConfig.tlds ?? DEFAULT_CONFIG.tlds,
+    tlds:
+      (cliArgs.tlds as string[]) ??
+      fileConfig.tlds ??
+      getEnvArray("FMD_TLDS") ??
+      DEFAULT_CONFIG.tlds,
     domains:
       (cliArgs.domains as string[]) ??
       fileConfig.domains ??
+      getEnvArray("FMD_DOMAINS") ??
       DEFAULT_CONFIG.domains,
     keywords:
       (cliArgs.keywords as string[]) ??
       fileConfig.keywords ??
+      getEnvArray("FMD_KEYWORDS") ??
       DEFAULT_CONFIG.keywords,
     count:
-      (cliArgs.count as number) ?? fileConfig.count ?? DEFAULT_CONFIG.count,
+      (cliArgs.count as number) ??
+      fileConfig.count ??
+      getEnvNumber("FMD_COUNT") ??
+      DEFAULT_CONFIG.count,
     model:
-      (cliArgs.model as string) ?? fileConfig.model ?? DEFAULT_CONFIG.model,
+      (cliArgs.model as string) ??
+      fileConfig.model ??
+      process.env.FMD_MODEL ??
+      DEFAULT_CONFIG.model,
     apiKey:
       (cliArgs["apiKey"] as string) ??
       fileConfig.apiKey ??
       process.env.OPENAI_API_KEY,
-    prompt: (cliArgs.prompt as string) ?? promptFromFile ?? fileConfig.prompt,
+    prompt:
+      (cliArgs.prompt as string) ??
+      promptFromFile ??
+      fileConfig.prompt ??
+      process.env.FMD_PROMPT,
     save:
-      cliArgs.save === false ? false : (fileConfig.save ?? DEFAULT_CONFIG.save),
+      cliArgs.save === false
+        ? false
+        : (fileConfig.save ?? getEnvBoolean("FMD_SAVE") ?? DEFAULT_CONFIG.save),
     stream:
       cliArgs.stream === false
         ? false
-        : (fileConfig.stream ?? DEFAULT_CONFIG.stream),
+        : (fileConfig.stream ??
+          getEnvBoolean("FMD_STREAM") ??
+          DEFAULT_CONFIG.stream),
   };
 
   return config;

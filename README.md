@@ -80,14 +80,27 @@ pnpm dev
 
 #### CLI Tool
 
+The CLI supports **3 flexible configuration methods**:
+
 ```bash
-# Start CLI in development
+# Option 1: CLI Arguments
 pnpm dev:cli -- --keywords tech startup --count 10
 
-# Or use the built version
-cd apps/cli
-pnpm start -- --keywords ai ml --tlds com io --count 20
+# Option 2: .env File (all options supported!)
+echo "OPENAI_API_KEY=sk-xxx
+FMD_KEYWORDS=tech,startup
+FMD_COUNT=20
+FMD_TLDS=com,io" > apps/cli/.env
+cd apps/cli && pnpm start
+
+# Option 3: input.json
+echo '{"keywords": ["tech"], "count": 20}' > apps/cli/input.json
+cd apps/cli && pnpm start
 ```
+
+**Configuration Priority:** CLI args > input.json > .env > defaults
+
+📖 **Full Configuration Guide:** See [CLI README](apps/cli/README.md#-configuration)
 
 ---
 

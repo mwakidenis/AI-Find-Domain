@@ -210,14 +210,55 @@ pnpm start -- \
 
 ---
 
-## 🔄 Fallback Hierarchy
+## 🔄 Configuration Priority
 
-The tool uses this priority order:
+The tool supports **3 configuration methods** with this priority order:
 
 1. **CLI arguments** (highest priority)
-2. **Input JSON file** (if specified with `--input`)
-3. **Default input.json** (if exists)
+2. **Input JSON file** (`input.json` or via `--input`)
+3. **Environment variables** (`.env` file)
 4. **Built-in defaults** (lowest priority)
+
+### All Configuration Methods
+
+Every option can be set via CLI, JSON, or ENV:
+
+| Option    | CLI                | input.json    | Environment Variable |
+| --------- | ------------------ | ------------- | -------------------- |
+| API Key   | `--api-key`        | `"apiKey"`    | `OPENAI_API_KEY`     |
+| Keywords  | `--keywords`       | `"keywords"`  | `FMD_KEYWORDS`       |
+| Count     | `--count`          | `"count"`     | `FMD_COUNT`          |
+| TLDs      | `--tlds`           | `"tlds"`      | `FMD_TLDS`           |
+| Model     | `--model`          | `"model"`     | `FMD_MODEL`          |
+| Directory | `--directory`      | `"directory"` | `FMD_DIRECTORY`      |
+| Domains   | `--domains`        | `"domains"`   | `FMD_DOMAINS`        |
+| Prompt    | `--prompt`         | `"prompt"`    | `FMD_PROMPT`         |
+| Save      | `--save/--no-save` | `"save"`      | `FMD_SAVE`           |
+| Stream    | `--stream`         | `"stream"`    | `FMD_STREAM`         |
+
+### Using .env File
+
+Create `.env` with all your defaults:
+
+```bash
+# .env
+OPENAI_API_KEY=sk-your-key-here
+FMD_KEYWORDS=tech,startup,innovation
+FMD_COUNT=20
+FMD_TLDS=com,io,dev
+FMD_MODEL=gpt-4o-mini
+FMD_DIRECTORY=my-domains
+FMD_SAVE=true
+FMD_STREAM=true
+```
+
+Then just run:
+
+```bash
+pnpm start  # Uses all .env defaults
+```
+
+**📚 Full Configuration Guide:** See [README.md](./README.md#-configuration) for complete details
 
 ---
 
@@ -302,34 +343,33 @@ Perfect for:
 
 ## 🔐 API Key Options
 
-### Option 1: Environment Variable (Recommended)
+You can provide your API key in **4 ways**:
+
+### Option 1: .env File (Recommended for Development)
+
+Create `.env`:
+
+```bash
+OPENAI_API_KEY=sk-xxx
+# Plus any other defaults
+FMD_KEYWORDS=tech,startup
+FMD_COUNT=10
+```
+
+Then:
+
+```bash
+pnpm start  # Uses all .env settings
+```
+
+### Option 2: Environment Variable
 
 ```bash
 export OPENAI_API_KEY=sk-xxx
 pnpm start -- --keywords tech --count 5
 ```
 
-### Option 2: .env File
-
-Create `.env`:
-
-```
-OPENAI_API_KEY=sk-xxx
-```
-
-Then:
-
-```bash
-pnpm start -- --keywords tech --count 5
-```
-
-### Option 3: CLI Argument
-
-```bash
-pnpm start -- --api-key sk-xxx --keywords tech --count 5
-```
-
-### Option 4: input.json File
+### Option 3: input.json File
 
 ```json
 {
@@ -339,11 +379,17 @@ pnpm start -- --api-key sk-xxx --keywords tech --count 5
 }
 ```
 
-Then:
+```bash
+pnpm start  # Uses input.json
+```
+
+### Option 4: CLI Argument
 
 ```bash
-pnpm start
+pnpm start -- --api-key sk-xxx --keywords tech --count 5
 ```
+
+**Priority:** CLI args > input.json > .env > defaults
 
 ---
 

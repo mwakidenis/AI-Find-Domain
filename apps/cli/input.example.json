@@ -4,5 +4,9 @@
   "domains": ["example1", "example2", "example3"],
   "keywords": ["keyword1", "keyword2", "keyword3"],
   "count": 25,
-  "model": "gpt-4o-mini"
+  "model": "gpt-4o-mini",
+  "apiKey": "sk-your-openai-api-key-here",
+  "prompt": "Optional custom prompt template",
+  "save": true,
+  "stream": true
 }

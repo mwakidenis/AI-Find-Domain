@@ -36,11 +36,182 @@ npx find-my-domain --keywords tech startup --count 10
 # Option 1: Environment variable
 export OPENAI_API_KEY=sk-your-key-here
 
-# Option 2: .env file
+# Option 2: .env file (supports ALL options!)
 echo "OPENAI_API_KEY=sk-your-key-here" > .env
 
 # Option 3: Pass as argument
 find-my-domain --api-key sk-your-key-here --keywords tech --count 10
+
+# Option 4: input.json file
+echo '{"apiKey": "sk-your-key-here"}' > input.json
+```
+
+---
+
+## ⚙️ Configuration
+
+The CLI supports **3 flexible configuration methods** with full parity across all options:
+
+### Configuration Priority
+
+```
+CLI Arguments  >  input.json  >  .env  >  defaults
+   (highest)                            (lowest)
+```
+
+### All Configuration Options
+
+| Option        | CLI                | input.json    | ENV Variable     | Default         | Description                              |
+| ------------- | ------------------ | ------------- | ---------------- | --------------- | ---------------------------------------- |
+| **Directory** | `--directory, -d`  | `"directory"` | `FMD_DIRECTORY`  | `"output"`      | Output directory                         |
+| **TLDs**      | `--tlds, -t`       | `"tlds"`      | `FMD_TLDS`       | `["com"]`       | TLDs to check (comma-separated in env)   |
+| **Domains**   | `--domains`        | `"domains"`   | `FMD_DOMAINS`    | `[]`            | Example domains (comma-separated in env) |
+| **Keywords**  | `--keywords, -k`   | `"keywords"`  | `FMD_KEYWORDS`   | `[]`            | Keywords (comma-separated in env)        |
+| **Count**     | `--count, -c`      | `"count"`     | `FMD_COUNT`      | `10`            | Number to generate                       |
+| **Model**     | `--model, -m`      | `"model"`     | `FMD_MODEL`      | `"gpt-4o-mini"` | AI model                                 |
+| **API Key**   | `--api-key, -a`    | `"apiKey"`    | `OPENAI_API_KEY` | -               | OpenAI API key (required)                |
+| **Prompt**    | `--prompt, -p`     | `"prompt"`    | `FMD_PROMPT`     | -               | Custom prompt template                   |
+| **Save**      | `--save/--no-save` | `"save"`      | `FMD_SAVE`       | `true`          | Save results to file                     |
+| **Stream**    | `--stream, -s`     | `"stream"`    | `FMD_STREAM`     | `true`          | Enable streaming mode                    |
+
+### Configuration Examples
+
+#### 1. CLI Arguments
+
+```bash
+find-my-domain \
+  --keywords ai startup \
+  --tlds com io \
+  --count 20 \
+  --model gpt-4o-mini \
+  --api-key sk-xxx
+```
+
+#### 2. Environment Variables (.env)
+
+```bash
+# .env file
+OPENAI_API_KEY=sk-your-key-here
+FMD_KEYWORDS=ai,startup,innovation
+FMD_TLDS=com,io,dev
+FMD_COUNT=20
+FMD_MODEL=gpt-4o-mini
+FMD_DIRECTORY=my-domains
+FMD_SAVE=true
+FMD_STREAM=true
+```
+
+Then just run:
+
+```bash
+find-my-domain
+```
+
+#### 3. input.json File
+
+```json
+{
+  "directory": "output",
+  "tlds": ["com", "ai", "dev"],
+  "domains": ["example1", "example2"],
+  "keywords": ["keyword1", "keyword2"],
+  "count": 25,
+  "model": "gpt-4o-mini",
+  "apiKey": "sk-your-key-here",
+  "prompt": "Generate {COUNT} creative domain names",
+  "save": true,
+  "stream": true
+}
+```
+
+```bash
+# Use default input.json
+find-my-domain
+
+# Use custom input file
+find-my-domain --input myconfig.json
+```
+
+#### 4. Combining Methods
+
+```bash
+# Set defaults in .env, override with CLI
+find-my-domain --count 50 --tlds com
+
+# Use input.json + CLI override
+find-my-domain --input myconfig.json --count 50
+```
+
+### Data Type Formats
+
+| Type        | CLI                                    | JSON                                    | ENV                                      |
+| ----------- | -------------------------------------- | --------------------------------------- | ---------------------------------------- |
+| **Array**   | Space-separated<br>`--tlds com io dev` | JSON array<br>`["com", "io", "dev"]`    | Comma-separated<br>`FMD_TLDS=com,io,dev` |
+| **Boolean** | Flags<br>`--save` or `--no-save`       | JSON boolean<br>`"save": true`          | String<br>`FMD_SAVE=true`                |
+| **Number**  | Number<br>`--count 20`                 | JSON number<br>`"count": 20`            | String number<br>`FMD_COUNT=20`          |
+| **String**  | String<br>`--model gpt-4o-mini`        | JSON string<br>`"model": "gpt-4o-mini"` | String<br>`FMD_MODEL=gpt-4o-mini`        |
+
+### Configuration Files
+
+Create from examples:
+
+```bash
+# Copy example files
+cp .env.example .env
+cp input.example.json input.json
+
+# Edit with your values
+nano .env
+nano input.json
+```
+
+**Security Note:** Never commit `.env` or `input.json` files with API keys! Add to `.gitignore`:
+
+```
+.env
+input.json
+```
+
+### Common Configuration Patterns
+
+**Pattern 1: Local Development**
+
+```bash
+# .env (never commit)
+OPENAI_API_KEY=sk-local-dev-key
+FMD_COUNT=5
+FMD_TLDS=com
+
+# Quick tests with CLI overrides
+find-my-domain --keywords test --count 3
+```
+
+**Pattern 2: CI/CD Pipeline**
+
+```bash
+# Use environment variables
+export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+export FMD_COUNT=100
+export FMD_TLDS=com,io,dev,ai
+
+find-my-domain --keywords $KEYWORDS
+```
+
+**Pattern 3: Shared Team Config**
+
+```bash
+# team-config.json (can be committed)
+{
+  "tlds": ["com", "io"],
+  "count": 50,
+  "model": "gpt-4o-mini"
+  // no apiKey - each dev uses .env
+}
+
+# Each dev has own .env
+OPENAI_API_KEY=sk-individual-key
+
+find-my-domain --input team-config.json
 ```
 
 ---
