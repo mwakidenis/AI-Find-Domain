@@ -31,7 +31,10 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "pnpm build && changeset publish"
+    "release": "pnpm build && changeset publish",
+    "validate": "./scripts/pre-publish.sh",
+    "validate:docs": "./scripts/validate-docs.sh",
+    "prepublish": "pnpm clean && pnpm build && pnpm typecheck && pnpm lint && pnpm test"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.7",
