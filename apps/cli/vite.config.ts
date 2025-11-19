@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => {
       },
       rollupOptions: {
         // Externalize all dependencies for Node.js
+        // Note: @find-my-domain/core is NOT in this list, so it will be bundled
         external: [
           "ai",
           "@ai-sdk/openai",
