@@ -25,6 +25,7 @@ This project and everyone participating in it is governed by our commitment to f
 ### Our Standards
 
 **Positive behavior includes:**
+
 - Using welcoming and inclusive language
 - Being respectful of differing viewpoints
 - Gracefully accepting constructive criticism
@@ -32,6 +33,7 @@ This project and everyone participating in it is governed by our commitment to f
 - Showing empathy towards other community members
 
 **Unacceptable behavior includes:**
+
 - Trolling, insulting/derogatory comments, personal or political attacks
 - Public or private harassment
 - Publishing others' private information without permission
@@ -161,6 +163,7 @@ git commit -m "docs: improve CLI documentation"
 ```
 
 **Commit Types:**
+
 - `feat:` - New feature
 - `fix:` - Bug fix
 - `docs:` - Documentation changes
@@ -215,6 +218,7 @@ Have an idea for improvement?
 #### Good First Issues
 
 Look for issues labeled:
+
 - `good first issue` - Perfect for newcomers
 - `help wanted` - We'd love your help
 - `bug` - Bug fixes
@@ -284,7 +288,9 @@ Look for issues labeled:
 
 ```typescript
 // ✅ Good
-export function generateDomainNames(options: GenerateOptions): Promise<string[]> {
+export function generateDomainNames(
+  options: GenerateOptions,
+): Promise<string[]> {
   // Implementation
 }
 
@@ -416,6 +422,7 @@ describe("generateDomainNames", () => {
 ### Test Coverage
 
 Aim for:
+
 - **80%+ overall coverage**
 - **100% critical path coverage**
 - Test edge cases and error handling
@@ -427,6 +434,7 @@ Aim for:
 ### When to Update Documentation
 
 Update docs whenever you:
+
 - Add a new feature
 - Change existing behavior
 - Fix a bug that affects user workflow
@@ -454,6 +462,7 @@ Update docs whenever you:
 ## 🌟 Recognition
 
 Contributors are recognized in:
+
 - GitHub Contributors page
 - Release notes
 - CHANGELOG.md (for significant contributions)
@@ -500,6 +509,7 @@ pnpm update
 ### IDE Setup
 
 **VS Code Extensions (Recommended):**
+
 - ESLint
 - Prettier
 - TypeScript and JavaScript Language Features
@@ -520,12 +530,14 @@ pnpm update
 ### Debugging
 
 **CLI:**
+
 ```bash
 # Run CLI with Node debugger
 node --inspect-brk apps/cli/bin/cli.js --keywords test
 ```
 
 **Web App:**
+
 ```bash
 # Next.js includes debugging support
 pnpm dev
@@ -556,8 +568,9 @@ A: Absolutely! Docs improvements are highly valued.
 ## 🙏 Thank You!
 
 Your contributions make Find My Domain better for everyone. Whether it's:
+
 - 🐛 Fixing a typo
-- 📝 Improving documentation  
+- 📝 Improving documentation
 - ✨ Adding a feature
 - 🧪 Writing tests
 
@@ -573,5 +586,4 @@ By contributing, you agree that your contributions will be licensed under the MI
 
 **Happy Contributing! 🚀**
 
-*Made with ❤️ by the Find My Domain community*
-
+_Made with ❤️ by the Find My Domain community_

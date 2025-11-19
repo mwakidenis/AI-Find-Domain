@@ -107,7 +107,8 @@ npx find-my-domain --domains stripe vercel --count 20
 ```
 
 **Requirements:**
-- Node.js 18+ 
+
+- Node.js 18+
 - OpenAI API key (set as `OPENAI_API_KEY` environment variable)
 
 ### 30-Second Setup
@@ -210,11 +211,13 @@ find-my-domain \
 ```
 
 **Pros:**
+
 - ✅ Quick and direct
 - ✅ Easy to override other settings
 - ✅ Perfect for scripting
 
 **Cons:**
+
 - ❌ Can get verbose for many options
 - ❌ API key visible in shell history (use .env instead)
 
@@ -256,11 +259,13 @@ echo ".env" >> .gitignore
 ```
 
 **Pros:**
+
 - ✅ Secure (never commit API keys)
 - ✅ Clean command line
 - ✅ Easy to switch between environments
 
 **Cons:**
+
 - ❌ Requires file creation
 - ❌ Array values must be comma-separated
 
@@ -301,12 +306,14 @@ find-my-domain --input myconfig.json --count 100
 ```
 
 **Pros:**
+
 - ✅ Best for complex configs
 - ✅ Easy to share with team
 - ✅ Supports comments (use .jsonc)
 - ✅ Version control friendly (without API keys)
 
 **Cons:**
+
 - ❌ Requires valid JSON syntax
 - ❌ Don't commit API keys!
 
@@ -314,33 +321,33 @@ find-my-domain --input myconfig.json --count 100
 
 ### Complete Configuration Reference
 
-| Option        | CLI Flag            | JSON Key      | ENV Variable     | Type    | Default         | Description                                 |
-|---------------|---------------------|---------------|------------------|---------|-----------------|---------------------------------------------|
-| **API Key**   | `--api-key, -a`     | `apiKey`      | `OPENAI_API_KEY` | string  | *required*      | OpenAI API key                              |
-| **Keywords**  | `--keywords, -k`    | `keywords`    | `FMD_KEYWORDS`   | array   | `[]`            | Keywords for domain generation              |
-| **Domains**   | `--domains`         | `domains`     | `FMD_DOMAINS`    | array   | `[]`            | Example domains for inspiration             |
-| **Count**     | `--count, -c`       | `count`       | `FMD_COUNT`      | number  | `10`            | Number of domains to generate               |
-| **TLDs**      | `--tlds, -t`        | `tlds`        | `FMD_TLDS`       | array   | `["com"]`       | Top-level domains to check                  |
-| **Model**     | `--model, -m`       | `model`       | `FMD_MODEL`      | string  | `gpt-4o-mini`   | AI model to use                             |
-| **Directory** | `--directory, -d`   | `directory`   | `FMD_DIRECTORY`  | string  | `output`        | Output directory for results                |
-| **Prompt**    | `--prompt, -p`      | `prompt`      | `FMD_PROMPT`     | string  | *default*       | Custom prompt template                      |
-| **Prompt File** | `--prompt-file`   | -             | -                | string  | -               | Path to prompt template file                |
-| **Input File** | `--input, -i`      | -             | -                | string  | `input.json`    | Path to JSON config file                    |
-| **Stream**    | `--stream, -s`      | `stream`      | `FMD_STREAM`     | boolean | `true`          | Enable streaming mode                       |
-| **Save**      | `--save`            | `save`        | `FMD_SAVE`       | boolean | `true`          | Save results to file                        |
-| **Help**      | `--help, -h`        | -             | -                | -       | -               | Show help information                       |
-| **Version**   | `--version`         | -             | -                | -       | -               | Show version number                         |
+| Option          | CLI Flag          | JSON Key    | ENV Variable     | Type    | Default       | Description                     |
+| --------------- | ----------------- | ----------- | ---------------- | ------- | ------------- | ------------------------------- |
+| **API Key**     | `--api-key, -a`   | `apiKey`    | `OPENAI_API_KEY` | string  | _required_    | OpenAI API key                  |
+| **Keywords**    | `--keywords, -k`  | `keywords`  | `FMD_KEYWORDS`   | array   | `[]`          | Keywords for domain generation  |
+| **Domains**     | `--domains`       | `domains`   | `FMD_DOMAINS`    | array   | `[]`          | Example domains for inspiration |
+| **Count**       | `--count, -c`     | `count`     | `FMD_COUNT`      | number  | `10`          | Number of domains to generate   |
+| **TLDs**        | `--tlds, -t`      | `tlds`      | `FMD_TLDS`       | array   | `["com"]`     | Top-level domains to check      |
+| **Model**       | `--model, -m`     | `model`     | `FMD_MODEL`      | string  | `gpt-4o-mini` | AI model to use                 |
+| **Directory**   | `--directory, -d` | `directory` | `FMD_DIRECTORY`  | string  | `output`      | Output directory for results    |
+| **Prompt**      | `--prompt, -p`    | `prompt`    | `FMD_PROMPT`     | string  | _default_     | Custom prompt template          |
+| **Prompt File** | `--prompt-file`   | -           | -                | string  | -             | Path to prompt template file    |
+| **Input File**  | `--input, -i`     | -           | -                | string  | `input.json`  | Path to JSON config file        |
+| **Stream**      | `--stream, -s`    | `stream`    | `FMD_STREAM`     | boolean | `true`        | Enable streaming mode           |
+| **Save**        | `--save`          | `save`      | `FMD_SAVE`       | boolean | `true`        | Save results to file            |
+| **Help**        | `--help, -h`      | -           | -                | -       | -             | Show help information           |
+| **Version**     | `--version`       | -           | -                | -       | -             | Show version number             |
 
 ---
 
 ### Data Type Formats Across Methods
 
-| Type        | CLI Example                          | JSON Example                        | ENV Example                        |
-|-------------|--------------------------------------|-------------------------------------|------------------------------------|
-| **Array**   | `--tlds com io dev`                  | `"tlds": ["com", "io", "dev"]`      | `FMD_TLDS=com,io,dev`              |
-| **Boolean** | `--save` or `--no-save`              | `"save": true`                      | `FMD_SAVE=true` or `FMD_SAVE=false` |
-| **Number**  | `--count 25`                         | `"count": 25`                       | `FMD_COUNT=25`                     |
-| **String**  | `--model gpt-4o`                     | `"model": "gpt-4o"`                 | `FMD_MODEL=gpt-4o`                 |
+| Type        | CLI Example             | JSON Example                   | ENV Example                         |
+| ----------- | ----------------------- | ------------------------------ | ----------------------------------- |
+| **Array**   | `--tlds com io dev`     | `"tlds": ["com", "io", "dev"]` | `FMD_TLDS=com,io,dev`               |
+| **Boolean** | `--save` or `--no-save` | `"save": true`                 | `FMD_SAVE=true` or `FMD_SAVE=false` |
+| **Number**  | `--count 25`            | `"count": 25`                  | `FMD_COUNT=25`                      |
+| **String**  | `--model gpt-4o`        | `"model": "gpt-4o"`            | `FMD_MODEL=gpt-4o`                  |
 
 ---
 
@@ -566,6 +573,7 @@ find-my-domain --keywords tech --count 10
 ```
 
 **When to use:**
+
 - Interactive terminal use
 - Small to medium batches (1-30 domains)
 - Want immediate feedback
@@ -583,6 +591,7 @@ find-my-domain --keywords tech --count 10 --no-stream
 ```
 
 **When to use:**
+
 - Large batches (50+ domains)
 - Background/automated jobs
 - Want all names before checking
@@ -647,36 +656,36 @@ find-my-domain --keywords tech --count 10 --no-stream
 
 ### Core Options
 
-| Flag         | Alias | Type   | Required | Description                          |
-|--------------|-------|--------|----------|--------------------------------------|
-| `--api-key`  | `-a`  | string | Yes*     | OpenAI API key (or use env var)      |
-| `--keywords` | `-k`  | array  | No       | Keywords for generation              |
-| `--domains`  | -     | array  | No       | Example domains for inspiration      |
-| `--count`    | `-c`  | number | No       | Number of domains (default: 10)      |
-| `--tlds`     | `-t`  | array  | No       | TLDs to check (default: ["com"])     |
-| `--model`    | `-m`  | string | No       | AI model (default: gpt-4o-mini)      |
+| Flag         | Alias | Type   | Required | Description                      |
+| ------------ | ----- | ------ | -------- | -------------------------------- |
+| `--api-key`  | `-a`  | string | Yes\*    | OpenAI API key (or use env var)  |
+| `--keywords` | `-k`  | array  | No       | Keywords for generation          |
+| `--domains`  | -     | array  | No       | Example domains for inspiration  |
+| `--count`    | `-c`  | number | No       | Number of domains (default: 10)  |
+| `--tlds`     | `-t`  | array  | No       | TLDs to check (default: ["com"]) |
+| `--model`    | `-m`  | string | No       | AI model (default: gpt-4o-mini)  |
 
-*Required unless set via `OPENAI_API_KEY` environment variable
+\*Required unless set via `OPENAI_API_KEY` environment variable
 
 ### Advanced Options
 
-| Flag            | Type    | Default  | Description                           |
-|-----------------|---------|----------|---------------------------------------|
-| `--directory`   | string  | `output` | Output directory for results          |
-| `--prompt`      | string  | -        | Custom prompt template (inline)       |
-| `--prompt-file` | string  | -        | Path to prompt template file          |
-| `--input`       | string  | -        | Path to JSON configuration file       |
-| `--stream`      | boolean | `true`   | Enable streaming mode                 |
-| `--no-stream`   | flag    | -        | Disable streaming (batch mode)        |
-| `--save`        | boolean | `true`   | Save results to JSON file             |
-| `--no-save`     | flag    | -        | Don't save results                    |
+| Flag            | Type    | Default  | Description                     |
+| --------------- | ------- | -------- | ------------------------------- |
+| `--directory`   | string  | `output` | Output directory for results    |
+| `--prompt`      | string  | -        | Custom prompt template (inline) |
+| `--prompt-file` | string  | -        | Path to prompt template file    |
+| `--input`       | string  | -        | Path to JSON configuration file |
+| `--stream`      | boolean | `true`   | Enable streaming mode           |
+| `--no-stream`   | flag    | -        | Disable streaming (batch mode)  |
+| `--save`        | boolean | `true`   | Save results to JSON file       |
+| `--no-save`     | flag    | -        | Don't save results              |
 
 ### Utility Options
 
-| Flag        | Alias | Description                |
-|-------------|-------|----------------------------|
-| `--help`    | `-h`  | Show help information      |
-| `--version` | -     | Show version number        |
+| Flag        | Alias | Description           |
+| ----------- | ----- | --------------------- |
+| `--help`    | `-h`  | Show help information |
+| `--version` | -     | Show version number   |
 
 ---
 
@@ -767,7 +776,7 @@ on:
   workflow_dispatch:
     inputs:
       keywords:
-        description: 'Keywords for domain generation'
+        description: "Keywords for domain generation"
         required: true
         type: string
 
@@ -776,12 +785,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Generate domains
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -790,7 +799,7 @@ jobs:
             --keywords ${{ inputs.keywords }} \
             --count 50 \
             --directory domains
-      
+
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
@@ -897,13 +906,7 @@ Structured data saved to `output/output.json`:
     "model": "gpt-4o-mini",
     "stream": true
   },
-  "generated": [
-    "techflow",
-    "rapidhub",
-    "cloudly",
-    "nextstep",
-    "buildfast"
-  ],
+  "generated": ["techflow", "rapidhub", "cloudly", "nextstep", "buildfast"],
   "results": {
     "available": [
       "techflow.com",
@@ -912,16 +915,8 @@ Structured data saved to `output/output.json`:
       "nextstep.dev",
       "buildfast.dev"
     ],
-    "sale": [
-      "rapidhub.com",
-      "cloudly.dev"
-    ],
-    "taken": [
-      "cloudly.com",
-      "cloudly.io",
-      "nextstep.com",
-      "buildfast.com"
-    ]
+    "sale": ["rapidhub.com", "cloudly.dev"],
+    "taken": ["cloudly.com", "cloudly.io", "nextstep.com", "buildfast.com"]
   },
   "summary": {
     "total": 60,
@@ -962,17 +957,18 @@ jq -r '.results.available[] | select(endswith(".com"))' output/output.json | hea
 
 ### Model Selection Guide
 
-| Model           | Speed   | Cost  | Quality   | Token Limit | Best For                    |
-|-----------------|---------|-------|-----------|-------------|-----------------------------|
-| `gpt-4o-mini`   | ⚡⚡⚡⚡ | $     | ⭐⭐⭐    | 128K        | Testing, high volume        |
-| `gpt-4o`        | ⚡⚡⚡   | $$    | ⭐⭐⭐⭐⭐ | 128K        | Production, best quality    |
-| `gpt-4-turbo`   | ⚡⚡⚡   | $$$   | ⭐⭐⭐⭐⭐ | 128K        | Premium, complex prompts    |
-| `gpt-4`         | ⚡⚡     | $$$   | ⭐⭐⭐⭐⭐ | 8K          | Legacy, complex reasoning   |
-| `gpt-3.5-turbo` | ⚡⚡⚡⚡ | $     | ⭐⭐      | 16K         | Budget, simple tasks        |
+| Model           | Speed    | Cost | Quality    | Token Limit | Best For                  |
+| --------------- | -------- | ---- | ---------- | ----------- | ------------------------- |
+| `gpt-4o-mini`   | ⚡⚡⚡⚡ | $    | ⭐⭐⭐     | 128K        | Testing, high volume      |
+| `gpt-4o`        | ⚡⚡⚡   | $$   | ⭐⭐⭐⭐⭐ | 128K        | Production, best quality  |
+| `gpt-4-turbo`   | ⚡⚡⚡   | $$$  | ⭐⭐⭐⭐⭐ | 128K        | Premium, complex prompts  |
+| `gpt-4`         | ⚡⚡     | $$$  | ⭐⭐⭐⭐⭐ | 8K          | Legacy, complex reasoning |
+| `gpt-3.5-turbo` | ⚡⚡⚡⚡ | $    | ⭐⭐       | 16K         | Budget, simple tasks      |
 
 ### Available Models
 
 **GPT-4o Family** (Recommended):
+
 - `gpt-4o` - Latest flagship model
 - `gpt-4o-mini` - Fast and efficient (default)
 - `gpt-4o-2024-11-20` - Dated version
@@ -980,17 +976,20 @@ jq -r '.results.available[] | select(endswith(".com"))' output/output.json | hea
 - `chatgpt-4o-latest` - ChatGPT web version
 
 **GPT-4 Family**:
+
 - `gpt-4` - Original GPT-4
 - `gpt-4-turbo` - Faster GPT-4
 - `gpt-4-turbo-2024-04-09` - Dated version
 - `gpt-4-0613` - Legacy version
 
 **O-Series** (Advanced Reasoning):
+
 - `o1` - Advanced reasoning model
 - `o3` - Latest reasoning model
 - `o3-mini` - Efficient reasoning
 
 **GPT-3.5** (Budget):
+
 - `gpt-3.5-turbo` - Fast and cheap
 
 ### Model Comparison Examples
@@ -1050,7 +1049,7 @@ console.log("Generated:", names);
 // Check availability
 for (const name of names) {
   const result = await checkDomainStatus(`${name}.com`);
-  
+
   if (result.available) {
     console.log(`✅ ${name}.com is available!`);
   } else if (result.forSale) {
@@ -1058,7 +1057,7 @@ for (const name of names) {
   } else {
     console.log(`❌ ${name}.com is taken`);
   }
-  
+
   // Rate limiting
   await wait(500);
 }
@@ -1080,10 +1079,10 @@ const stream = generateDomainNamesStream({
 
 for await (const name of stream) {
   console.log(`Generated: ${name}`);
-  
+
   // Check immediately
   const result = await checkDomainStatus(`${name}.com`);
-  
+
   if (result.available) {
     console.log(`🎉 ${name}.com is AVAILABLE!`);
     break; // Found a good one!
@@ -1123,7 +1122,7 @@ const results: Record<string, DomainStatusResult[]> = {};
 
 for (const name of names) {
   results[name] = await Promise.all(
-    tlds.map((tld) => checkDomainStatus(`${name}.${tld}`))
+    tlds.map((tld) => checkDomainStatus(`${name}.${tld}`)),
   );
 }
 
@@ -1195,7 +1194,7 @@ function DomainFinder() {
       for await (const name of stream) {
         // Check availability
         const result = await checkDomainStatus(`${name}.com`);
-        
+
         if (result.available) {
           setDomains((prev) => [...prev, `${name}.com`]);
         }
@@ -1215,7 +1214,7 @@ function DomainFinder() {
       <button onClick={findDomains} disabled={loading}>
         {loading ? "Searching..." : "Find Domains"}
       </button>
-      
+
       <ul>
         {domains.map((domain) => (
           <li key={domain}>✅ {domain}</li>
@@ -1339,23 +1338,26 @@ find-my-domain --model gpt-4o-mini --count 50
 ```typescript
 // Check multiple TLDs in parallel
 const results = await Promise.all(
-  tlds.map((tld) => checkDomainStatus(`${name}.${tld}`))
+  tlds.map((tld) => checkDomainStatus(`${name}.${tld}`)),
 );
 ```
 
 ### Rate Limiting
 
 **WHOIS Rate Limits:**
+
 - Most WHOIS servers: ~50 queries/minute
 - Built-in delays: 500ms between queries
 - Automatic retry on rate limit
 
 **OpenAI API Rate Limits:**
+
 - Free tier: 3 RPM
 - Tier 1: 500 RPM
 - Tier 2: 5000 RPM
 
 **Tips:**
+
 - Use streaming to spread out API calls
 - Implement exponential backoff
 - Monitor API usage in dashboard
@@ -1626,6 +1628,7 @@ A: Yes, an OpenAI API key is required for domain generation. You can get one at 
 **Q: How much does it cost to use?**
 
 A: The CLI is free and open source. You only pay for OpenAI API usage:
+
 - gpt-4o-mini: ~$0.0001 per 10 domains
 - gpt-4o: ~$0.001 per 10 domains
 - WHOIS lookups are free
@@ -1642,7 +1645,8 @@ A: Yes, it performs real-time WHOIS lookups to check actual registration status,
 
 **Q: Which model should I use?**
 
-A: 
+A:
+
 - **Quick tests**: `gpt-4o-mini` (default, fast, cheap)
 - **Production**: `gpt-4o` (best quality/cost balance)
 - **Premium**: `gpt-4-turbo` (highest quality)
@@ -1650,6 +1654,7 @@ A:
 **Q: What's the difference between streaming and batch mode?**
 
 A:
+
 - **Streaming**: Results appear as generated (better UX, faster feedback)
 - **Batch**: Generates all first, then checks (more efficient for large batches)
 
@@ -1678,13 +1683,15 @@ A: Yes! It's MIT licensed - free for personal and commercial use.
 **Q: How many domains should I generate?**
 
 A: Depends on availability:
+
 - **Competitive niches**: 50-100 domains
-- **Normal niches**: 20-30 domains  
+- **Normal niches**: 20-30 domains
 - **Unique niches**: 10-15 domains
 
 **Q: What makes a good domain name?**
 
 A:
+
 - ✅ Short (5-10 characters)
 - ✅ Easy to spell and pronounce
 - ✅ Memorable and unique
@@ -1706,6 +1713,7 @@ find-my-domain \
 **Q: How do I generate brandable vs descriptive names?**
 
 A:
+
 ```bash
 # Brandable (invented words)
 find-my-domain --domains stripe vercel notion
@@ -1824,8 +1832,9 @@ git push origin feature/my-feature
 ### Code Style
 
 We use:
+
 - **ESLint** for linting
-- **Prettier** for formatting  
+- **Prettier** for formatting
 - **TypeScript** for type safety
 - **Conventional Commits** for commit messages
 

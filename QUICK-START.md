@@ -413,13 +413,13 @@ find-my-domain \
 
 ## 🎯 Cost Estimate
 
-| Model        | 10 domains | 100 domains | 1000 domains |
-|--------------|------------|-------------|--------------|
-| gpt-4o-mini  | ~$0.0001   | ~$0.001     | ~$0.01       |
-| gpt-4o       | ~$0.001    | ~$0.01      | ~$0.10       |
-| gpt-4-turbo  | ~$0.002    | ~$0.02      | ~$0.20       |
+| Model       | 10 domains | 100 domains | 1000 domains |
+| ----------- | ---------- | ----------- | ------------ |
+| gpt-4o-mini | ~$0.0001   | ~$0.001     | ~$0.01       |
+| gpt-4o      | ~$0.001    | ~$0.01      | ~$0.10       |
+| gpt-4-turbo | ~$0.002    | ~$0.02      | ~$0.20       |
 
-*WHOIS lookups are free but rate-limited*
+_WHOIS lookups are free but rate-limited_
 
 ---
 
@@ -452,5 +452,4 @@ A: Yes, use `--tlds com io dev ai`
 
 **Happy Domain Hunting! 🚀**
 
-*Find your perfect domain in minutes, not hours!*
-
+_Find your perfect domain in minutes, not hours!_

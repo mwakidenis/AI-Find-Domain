@@ -12,7 +12,7 @@
 
 **🤖 Revolutionary AI-Powered Domain Name Generator with Real-Time WHOIS Availability Checking**
 
-*Enterprise-grade monorepo featuring a powerful CLI tool, stunning web showcase, and shared TypeScript core library*
+_Enterprise-grade monorepo featuring a powerful CLI tool, stunning web showcase, and shared TypeScript core library_
 
 [🌐 Try Live Demo](https://find-my-domain-web.vercel.app/demo) | [📖 Full Documentation](https://find-my-domain-web.vercel.app/docs) | [📦 npm Package](https://www.npmjs.com/package/find-my-domain) | [🏠 Website](https://find-my-domain-web.vercel.app/)
 
@@ -73,11 +73,11 @@
 
 This monorepo contains three interconnected packages:
 
-| Package | Description | Features | Tech Stack |
-|---------|-------------|----------|------------|
-| **[@find-my-domain/cli](apps/cli)** | Command-line interface tool | • 40+ AI models<br>• Streaming & batch modes<br>• 3 config methods<br>• JSON export<br>• Programmatic API | Node.js, TypeScript, OpenAI SDK, yargs, Vite |
-| **[@find-my-domain/web](apps/web)** | Interactive web application | • 100% real demo<br>• Clerk auth<br>• Rate limiting<br>• Beautiful UI<br>• 55 components | Next.js 15, React 19, shadcn/ui, Tailwind, Framer Motion |
-| **[@find-my-domain/core](packages/core)** | Shared core library | • Type definitions<br>• AI utilities<br>• WHOIS checking<br>• Validation<br>• Logging | TypeScript, Zod, Vercel AI SDK, whoiser |
+| Package                                   | Description                 | Features                                                                                                  | Tech Stack                                               |
+| ----------------------------------------- | --------------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **[@find-my-domain/cli](apps/cli)**       | Command-line interface tool | • 40+ AI models<br>• Streaming & batch modes<br>• 3 config methods<br>• JSON export<br>• Programmatic API | Node.js, TypeScript, OpenAI SDK, yargs, Vite             |
+| **[@find-my-domain/web](apps/web)**       | Interactive web application | • 100% real demo<br>• Clerk auth<br>• Rate limiting<br>• Beautiful UI<br>• 55 components                  | Next.js 15, React 19, shadcn/ui, Tailwind, Framer Motion |
+| **[@find-my-domain/core](packages/core)** | Shared core library         | • Type definitions<br>• AI utilities<br>• WHOIS checking<br>• Validation<br>• Logging                     | TypeScript, Zod, Vercel AI SDK, whoiser                  |
 
 ### Package Relationships
 
@@ -385,7 +385,7 @@ console.log("Generated:", names);
 // Check availability
 for (const name of names) {
   const result = await checkDomainStatus(`${name}.com`);
-  
+
   if (result.available) {
     console.log(`✅ ${name}.com is available!`);
   } else if (result.forSale) {
@@ -393,7 +393,7 @@ for (const name of names) {
   } else {
     console.log(`❌ ${name}.com is taken`);
   }
-  
+
   await wait(500); // Rate limiting
 }
 ```
@@ -411,7 +411,7 @@ const stream = generateDomainNamesStream({
 
 for await (const name of stream) {
   console.log(`Generated: ${name}`);
-  
+
   // Check immediately
   const result = await checkDomainStatus(`${name}.com`);
   if (result.available) {
@@ -688,49 +688,49 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ### Core Technologies
 
-| Technology | Version | Purpose | Documentation |
-|------------|---------|---------|---------------|
-| **Node.js** | 18+ | Runtime environment | [nodejs.org](https://nodejs.org/) |
-| **TypeScript** | 5.7 | Type-safe JavaScript | [typescriptlang.org](https://www.typescriptlang.org/) |
-| **pnpm** | 10+ | Package manager | [pnpm.io](https://pnpm.io/) |
+| Technology     | Version | Purpose              | Documentation                                         |
+| -------------- | ------- | -------------------- | ----------------------------------------------------- |
+| **Node.js**    | 18+     | Runtime environment  | [nodejs.org](https://nodejs.org/)                     |
+| **TypeScript** | 5.7     | Type-safe JavaScript | [typescriptlang.org](https://www.typescriptlang.org/) |
+| **pnpm**       | 10+     | Package manager      | [pnpm.io](https://pnpm.io/)                           |
 
 ### CLI & Core Stack
 
-| Package | Purpose | Why We Use It |
-|---------|---------|---------------|
-| **OpenAI SDK** | AI generation | Official SDK for OpenAI API |
-| **Vercel AI SDK** | Streaming AI | Unified interface for AI providers |
-| **whoiser** | WHOIS lookups | Reliable WHOIS data parsing |
-| **yargs** | CLI argument parsing | Robust CLI framework |
-| **dotenv** | Environment variables | Easy .env file loading |
-| **Zod** | Schema validation | Type-safe validation |
-| **Vite** | Build tool | Fast builds with HMR |
-| **Vitest** | Testing | Vite-native test runner |
+| Package           | Purpose               | Why We Use It                      |
+| ----------------- | --------------------- | ---------------------------------- |
+| **OpenAI SDK**    | AI generation         | Official SDK for OpenAI API        |
+| **Vercel AI SDK** | Streaming AI          | Unified interface for AI providers |
+| **whoiser**       | WHOIS lookups         | Reliable WHOIS data parsing        |
+| **yargs**         | CLI argument parsing  | Robust CLI framework               |
+| **dotenv**        | Environment variables | Easy .env file loading             |
+| **Zod**           | Schema validation     | Type-safe validation               |
+| **Vite**          | Build tool            | Fast builds with HMR               |
+| **Vitest**        | Testing               | Vite-native test runner            |
 
 ### Web App Stack
 
-| Package | Purpose | Why We Use It |
-|---------|---------|---------------|
-| **Next.js 15** | React framework | App Router, SSR, API routes |
-| **React 19** | UI library | Latest React features |
-| **shadcn/ui** | Component library | Beautiful, accessible components |
-| **Tailwind CSS** | Styling | Utility-first CSS |
-| **Framer Motion** | Animations | Smooth, performant animations |
-| **Clerk** | Authentication | Complete auth solution |
-| **Lucide React** | Icons | Beautiful icon library |
-| **next-themes** | Dark mode | Theme switching |
-| **Sonner** | Toast notifications | Beautiful notifications |
+| Package           | Purpose             | Why We Use It                    |
+| ----------------- | ------------------- | -------------------------------- |
+| **Next.js 15**    | React framework     | App Router, SSR, API routes      |
+| **React 19**      | UI library          | Latest React features            |
+| **shadcn/ui**     | Component library   | Beautiful, accessible components |
+| **Tailwind CSS**  | Styling             | Utility-first CSS                |
+| **Framer Motion** | Animations          | Smooth, performant animations    |
+| **Clerk**         | Authentication      | Complete auth solution           |
+| **Lucide React**  | Icons               | Beautiful icon library           |
+| **next-themes**   | Dark mode           | Theme switching                  |
+| **Sonner**        | Toast notifications | Beautiful notifications          |
 
 ### Development Tools
 
-| Tool | Purpose |
-|------|---------|
-| **ESLint** | Code linting |
-| **Prettier** | Code formatting |
-| **Changesets** | Version management |
-| **GitHub Actions** | CI/CD pipeline |
-| **Vercel** | Web hosting |
-| **npm** | CLI package publishing |
+| Tool               | Purpose                |
+| ------------------ | ---------------------- |
+| **ESLint**         | Code linting           |
+| **Prettier**       | Code formatting        |
+| **Changesets**     | Version management     |
+| **GitHub Actions** | CI/CD pipeline         |
+| **Vercel**         | Web hosting            |
+| **npm**            | CLI package publishing |
 
 ---
 
@@ -880,7 +880,7 @@ jobs:
         with:
           node-version: "22"
           cache: "pnpm"
-      
+
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm typecheck
@@ -1033,12 +1033,12 @@ find-my-domain \
 
 ### Benchmarks
 
-| Operation | Time | Notes |
-|-----------|------|-------|
-| AI Generation (10 domains) | 2-5s | Using gpt-4o-mini |
-| WHOIS Lookup (per domain) | 0.5-2s | Varies by TLD |
-| Streaming Overhead | ~100ms | Per domain |
-| Memory Usage | ~50MB | Base + ~1MB per 100 domains |
+| Operation                  | Time   | Notes                       |
+| -------------------------- | ------ | --------------------------- |
+| AI Generation (10 domains) | 2-5s   | Using gpt-4o-mini           |
+| WHOIS Lookup (per domain)  | 0.5-2s | Varies by TLD               |
+| Streaming Overhead         | ~100ms | Per domain                  |
+| Memory Usage               | ~50MB  | Base + ~1MB per 100 domains |
 
 ### Optimization Tips
 
@@ -1127,12 +1127,14 @@ A: Yes! MIT license allows commercial use.
 
 **Q: Which package should I use?**  
 A:
+
 - **CLI**: For terminal use, automation, or scripts
 - **Web App**: For interactive exploration with UI
 - **Core Library**: For integrating into your Node.js projects
 
 **Q: What's the difference between streaming and batch mode?**  
 A:
+
 - **Streaming**: Results appear as generated (faster feedback)
 - **Batch**: Generates all first, then checks (more efficient for large batches)
 
