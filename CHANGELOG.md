@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.6] - 2025-11-19
+
+### Changed
+
+- ✅ **Version Synchronization** - Synchronized versions across all packages to 2.0.6
+- ✅ **CSS Formatting** - Fixed CSS formatting in web documentation
+
 ## [2.0.0] - 2025-11-18
 
 ### Added
@@ -499,4 +506,4 @@ See the [Roadmap](README.md#-roadmap) section in README.md for planned features.
 - [npm Package](https://www.npmjs.com/package/find-my-domain)
 - [GitHub Repository](https://github.com/idimetrix/find-my-domain)
 - [Issue Tracker](https://github.com/idimetrix/find-my-domain/issues)
-- [CLI Usage Guide](CLI-USAGE.md)
+- [CLI Usage Guide](apps/cli/CLI-USAGE.md)

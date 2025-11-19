@@ -108,12 +108,12 @@ apps/web/
 │   └── globals.css            # Global styles
 │
 ├── components/
-│   ├── ui/                    # shadcn/ui components (48 total)
+│   ├── ui/                    # shadcn/ui components (55 total)
 │   │   ├── button.tsx
 │   │   ├── card.tsx
 │   │   ├── input.tsx
 │   │   ├── tabs.tsx
-│   │   └── ... (44 more)
+│   │   └── ... (51 more)
 │   │
 │   ├── landing/               # Landing page components
 │   │   ├── header.tsx         # Navigation
