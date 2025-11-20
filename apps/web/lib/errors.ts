@@ -13,7 +13,7 @@ export class ApiError extends Error {
   }
 }
 
-const sanitizeLog = (data: any) => {
+const sanitizeLog = (data: unknown) => {
   const str = JSON.stringify(data);
   return str.replace(
     /(api[_-]?key|token|password|secret)["']?\s*[:=]\s*["']?[^"',}\s]+/gi,

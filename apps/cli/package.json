@@ -56,8 +56,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^2.0.68",
-    "ai": "^5.0.95",
+    "@ai-sdk/openai": "^2.0.69",
+    "ai": "^5.0.98",
     "dotenv": "^17.2.3",
     "whoiser": "^2.0.0-beta.9",
     "yargs": "^18.0.0",
@@ -76,9 +76,9 @@
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.47.0",
-    "vite": "^7.2.2",
+    "vite": "^7.2.4",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "^4.0.10"
+    "vitest": "^4.0.12"
   },
   "engines": {
     "node": ">=22"
