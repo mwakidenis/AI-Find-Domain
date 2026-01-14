@@ -19,13 +19,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^2.0.69",
-    "ai": "^5.0.98",
-    "whoiser": "^2.0.0-beta.9",
-    "zod": "^4.1.12"
+    "@ai-sdk/openai": "^3.0.10",
+    "ai": "^6.0.34",
+    "whoiser": "^2.0.0-beta.10",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.0.8",
     "typescript": "^5.9.3"
   }
 }

@@ -1,18 +1,8 @@
 #!/usr/bin/env node
 
-/**
- * CLI entry point for find-my-domain
- * This file is executed when users run: npx find-my-domain
- */
+import { main } from "../dist/index.js";
 
-/* eslint-env node */
-
-// Import and run the main function
-import("../dist/index.js")
-  .then((module) => {
-    return module.main();
-  })
-  .catch((error) => {
-    console.error("Failed to load find-my-domain:", error.message);
-    process.exit(1);
-  });
+main().catch((error) => {
+  console.error("Fatal error:", error);
+  process.exit(1);
+});

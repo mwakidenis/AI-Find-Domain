@@ -3,7 +3,7 @@
   "version": "2.0.7",
   "description": "AI-powered domain name generator with real-time WHOIS availability checking - Monorepo",
   "private": true,
-  "packageManager": "pnpm@10.23.0",
+  "packageManager": "pnpm@10.28.0",
   "author": {
     "name": "Dmitrii Selikhov",
     "email": "selikhov.dmitrey@gmail.com",
@@ -37,8 +37,8 @@
     "prepublish": "pnpm clean && pnpm build && pnpm typecheck && pnpm lint && pnpm test"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.7",
-    "prettier": "^3.6.2",
+    "@changesets/cli": "^2.29.8",
+    "prettier": "^3.7.4",
     "typescript": "^5.9.3"
   },
   "engines": {
