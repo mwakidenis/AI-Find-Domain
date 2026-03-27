@@ -17,7 +17,7 @@ export function Footer() {
             <div className="flex gap-2">
               <Button asChild variant="ghost" size="icon" className="h-8 w-8">
                 <Link
-                  href="https://github.com/idimetrix/find-my-domain"
+                  href="https://github.com/mwakidenis/domain-map"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -27,7 +27,7 @@ export function Footer() {
               </Button>
               <Button asChild variant="ghost" size="icon" className="h-8 w-8">
                 <Link
-                  href="https://www.linkedin.com/in/dimetrix"
+                  href="https://www.linkedin.com/in/denisit"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -36,7 +36,7 @@ export function Footer() {
                 </Link>
               </Button>
               <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                <Link href="mailto:selikhov.dmitrey@gmail.com">
+                <Link href="mailto:mwakidenice@gmail.com">
                   <Mail className="h-4 w-4" />
                   <span className="sr-only">Email</span>
                 </Link>
@@ -67,7 +67,7 @@ export function Footer() {
                 className="h-auto p-0 justify-start text-xs text-muted-foreground"
               >
                 <Link
-                  href="https://github.com/idimetrix/find-my-domain"
+                  href="https://github.com/mwakidenis/domain-map"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -86,7 +86,7 @@ export function Footer() {
                 className="h-auto p-0 justify-start text-xs text-muted-foreground"
               >
                 <Link
-                  href="https://github.com/idimetrix/find-my-domain#-quick-start"
+                  href="https://github.com/mwakidenis/domain-map#-quick-start"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -99,7 +99,7 @@ export function Footer() {
                 className="h-auto p-0 justify-start text-xs text-muted-foreground"
               >
                 <Link
-                  href="https://github.com/idimetrix/find-my-domain#-usage-guide"
+                  href="https://github.com/mwakidenis/domain-map#-usage-guide"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -112,7 +112,7 @@ export function Footer() {
                 className="h-auto p-0 justify-start text-xs text-muted-foreground"
               >
                 <Link
-                  href="https://github.com/idimetrix/find-my-domain/issues"
+                  href="https://github.com/mwakidenis/domain-map/issues"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -131,7 +131,7 @@ export function Footer() {
                 className="h-auto p-0 justify-start text-xs text-muted-foreground"
               >
                 <Link
-                  href="https://github.com/idimetrix/find-my-domain/blob/main/LICENSE"
+                  href="https://github.com/mwakidenis/domain-map/blob/main/LICENSE"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -149,11 +149,11 @@ export function Footer() {
             © 2025{" "}
             <Button asChild variant="link" className="h-auto p-0 text-xs">
               <Link
-                href="https://www.linkedin.com/in/dimetrix"
+                href="https://www.linkedin.com/in/denisit"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Dmitrii Selikhov
+                mwakidenis
               </Link>
             </Button>
           </p>
